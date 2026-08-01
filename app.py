@@ -50,7 +50,13 @@ def get_or_create_secret_key():
 # Config
 # -----------------------------
 app.config['SECRET_KEY'] = get_or_create_secret_key()
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI', 'sqlite:///ticketapp.db')
+
+_database_uri = os.environ.get('DATABASE_URI', 'sqlite:///ticketapp.db')
+# Render (and Heroku before it) hand out connection strings starting with
+# "postgres://", but SQLAlchemy 2.x only accepts the "postgresql://" scheme.
+if _database_uri.startswith('postgres://'):
+    _database_uri = _database_uri.replace('postgres://', 'postgresql://', 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = _database_uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
