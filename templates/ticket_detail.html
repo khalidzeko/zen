@@ -1,0 +1,2474 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Colors - Grayscale Only (Matching Dashboard) */
+    --primary-color: #2d3748;
+    --primary-hover: #1a202c;
+    --primary-light: #edf2f7;
+    --success-color: #4a5568;
+    --success-light: #e2e8f0;
+    --warning-color: #718096;
+    --warning-light: #f7fafc;
+    --danger-color: #2d3748;
+    --danger-light: #e2e8f0;
+    --info-color: #4a5568;
+    --info-light: #edf2f7;
+
+    /* Text Colors */
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --text-light: #a0aec0;
+
+    /* Background Colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7fafc;
+    --bg-tertiary: #edf2f7;
+    --bg-card: #ffffff;
+    --bg-overlay: rgba(0, 0, 0, 0.5);
+
+    /* Border Colors */
+    --border-color: #e2e8f0;
+    --border-light: #edf2f7;
+    --border-dark: #cbd5e0;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-full: 9999px;
+
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms ease;
+    --transition-slow: 500ms ease;
+
+    /* Sidebar */
+    --sidebar-width: 280px;
+    --sidebar-collapsed-width: 70px;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    background: var(--bg-secondary);
+    height: 100vh;
+    overflow: hidden;
+    direction: rtl;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--text-primary);
+    padding-bottom: 40px;
+}
+
+/* Typography Enhancements */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+}
+
+p {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Enhanced Logo Styling */
+.header-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: rgb(0, 0, 0);
+    font-family: 'Cairo', sans-serif;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.header-title::before {
+    content: '';
+    font-size: 24px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.header-title .logo-brand {
+    position: relative;
+    display: inline-block;
+    letter-spacing: -1px;
+}
+
+.header-title .logo-brand::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
+    border-radius: 1px;
+}
+
+.header-title .highlight {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.sidebar-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    font-family: 'Cairo', sans-serif;
+    position: relative;
+    display: inline-block;
+    letter-spacing: -0.5px;
+    transition: var(--transition-normal);
+}
+
+.sidebar-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25px;
+    height: 2px;
+    background: linear-gradient(90deg, #a0aec0, #718096);
+    border-radius: 1px;
+}
+
+.sidebar-title .highlight {
+    color: #a0aec0;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    height: 70px;
+    border-bottom: 1px solid #4a5568;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: var(--sidebar-width);
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    transition: right var(--transition-normal);
+}
+
+.header.sidebar-collapsed {
+    right: var(--sidebar-collapsed-width);
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: -1;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.header-branding {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.header-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: -0.5px;
+    line-height: 1;
+}
+
+.header-title .highlight {
+    color: #e2e8f0;
+}
+
+.header-subtitle {
+    font-size: 11px;
+    color: #cbd5e0;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+
+.page-title {
+    font-size: 15px;
+    color: #f7fafc;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    padding-right: 25px;
+    border-right: 2px solid #4a5568;
+    margin-right: 5px;
+}
+
+.header-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+/* Notifications */
+.notification-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.notification-link {
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.notification-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.notification-badge {
+    background-color: #ff4757;
+    color: white;
+    border-radius: var(--radius-full);
+    padding: 3px 8px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 5px;
+    animation: pulse 2s infinite;
+    box-shadow: 0 2px 8px rgba(255, 71, 87, 0.4);
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.notification-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    min-width: 300px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1001;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-content.show {
+    display: block;
+}
+
+.notification-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.notification-item:hover {
+    background-color: var(--bg-secondary);
+}
+
+.notification-item.unread {
+    background-color: var(--primary-light);
+    font-weight: 700;
+}
+
+.notification-title {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+.notification-message {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+.notification-time {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 5px;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+/* Profile dropdown */
+.profile-dropdown {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.profile-dropdown:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.profile-avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.profile-avatar-logo { object-fit: contain !important; background: #ffffff; padding: 4px; box-sizing: border-box; }
+.profile-avatar {
+    overflow: hidden;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    min-width: 180px;
+    box-shadow: var(--shadow-lg);
+    display: none;
+    z-index: 1001;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 12px 16px;
+    color: var(--text-primary);
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid var(--border-light);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: var(--transition-fast);
+}
+
+.dropdown-item:hover {
+    background: var(--bg-secondary);
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+/* Sidebar - Collapsible */
+.sidebar {
+    position: fixed;
+    top: 70px;
+    right: 0;
+    width: var(--sidebar-width);
+    height: calc(100vh - 70px - 40px);
+    background: var(--bg-primary);
+    border-left: 1px solid var(--border-color);
+    z-index: 999;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    transition: width var(--transition-normal);
+    overflow: hidden;
+}
+
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed-width);
+}
+
+.sidebar-header {
+    padding: 0;
+    border-bottom: none;
+    background: var(--bg-primary);
+    transition: var(--transition-normal);
+    height: 0;
+    overflow: hidden;
+}
+
+.sidebar.collapsed .sidebar-header {
+    padding: 0;
+}
+
+.sidebar-subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+
+.sidebar-menu {
+    flex: 1;
+    padding: 0;
+    background: var(--bg-primary);
+}
+
+.menu-item {
+    padding: 16px 20px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-light);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: var(--transition-fast);
+    position: relative;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.sidebar.collapsed .menu-item {
+    justify-content: center;
+    padding: 16px 10px;
+}
+
+.sidebar.collapsed .menu-item span {
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+    overflow: hidden;
+}
+
+.menu-item:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.menu-item.active {
+    background: transparent;
+    color: var(--text-primary);
+    font-weight: 900;
+    border-right: none;
+    border-bottom: 3px solid #2d3748;
+}
+
+.menu-item .menu-badge {
+    background: #ff4757;
+    color: white;
+    border-radius: 9999px;
+    padding: 2px 7px;
+    font-size: 10px;
+    margin-right: auto;
+}
+
+.menu-item img {
+    flex-shrink: 0;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+    position: fixed;
+    top: 80px;
+    right: var(--sidebar-width);
+    width: 40px;
+    height: 40px;
+    background: #2d3748;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-normal);
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.sidebar-toggle:hover {
+    background: #1a202c;
+    transform: scale(1.1);
+}
+
+.sidebar-toggle.collapsed {
+    right: var(--sidebar-collapsed-width);
+    transform: rotate(180deg);
+}
+
+.sidebar-toggle.collapsed:hover {
+    transform: rotate(180deg) scale(1.1);
+}
+
+/* Main Container */
+.main-container {
+    margin-top: 70px;
+    margin-right: var(--sidebar-width);
+    height: calc(100vh - 70px - 40px);
+    display: flex;
+    background: var(--bg-secondary);
+    transition: margin-right var(--transition-normal);
+}
+
+.main-container.sidebar-collapsed {
+    margin-right: var(--sidebar-collapsed-width);
+}
+
+.content-area {
+    flex: 1;
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    overflow: hidden;
+}
+
+.ticket-content {
+    flex: 1;
+    background: var(--bg-secondary);
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.chat-panel {
+    width: 350px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Enhanced Card Sections - Compact */
+.card-section {
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    animation: fadeInUp 0.4s ease forwards;
+    transition: var(--transition-fast);
+}
+
+.card-section:hover {
+    box-shadow: var(--shadow-md);
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-light);
+    font-family: 'Cairo', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* Compact User Details Card */
+.user-details-card {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.user-avatar-large {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: white;
+    font-size: 18px;
+    font-family: 'Cairo', sans-serif;
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+}
+
+.user-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    flex: 1;
+}
+
+.user-info-item { display: flex; flex-direction: column; gap: 2px; }
+
+.info-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+.info-value {
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+.info-value.highlight { color: var(--primary-hover); font-weight: 700; }
+
+/* Compact Ticket Details Grid */
+.ticket-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.ticket-detail-item {
+    background: var(--bg-secondary);
+    padding: 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ticket-detail-item:hover {
+    border-color: var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.detail-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 13px;
+    background: var(--bg-tertiary);
+    flex-shrink: 0;
+}
+
+.detail-content { flex: 1; min-width: 0; }
+
+.detail-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+.detail-value {
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Description Box - Compact */
+.description-section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 15px;
+    margin-top: 15px;
+    position: relative;
+}
+
+.description-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-color);
+}
+
+.description-text {
+    line-height: 1.6;
+    color: var(--text-primary);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+/* Status Badges - Compact */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    font-family: 'Cairo', sans-serif;
+    border: 1px solid var(--border-color);
+}
+
+.status-open {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+.status-in-progress {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #93c5fd;
+}
+.status-escalated {
+    background: #e2e8f0;
+    color: #2d3748;
+    border: 1px solid #718096;
+}
+.status-resolved, .status-closed {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+/* Forms - Compact */
+.form-group { margin-bottom: 12px; }
+
+.form-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 12px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-primary);
+    font-size: 13px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    text-align: right;
+    direction: rtl;
+    transition: var(--transition-fast);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(45, 55, 72, 0.1);
+}
+
+select.form-control {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: left 10px center;
+    background-repeat: no-repeat;
+    background-size: 14px;
+    padding-left: 35px;
+}
+
+textarea.form-control { resize: vertical; min-height: 70px; }
+
+/* Buttons - Compact */
+.btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'Cairo', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+    transition: var(--transition-fast);
+    border: 1px solid transparent;
+}
+
+.btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary {
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-dark);
+}
+
+.btn-danger { background: #2d3748; color: white; }
+.btn-danger:hover { background: #1a202c; }
+
+.btn-success { background: #4a5568; color: white; }
+.btn-success:hover { background: #2d3748; }
+
+.action-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+/* Chat Panel - Compact */
+.chat-header {
+    background: var(--bg-secondary);
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.chat-header::before { content: '💬'; font-size: 16px; }
+
+.chat-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.attachments-section {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+}
+
+.attachments-title {
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    font-family: 'Cairo', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+.attachments-title::before { content: '📎'; font-size: 14px; }
+
+.attachment-item {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-fast);
+}
+.attachment-item:hover { border-color: var(--border-color); }
+
+.attachment-link {
+    color: var(--primary-hover);
+    text-decoration: none;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+}
+.attachment-link:hover { text-decoration: underline; }
+
+.attachment-meta {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+
+.upload-section {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-primary);
+}
+
+.file-input-label {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: 'Cairo', sans-serif;
+    transition: var(--transition-fast);
+    gap: 6px;
+    font-size: 12px;
+}
+.file-input-label:hover {
+    background: var(--primary-light);
+    border-color: var(--primary-color);
+    color: var(--primary-hover);
+}
+
+/* Comments */
+.comments-list {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: var(--bg-primary);
+}
+
+.comment-item {
+    max-width: 85%;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    position: relative;
+    word-wrap: break-word;
+    box-shadow: var(--shadow-sm);
+    font-size: 12px;
+    line-height: 1.5;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+
+.comment-sent {
+    margin-right: auto;
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+    border-bottom-left-radius: 4px;
+}
+
+.comment-received {
+    margin-left: auto;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-bottom-right-radius: 4px;
+}
+
+.comment-author {
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    font-size: 11px;
+}
+
+.comment-text { color: var(--text-primary); margin-bottom: 4px; }
+
+.comment-time {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-align: left;
+    user-select: none;
+}
+
+/* ✅ Reactions UI */
+.comment-reactions {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.reaction-btn {
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-radius: 999px;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition-fast);
+    user-select: none;
+}
+
+.reaction-btn:hover {
+    background: var(--primary-light);
+    border-color: var(--border-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.reaction-btn.active {
+    background: #e2e8f0;
+    border-color: #94a3b8;
+}
+
+.reaction-count {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 800;
+}
+
+/* Small quick react button (optional) */
+.quick-react {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    opacity: 0;
+    transition: var(--transition-fast);
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.comment-item:hover .quick-react {
+    opacity: 1;
+}
+
+/* Comment Input */
+.comment-input {
+    padding: 12px 15px;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-primary);
+}
+
+.comment-textarea {
+    width: 100%;
+    min-height: 60px;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    resize: vertical;
+    font-size: 12px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: right;
+    direction: rtl;
+    transition: var(--transition-fast);
+}
+
+.comment-textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(45, 55, 72, 0.1);
+}
+
+.comment-textarea::placeholder {
+    color: var(--text-muted);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+
+/* Enhanced Main Footer */
+.page-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    border-top: 1px solid #4a5568;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.footer-brand {
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.footer-brand img {
+    height: 16px;
+    width: auto;
+    filter: brightness(0) invert(1);
+}
+
+.footer-brand .footer-logo {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    position: relative;
+}
+
+.footer-brand .footer-logo::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+    border-radius: 1px;
+}
+
+.footer-brand .footer-highlight { color: #a0aec0; }
+
+.footer-copyright {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+    font-family: 'Cairo', sans-serif;
+}
+
+/* Loading states */
+.btn.loading { opacity: 0.8; cursor: not-allowed; }
+.btn.loading::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Responsive */
+@media (max-width: 768px) {
+    body { padding-bottom: 50px; }
+
+    .sidebar {
+        width: 100%;
+        height: calc(100vh - 70px - 50px);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.mobile-expanded { transform: translateX(0); width: 100%; }
+    .sidebar.collapsed { width: 100%; }
+    .header { right: 0; }
+    .header.sidebar-collapsed { right: 0; }
+
+    .header-left { gap: 10px; }
+    .header-branding { display: none; }
+
+    .page-title {
+        font-size: 14px;
+        padding-right: 15px;
+        border-right: none;
+        margin-right: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 18px;
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: var(--radius-md);
+        color: #ffffff;
+        font-family: 'Cairo', sans-serif;
+        backdrop-filter: blur(5px);
+    }
+
+    .menu-toggle:hover { background: rgba(255, 255, 255, 0.15); }
+
+    .main-container { margin-right: 0; flex-direction: column; }
+    .main-container.sidebar-collapsed { margin-right: 0; }
+
+    .sidebar-toggle { display: none; }
+
+    .content-area {
+        flex-direction: column;
+        padding: 15px;
+        gap: 15px;
+        height: auto;
+    }
+
+    .chat-panel { width: 100%; height: 400px; }
+
+    .user-details-card { flex-direction: column; gap: 12px; text-align: center; }
+    .user-info-grid { grid-template-columns: 1fr; }
+    .ticket-details-grid { grid-template-columns: 1fr; }
+    .action-group { flex-direction: column; }
+
+    .card-section { padding: 15px; }
+
+    .overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--bg-overlay);
+        z-index: 998;
+        display: none;
+    }
+
+    .overlay.show { display: block; }
+
+    .page-footer { padding: 8px 15px; }
+
+    .footer-brand { font-size: 11px; gap: 6px; margin-bottom: 3px; }
+    .footer-brand img { height: 14px; }
+    .footer-copyright { font-size: 9px; }
+}
+
+/* Hide menu toggle on desktop */
+.menu-toggle { display: none; }
+
+/* Enhanced Focus States */
+.notification-link:focus,
+.profile-dropdown:focus,
+.menu-item:focus,
+.btn:focus,
+.form-control:focus,
+.sidebar-toggle:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Better Text Rendering */
+* {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.profile-avatar-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.profile-arrow-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.header-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.search-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.header-search-form {
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: width 0.25s ease, opacity 0.2s ease;
+}
+
+.header-search-form.show {
+    width: 200px;
+    opacity: 1;
+}
+
+.header-search-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    outline: none;
+}
+
+.header-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+.header-clock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.header-clock i {
+    font-size: 14px;
+    color: #fbbf24;
+}
+
+.header-clock i.fa-moon {
+    color: #cbd5e0;
+}
+.lang-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.lang-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+</style>
+
+    <title>تفاصيل التذكرة #{{ ticket.id }}</title>
+</head>
+
+<body>
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebarCollapse()" title="تبديل القائمة الجانبية">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <!-- رأس الصفحة -->
+    <div class="header" id="header">
+        <div class="header-left">
+            <button class="menu-toggle" onclick="toggleSidebarMobile()">☰</button>
+            <div class="header-branding">
+                <div class="header-title">
+                    ZEN<span class="highlight">TRA</span>
+                </div>
+                <div class="header-subtitle" data-i18n="subtitle">نظام إدارة التذاكر</div>
+            </div>
+            <div class="page-title">تفاصيل التذكرة #{{ ticket.id }}</div>
+        </div>
+
+        <div class="header-right">
+            <!-- الإشعارات -->
+            <div class="header-search">
+                <button type="button" class="search-toggle-btn" onclick="toggleHeaderSearch(event)" id="headerSearchToggle" title="بحث" aria-label="بحث">
+                    <i class="fas fa-search"></i>
+                </button>
+                <form class="header-search-form" id="headerSearchForm" onsubmit="return submitHeaderSearch(event)">
+                    <input type="text" id="headerSearchInput" class="header-search-input" placeholder="بحث شامل..." data-i18n="searchPlaceholder" autocomplete="off">
+                </form>
+            </div>
+            <div class="header-clock" id="headerClock">
+                <i class="fas fa-sun" id="dayNightIcon"></i>
+                <span id="clockText">--:-- --</span>
+            </div>
+            <button type="button" class="lang-toggle-btn" onclick="toggleLanguage()" id="langToggleBtn" title="Switch language" aria-label="Switch language">
+                <i class="fas fa-globe"></i>
+                <span id="langToggleLabel">EN</span>
+            </button>
+            <div class="notification-dropdown">
+                <a href="#" class="notification-link" onclick="toggleNotifications(event)" id="notificationLink">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                </a>
+                <div id="notificationDropdown" class="notification-content">
+                    <div style="padding: 15px; border-bottom: 1px solid var(--border-color); font-weight: 700; color: var(--text-primary); display: flex; justify-content: space-between; align-items: center; font-family: 'Cairo', sans-serif;">
+                        <span data-i18n="notifications">الإشعارات الحديثة</span>
+                        <a href="#" onclick="markAllRead()" style="font-size: 12px; color: var(--primary-color); text-decoration: none; font-family: 'Cairo', sans-serif; font-weight: 700;" data-i18n="markAllRead">تعيين كمقروء</a>
+                    </div>
+                    <div id="notificationItems"></div>
+                    <div style="text-align: center; padding: 15px; border-top: 1px solid var(--border-light);">
+                        <a href="/notifications" style="font-size: 12px; color: var(--primary-color); text-decoration: none; font-family: 'Cairo', sans-serif; font-weight: 700;" data-i18n="viewAll">عرض جميع الإشعارات</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قائمة الملف الشخصي -->
+            <div class="profile-dropdown">
+                <a href="{{ url_for('profile') }}" class="profile-avatar-link" title="الملف الشخصي">
+                    <div class="profile-avatar">
+                        {% if current_user.profile_picture %}
+                        <img src="{{ url_for('uploads', filename=current_user.profile_picture) }}" alt="صورة الملف الشخصي" class="profile-avatar-img">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='exp.png') }}" alt="ZENTRA" class="profile-avatar-img profile-avatar-logo">
+                        {% endif %}
+                    </div>
+                </a>
+                <button class="profile-arrow-toggle" onclick="toggleDropdown()" aria-label="القائمة">
+                    <span>▼</span>
+                </button>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="{{ url_for('logout') }}" class="dropdown-item"><i class="fas fa-power-off" style="margin-left: 6px;"></i><span data-i18n="logout">تسجيل الخروج</span></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header"></div>
+        <nav class="sidebar-menu">
+            <a href="{{ url_for('dashboard') }}" class="menu-item">
+                <img src="/static/home.png" alt="لوحة التحكم" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="dashboard">لوحة التحكم</span>
+            </a>
+
+            <a href="/submit_ticket" class="menu-item">
+                <img src="/static/ticket.png" alt="تذكرة جديدة" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="newTicket">تذكرة جديدة</span>
+            </a>
+
+            <a href="#" class="menu-item active">
+                <i class="fas fa-search" style="width:20px; height:20px; text-align:center; margin-left:5px;"></i>
+                <span>تفاصيل التذكرة</span>
+            </a>
+
+            {% if current_user.role != 'agent' %}
+            <a href="{{ url_for('assets') }}" class="menu-item">
+                <i class="fas fa-boxes-stacked" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="assets">الأصول</span>
+            </a>
+
+            <a href="/manage_users" class="menu-item">
+                <img src="/static/user (1).png" alt="إدارة المستخدم" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="manageUsers">إدارة المستخدم</span>
+            </a>
+
+            <a href="/report" class="menu-item">
+                <img src="/static/report.png" alt="التقارير" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="reports">التقارير</span>
+            </a>
+            {% endif %}
+            {% if user.role in ['it_staff', 'admin', 'it_admin'] %}
+            <a href="{{ url_for('team_channel') }}" class="menu-item">
+                <i class="fas fa-comments" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="chat">الدردشة</span>
+                <span class="menu-badge" id="chatMenuBadge" style="display:none;">0</span>
+            </a>
+            <a href="{{ url_for('tasks_mine') }}" class="menu-item">
+                <i class="fas fa-list-check" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="teamTasks">مهام الفريق</span>
+                <span class="menu-badge" id="taskMenuBadge" style="display:none;">0</span>
+            </a>
+            {% endif %}
+        </nav>
+    </div>
+
+    <!-- طبقة التداخل للموبايل -->
+    <div class="overlay" id="overlay" onclick="closeSidebarMobile()"></div>
+
+    <!-- الحاوي الرئيسي -->
+    <div class="main-container" id="mainContainer">
+        <div class="content-area">
+
+            <!-- Ticket Content -->
+            <div class="ticket-content">
+                <!-- Enhanced User Information Card -->
+                <div class="card-section">
+                    <div class="section-header">
+                        <div class="section-icon"><i class="fas fa-user"></i></div>
+                        معلومات المستخدم
+                    </div>
+                    <div class="user-details-card">
+                        <div class="user-avatar-large">
+                            {{ ticket.submitter.full_name[0] if ticket.submitter.full_name else ticket.submitter.username[0] }}
+                        </div>
+                        <div class="user-info-grid">
+                            <div class="user-info-item">
+                                <div class="info-label">المُرسل</div>
+                                <div class="info-value highlight">{{ ticket.submitter.full_name }}</div>
+                            </div>
+                            <div class="user-info-item">
+                                <div class="info-label">اسم المستخدم</div>
+                                <div class="info-value">{{ ticket.submitter.username }}</div>
+                            </div>
+                            <div class="user-info-item">
+                                <div class="info-label">مُسند إلى</div>
+                                <div class="info-value">{{ ticket.assigned_to.full_name if ticket.assigned_to else 'غير مُسند' }}</div>
+                            </div>
+                            {% if current_user.role in ['admin', 'it_staff'] and ticket.assigned_to_id %}
+                                <div class="user-info-item">
+                                    <div class="info-label">عنوان IP</div>
+                                    <div class="info-value">{{ ticket.ip_address or 'غير معروف' }}</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Ticket Details Card -->
+                <div class="card-section">
+                    <div class="section-header">
+                        <div class="section-icon"><i class="fas fa-ticket-alt"></i></div>
+                        تفاصيل التذكرة
+                    </div>
+                    <div class="ticket-details-grid">
+                        <div class="ticket-detail-item">
+                            <div class="detail-icon"><i class="fas fa-tags"></i></div>
+                            <div class="detail-content">
+                                <div class="detail-label">الفئة</div>
+                                <div class="detail-value">{{ ticket.category }}</div>
+                            </div>
+                        </div>
+                        <div class="ticket-detail-item">
+                            <div class="detail-icon"><i class="fas fa-door-open"></i></div>
+                            <div class="detail-content">
+                                <div class="detail-label">الغرفة</div>
+                                <div class="detail-value">{{ ticket.room }}</div>
+                            </div>
+                        </div>
+                        <div class="ticket-detail-item">
+                            <div class="detail-icon"><i class="fas fa-info-circle"></i></div>
+                            <div class="detail-content">
+                                <div class="detail-label">الحالة</div>
+                                <div class="detail-value">
+                                    <span class="status-badge status-{{ ticket.status.lower().replace(' ', '-') }}">
+                                        {% if ticket.status == 'Open' %}مفتوح
+                                        {% elif ticket.status == 'In Progress' %}جارٍ العمل
+                                        {% elif ticket.status == 'Escalated' %}مُصعد
+                                        {% elif ticket.status == 'Resolved' %}تم الحل
+                                        {% elif ticket.status == 'Closed' %}مغلق
+                                        {% else %}{{ ticket.status }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ticket-detail-item">
+                            <div class="detail-icon"><i class="fas fa-calendar-plus"></i></div>
+                            <div class="detail-content">
+                                <div class="detail-label">تاريخ الإنشاء</div>
+                                <div class="detail-value">{{ ticket.created_at.strftime('%Y-%m-%d %I:%M %p') }}</div>
+                            </div>
+                        </div>
+                        <div class="ticket-detail-item">
+                            <div class="detail-icon"><i class="fas fa-clock"></i></div>
+                            <div class="detail-content">
+                                <div class="detail-label">آخر تحديث</div>
+                                <div class="detail-value">{{ ticket.updated_at.strftime('%Y-%m-%d %I:%M %p') }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="description-section">
+                        <div class="info-label" style="margin-bottom: 15px; color: var(--text-primary); font-size: 16px;">الوصف</div>
+                        <div class="description-text">{{ ticket.description }}</div>
+                    </div>
+                </div>
+
+                <!-- Actions Section -->
+                {% if current_user.role in ['admin', 'it_staff'] and ticket.assigned_to_id == current_user.id %}
+                <div class="card-section">
+                    <div class="section-header">
+                        <div class="section-icon"><i class="fas fa-cogs"></i></div>
+                        الإجراءات
+                    </div>
+                    <form method="POST" id="statusForm">
+                        <input type="hidden" name="action" value="change_status">
+                        <div class="form-group">
+                            <label class="form-label" for="status">تغيير الحالة:</label>
+                            <select name="status" class="form-control" required>
+                                <option value="Open" {% if ticket.status == 'Open' %}selected{% endif %}>مفتوح</option>
+                                <option value="In Progress" {% if ticket.status == 'In Progress' %}selected{% endif %}>جارٍ العمل</option>
+                                <option value="Escalated" {% if ticket.status == 'Escalated' %}selected{% endif %}>مُصعد</option>
+                                <option value="Resolved" {% if ticket.status == 'Resolved' %}selected{% endif %}>تم الحل</option>
+                                <option value="Closed" {% if ticket.status == 'Closed' %}selected{% endif %}>مغلق</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn">
+                            <i class="fas fa-sync-alt"></i>
+                            تحديث الحالة
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+
+                {% if current_user.role == 'admin' and ticket.status == 'Escalated' %}
+                <div class="card-section">
+                    <div class="section-header">
+                        <div class="section-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        إجراءات التصعيد
+                    </div>
+                    <div class="action-group">
+                        <form method="post" style="display:inline;">
+                            <input type="hidden" name="action" value="accept_escalated_ticket">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-check"></i>
+                                قبول التذكرة
+                            </button>
+                        </form>
+                        <form method="post" style="display:inline;">
+                            <input type="hidden" name="action" value="decline_escalated_ticket">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-times"></i>
+                                رفض التذكرة
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if pending_suggestion_for_me %}
+                <div class="card-section">
+                    <div class="section-header">
+                        <div class="section-icon"><i class="fas fa-user-check"></i></div>
+                        اقتراح إسناد لك
+                    </div>
+                    <div class="user-info-item">
+                        <p><strong>{{ pending_suggestion_for_me.suggested_by.full_name }}</strong> يقترح أن تتولى هذه التذكرة.</p>
+                    </div>
+                    <form method="post" style="margin-top: 15px;">
+                        <input type="hidden" name="action" value="handle_assignment_suggestion">
+                        <input type="hidden" name="suggestion_id" value="{{ pending_suggestion_for_me.id }}">
+                        <div class="form-group">
+                            <textarea name="rejection_reason" class="form-control" rows="2" placeholder="سبب الرفض (مطلوب فقط عند الرفض)"></textarea>
+                        </div>
+                        <div class="action-group">
+                            <button type="submit" name="decision" value="accept" class="btn btn-success">
+                                <i class="fas fa-check"></i>
+                                قبول
+                            </button>
+                            <button type="submit" name="decision" value="reject" class="btn btn-danger">
+                                <i class="fas fa-times"></i>
+                                رفض
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                {% elif current_user.role in ['admin', 'it_staff'] and not ticket.assigned_to_id and ticket.status != 'Escalated' %}
+                <div class="card-section">
+                    <div class="section-header">
+                        <div class="section-icon"><i class="fas fa-inbox"></i></div>
+                        تذكرة غير مُسندة
+                    </div>
+                    <div class="action-group">
+                        <form method="post" style="display:inline;">
+                            <input type="hidden" name="action" value="take_ticket">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-hand-paper"></i>
+                                استلام التذكرة
+                            </button>
+                        </form>
+                    </div>
+                    {% if it_team_members %}
+                    <form method="post" style="margin-top: 15px;">
+                        <input type="hidden" name="action" value="suggest_assignment">
+                        <div class="form-group">
+                            <label class="form-label">أو اقترح زميلاً لاستلامها:</label>
+                            <select name="target_user_id" class="form-control" required>
+                                <option value="">اختر زميلاً...</option>
+                                {% for m in it_team_members %}
+                                <option value="{{ m.id }}">{{ m.full_name or m.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn">
+                            <i class="fas fa-paper-plane"></i>
+                            إرسال الاقتراح
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                {% if current_user.role in ['admin', 'it_staff'] and ticket.assigned_to_id and ticket.assigned_to_id != current_user.id %}
+                <div class="card-section">
+                    <div class="section-header">
+                        <div class="section-icon"><i class="fas fa-exchange-alt"></i></div>
+                        طلب إعادة الإسناد
+                    </div>
+                    <form method="post" id="reassignForm">
+                        <input type="hidden" name="action" value="request_reassignment">
+                        <div class="form-group">
+                            <textarea name="reason" class="form-control" rows="3" placeholder="سبب إعادة الإسناد" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">
+                            <i class="fas fa-exchange-alt"></i>
+                            إرسال الطلب
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+
+                {% if reassignment_request %}
+                <div class="card-section">
+                    <div class="section-header">
+                        <div class="section-icon"><i class="fas fa-clock"></i></div>
+                        طلب إعادة الإسناد الخاص بك
+                    </div>
+                    <div class="user-info-item">
+                        <p><strong>الحالة:</strong> {{ reassignment_request.status }}</p>
+                        <p><strong>السبب:</strong> {{ reassignment_request.reason }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if pending_requests %}
+                <div class="card-section">
+                    <div class="section-header">
+                        <div class="section-icon"><i class="fas fa-hourglass-half"></i></div>
+                        طلبات إعادة الإسناد المعلقة
+                    </div>
+                    {% for req in pending_requests %}
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: var(--radius-lg); margin-bottom: 20px; border: 1px solid var(--border-color);">
+                        <p><strong>{{ req.requested_by.full_name }}</strong> طلب إعادة الإسناد</p>
+                        <p><strong>السبب:</strong> {{ req.reason }}</p>
+                        <form method="post" style="margin-top: 15px;">
+                            <input type="hidden" name="action" value="handle_reassignment">
+                            <input type="hidden" name="request_id" value="{{ req.id }}">
+                            <div class="action-group">
+                                <button type="submit" name="decision" value="accept" class="btn btn-success">
+                                    <i class="fas fa-check"></i>
+                                    قبول
+                                </button>
+                                <button type="submit" name="decision" value="reject" class="btn btn-danger">
+                                    <i class="fas fa-times"></i>
+                                    رفض
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="action-group">
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-right"></i>
+                        العودة للوحة التحكم
+                    </a>
+                </div>
+            </div>
+
+            <!-- Chat Panel -->
+            <div class="chat-panel">
+                <div class="chat-header">التواصل والملفات</div>
+
+                <div class="chat-content">
+                    <!-- Attachments Section -->
+                    <div class="attachments-section">
+                        <div class="attachments-title">المرفقات</div>
+                        <div class="attachments-list">
+                            {% if ticket.attachments %}
+                                {% for attachment in ticket.attachments %}
+                                    <div class="attachment-item">
+                                        <a href="{{ url_for('uploads', filename=attachment.filename) }}" target="_blank" class="attachment-link">
+                                            <i class="fas fa-file"></i>
+                                            {{ attachment.filename }}
+                                        </a>
+                                        <div class="attachment-meta">
+                                            تم رفعه من {{ attachment.uploaded_by.full_name }}<br>
+                                            {{ attachment.uploaded_at.strftime('%Y-%m-%d %I:%M %p') }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p style="color: var(--text-muted); font-style: italic;">لا توجد مرفقات.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- File Upload Section -->
+                    <div class="upload-section">
+                        <form action="{{ url_for('ticket_detail', ticket_id=ticket.id) }}" method="post" enctype="multipart/form-data" style="width: 100%;">
+                            <input type="hidden" name="action" value="upload_file">
+                            <label for="file-upload" class="file-input-label">
+                                <i class="fas fa-paperclip"></i>
+                                اختر ملف للرفع
+                            </label>
+                            <input type="file" name="file" id="file-upload"
+                                accept=".pdf,.doc,.docx,.txt,.zip,image/*"
+                                style="display: none;"
+                                onchange="this.form.submit()">
+                        </form>
+                    </div>
+
+                    <!-- Comments List -->
+                    <div class="comments-list" id="commentsList">
+                        {% for comment in comments %}
+                            {% if comment.user.id == current_user.id %}
+                                <!-- Message from current user -->
+                                <div class="comment-item comment-sent" data-comment-id="{{ comment.id }}">
+                                    <span class="quick-react" title="تفاعل سريع" onclick="toggleQuickReactions(event, {{ comment.id }})">
+                                        <i class="fa-regular fa-face-smile"></i>
+                                    </span>
+
+                                    <div class="comment-text">{{ comment.comment }}</div>
+                                    <div class="comment-time">{{ comment.created_at.strftime('%Y-%m-%d %I:%M %p') }}</div>
+
+                                    <!-- ✅ Reactions Bar -->
+                                    <div class="comment-reactions" id="reactions-{{ comment.id }}">
+                                        <button type="button" class="reaction-btn" onclick="reactToMessage({{ comment.id }}, 'like')">
+                                            <i class="fa-solid fa-thumbs-up"></i>
+                                            <span class="reaction-count" id="count-{{ comment.id }}-like">0</span>
+                                        </button>
+
+                                        <button type="button" class="reaction-btn" onclick="reactToMessage({{ comment.id }}, 'love')">
+                                            <i class="fa-solid fa-heart"></i>
+                                            <span class="reaction-count" id="count-{{ comment.id }}-love">0</span>
+                                        </button>
+
+                                        <button type="button" class="reaction-btn" onclick="reactToMessage({{ comment.id }}, 'laugh')">
+                                            <i class="fa-solid fa-face-laugh"></i>
+                                            <span class="reaction-count" id="count-{{ comment.id }}-laugh">0</span>
+                                        </button>
+
+                                        <button type="button" class="reaction-btn" onclick="reactToMessage({{ comment.id }}, 'sad')">
+                                            <i class="fa-solid fa-face-sad-tear"></i>
+                                            <span class="reaction-count" id="count-{{ comment.id }}-sad">0</span>
+                                        </button>
+
+                                        <button type="button" class="reaction-btn" onclick="reactToMessage({{ comment.id }}, 'angry')">
+                                            <i class="fa-solid fa-face-angry"></i>
+                                            <span class="reaction-count" id="count-{{ comment.id }}-angry">0</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <!-- Message from others -->
+                                <div class="comment-item comment-received" data-comment-id="{{ comment.id }}">
+                                    <span class="quick-react" title="تفاعل سريع" onclick="toggleQuickReactions(event, {{ comment.id }})">
+                                        <i class="fa-regular fa-face-smile"></i>
+                                    </span>
+
+                                    <div class="comment-author">{{ comment.user.full_name }}</div>
+                                    <div class="comment-text">{{ comment.comment }}</div>
+                                    <div class="comment-time">{{ comment.created_at.strftime('%Y-%m-%d %I:%M %p') }}</div>
+
+                                    <!-- ✅ Reactions Bar -->
+                                    <div class="comment-reactions" id="reactions-{{ comment.id }}">
+                                        <button type="button" class="reaction-btn" onclick="reactToMessage({{ comment.id }}, 'like')">
+                                            <i class="fa-solid fa-thumbs-up"></i>
+                                            <span class="reaction-count" id="count-{{ comment.id }}-like">0</span>
+                                        </button>
+
+                                        <button type="button" class="reaction-btn" onclick="reactToMessage({{ comment.id }}, 'love')">
+                                            <i class="fa-solid fa-heart"></i>
+                                            <span class="reaction-count" id="count-{{ comment.id }}-love">0</span>
+                                        </button>
+
+                                        <button type="button" class="reaction-btn" onclick="reactToMessage({{ comment.id }}, 'laugh')">
+                                            <i class="fa-solid fa-face-laugh"></i>
+                                            <span class="reaction-count" id="count-{{ comment.id }}-laugh">0</span>
+                                        </button>
+
+                                        <button type="button" class="reaction-btn" onclick="reactToMessage({{ comment.id }}, 'sad')">
+                                            <i class="fa-solid fa-face-sad-tear"></i>
+                                            <span class="reaction-count" id="count-{{ comment.id }}-sad">0</span>
+                                        </button>
+
+                                        <button type="button" class="reaction-btn" onclick="reactToMessage({{ comment.id }}, 'angry')">
+                                            <i class="fa-solid fa-face-angry"></i>
+                                            <span class="reaction-count" id="count-{{ comment.id }}-angry">0</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <!-- Comment Input -->
+                    <div class="comment-input">
+                        <form method="post" id="commentForm">
+                            <input type="hidden" name="action" value="add_comment">
+                            <textarea name="comment" class="comment-textarea" id="commentTextarea" placeholder="اكتب تعليقك هنا..." required></textarea>
+                            <button type="submit" class="btn" id="sendCommentBtn">
+                                <i class="fas fa-paper-plane"></i>
+                                إرسال
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Enhanced Footer -->
+    <div class="page-footer">
+        <div class="footer-brand">
+            <img src="/static/exp.png" alt="Experience Logo">
+            | <span class="footer-logo">ZEN<span class="footer-highlight">TRA</span></span>
+        </div>
+        <div class="footer-copyright" data-i18n="footerRights">جميع الحقوق محفوظة 2025</div>
+    </div>
+
+    <script>
+        // Sidebar collapse/expand for desktop
+        function toggleSidebarCollapse() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContainer = document.getElementById('mainContainer');
+            const header = document.getElementById('header');
+            const toggleBtn = document.getElementById('sidebarToggle');
+
+            sidebar.classList.toggle('collapsed');
+            mainContainer.classList.toggle('sidebar-collapsed');
+            header.classList.toggle('sidebar-collapsed');
+            toggleBtn.classList.toggle('collapsed');
+
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        }
+
+        // Mobile sidebar toggle
+        function toggleSidebarMobile() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+                sidebar.classList.toggle('mobile-expanded');
+                overlay.classList.toggle('show');
+            }
+        }
+
+        function closeSidebarMobile() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+                sidebar.classList.remove('mobile-expanded');
+                overlay.classList.remove('show');
+            }
+        }
+
+        // Restore sidebar state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            if (isCollapsed && window.innerWidth > 768) {
+                const sidebar = document.getElementById('sidebar');
+                const mainContainer = document.getElementById('mainContainer');
+                const header = document.getElementById('header');
+                const toggleBtn = document.getElementById('sidebarToggle');
+
+                sidebar.classList.add('collapsed');
+                mainContainer.classList.add('sidebar-collapsed');
+                header.classList.add('sidebar-collapsed');
+                toggleBtn.classList.add('collapsed');
+            }
+
+            refreshNotificationCount();
+            scrollToBottom();
+
+            // ✅ Load reaction counts (from server if available, else localStorage fallback)
+            initReactions();
+        });
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdownMenu');
+            dropdown.classList.toggle('show');
+        }
+
+        function toggleHeaderSearch(event) {
+            event.preventDefault();
+            const form = document.getElementById('headerSearchForm');
+            form.classList.toggle('show');
+            if (form.classList.contains('show')) {
+                setTimeout(() => document.getElementById('headerSearchInput').focus(), 50);
+            }
+        }
+
+        function submitHeaderSearch(event) {
+            event.preventDefault();
+            const query = document.getElementById('headerSearchInput').value.trim();
+            if (query) {
+                window.location.href = "{{ url_for('global_search') }}?q=" + encodeURIComponent(query);
+            }
+            return false;
+        }
+
+        function updateHeaderClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            if (hours === 0) hours = 12;
+            const clockText = document.getElementById('clockText');
+            if (clockText) clockText.textContent = hours + ':' + minutes + ' ' + ampm;
+
+            const icon = document.getElementById('dayNightIcon');
+            if (icon) {
+                const isDaytime = now.getHours() >= 6 && now.getHours() < 18;
+                icon.className = isDaytime ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+        setInterval(updateHeaderClock, 1000);
+        updateHeaderClock();
+
+        const ZENTRA_I18N = {
+            ar: {
+                dashboard: 'لوحة التحكم',
+                newTicket: 'تذكرة جديدة',
+                assets: 'الأصول',
+                manageUsers: 'إدارة المستخدم',
+                reports: 'التقارير',
+                subtitle: 'نظام إدارة التذاكر',
+                searchPlaceholder: 'بحث شامل...',
+                logout: 'تسجيل الخروج',
+                notifications: 'الإشعارات الحديثة',
+                markAllRead: 'تعيين كمقروء',
+                viewAll: 'عرض جميع الإشعارات',
+                footerRights: 'جميع الحقوق محفوظة 2025'
+            },
+            en: {
+                dashboard: 'Dashboard',
+                newTicket: 'New Ticket',
+                assets: 'Assets',
+                manageUsers: 'Manage Users',
+                reports: 'Reports',
+                subtitle: 'Ticket Management System',
+                searchPlaceholder: 'Search everything...',
+                logout: 'Logout',
+                notifications: 'Recent Notifications',
+                markAllRead: 'Mark all read',
+                viewAll: 'View all notifications',
+                footerRights: 'All rights reserved 2025'
+            }
+        };
+
+        function applyLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            const dict = ZENTRA_I18N[lang];
+            document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                const key = el.getAttribute('data-i18n');
+                if (!dict[key]) return;
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.setAttribute('placeholder', dict[key]);
+                } else {
+                    el.textContent = dict[key];
+                }
+            });
+            const label = document.getElementById('langToggleLabel');
+            if (label) label.textContent = lang === 'ar' ? 'EN' : 'AR';
+            localStorage.setItem('zentraLang', lang);
+        }
+
+        function toggleLanguage() {
+            const current = localStorage.getItem('zentraLang') || 'ar';
+            applyLanguage(current === 'ar' ? 'en' : 'ar');
+        }
+
+        applyLanguage(localStorage.getItem('zentraLang') || 'ar');
+
+        function toggleNotifications(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const dropdown = document.getElementById('notificationDropdown');
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            } else {
+                dropdown.classList.add('show');
+                loadNotifications();
+            }
+        }
+
+        function loadNotifications() {
+            fetch('/api/notifications/recent')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('notificationItems');
+                    container.innerHTML = '';
+
+                    if (data.length === 0) {
+                        container.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-secondary); font-family: \'Cairo\', sans-serif; font-weight: 700;">لا توجد إشعارات</div>';
+                        return;
+                    }
+
+                    data.forEach(notification => {
+                        const item = document.createElement('div');
+                        item.className = `notification-item ${notification.is_read ? '' : 'unread'}`;
+                        item.onclick = () => markAsReadAndRedirect(notification.id, notification.ticket_id);
+
+                        item.innerHTML = `
+                            <div class="notification-title">${notification.title}</div>
+                            <div class="notification-message">${notification.message}</div>
+                            <div class="notification-time">${notification.created_at}</div>
+                        `;
+                        container.appendChild(item);
+                    });
+                })
+                .catch(error => console.error('خطأ في تحميل الإشعارات:', error));
+        }
+
+        function markAsReadAndRedirect(notificationId, ticketId) {
+            window.location.href = `/notifications/mark_read/${notificationId}`;
+        }
+
+        function markAllRead() {
+            fetch('/notifications/mark_all_read')
+                .then(() => {
+                    const badge = document.getElementById('notificationBadge');
+                    if (badge) badge.style.display = 'none';
+
+                    const unreadItems = document.querySelectorAll('.notification-item.unread');
+                    unreadItems.forEach(item => item.classList.remove('unread'));
+                })
+                .catch(error => console.error('خطأ في تعيين الإشعارات كمقروءة:', error));
+        }
+
+        function refreshNotificationCount() {
+            fetch('/api/notifications/count')
+                .then(response => response.json())
+                .then(data => {
+                    const badge = document.getElementById('notificationBadge');
+                    if (data.count > 0) {
+                        badge.textContent = data.count;
+                        badge.style.display = 'inline-block';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                })
+                .catch(error => console.error('خطأ في جلب عدد الإشعارات:', error));
+        }
+
+        // Close dropdowns on outside click
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('dropdownMenu');
+            const profileButton = document.querySelector('.profile-dropdown');
+            const notificationDropdown = document.getElementById('notificationDropdown');
+            const notificationButton = document.querySelector('.notification-link');
+
+            if (profileButton && !profileButton.contains(event.target)) dropdown.classList.remove('show');
+            if (notificationButton && !notificationButton.contains(event.target)) notificationDropdown.classList.remove('show');
+        });
+
+        // Auto-scroll comments to bottom
+        function scrollToBottom() {
+            const commentsList = document.getElementById('commentsList');
+            if (commentsList) commentsList.scrollTop = commentsList.scrollHeight;
+        }
+
+        // File upload feedback
+        const fileUploadInput = document.getElementById('file-upload');
+        if (fileUploadInput) {
+            fileUploadInput.addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    const label = document.querySelector('.file-input-label');
+                    label.style.background = 'var(--success-color)';
+                    label.style.color = 'white';
+                    label.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ الرفع...';
+                }
+            });
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSidebarMobile();
+                document.getElementById('dropdownMenu').classList.remove('show');
+                document.getElementById('notificationDropdown').classList.remove('show');
+            }
+            if (e.ctrlKey && e.key === 'Enter') {
+                const commentForm = document.getElementById('commentForm');
+                const textarea = document.getElementById('commentTextarea');
+                if (textarea && textarea.value.trim()) commentForm.submit();
+            }
+        });
+
+        // Form submission loading states
+        const statusForm = document.getElementById('statusForm');
+        if (statusForm) {
+            statusForm.addEventListener('submit', function() {
+                const submitBtn = this.querySelector('button[type="submit"]');
+                submitBtn.classList.add('loading');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ التحديث...';
+                submitBtn.disabled = true;
+            });
+        }
+
+        const commentForm = document.getElementById('commentForm');
+        if (commentForm) {
+            commentForm.addEventListener('submit', function() {
+                const submitBtn = document.getElementById('sendCommentBtn');
+                submitBtn.classList.add('loading');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ الإرسال...';
+                submitBtn.disabled = true;
+            });
+        }
+
+        // Confirm dangerous actions
+        document.querySelectorAll('.btn-danger').forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (!confirm('هل أنت متأكد من هذا الإجراء؟')) e.preventDefault();
+            });
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+                sidebar.classList.remove('mobile-expanded');
+                overlay.classList.remove('show');
+            } else {
+                const sidebar = document.getElementById('sidebar');
+                const mainContainer = document.getElementById('mainContainer');
+                const header = document.getElementById('header');
+                const toggleBtn = document.getElementById('sidebarToggle');
+
+                sidebar.classList.remove('collapsed');
+                mainContainer.classList.remove('sidebar-collapsed');
+                header.classList.remove('sidebar-collapsed');
+                toggleBtn.classList.remove('collapsed');
+            }
+        });
+
+        // Update notification count periodically
+        setInterval(refreshNotificationCount, 60000);
+
+        function refreshChatBadge() {
+            fetch('/api/chat/unread_count').then(r => r.json()).then(data => {
+                const badge = document.getElementById('chatMenuBadge');
+                if (!badge) return;
+                if (data.count > 0) { badge.textContent = data.count; badge.style.display = 'inline-block'; }
+                else { badge.style.display = 'none'; }
+            }).catch(() => {});
+        }
+        function refreshTaskBadge() {
+            fetch('/api/tasks/badge_count').then(r => r.json()).then(data => {
+                const badge = document.getElementById('taskMenuBadge');
+                if (!badge) return;
+                if (data.count > 0) { badge.textContent = data.count; badge.style.display = 'inline-block'; }
+                else { badge.style.display = 'none'; }
+            }).catch(() => {});
+        }
+        if (document.getElementById('chatMenuBadge')) { setInterval(refreshChatBadge, 20000); refreshChatBadge(); }
+        if (document.getElementById('taskMenuBadge')) { setInterval(refreshTaskBadge, 30000); refreshTaskBadge(); }
+
+        function sendPresenceHeartbeat() { fetch('/api/presence/heartbeat', { method: 'POST' }).catch(() => {}); }
+        if (document.getElementById('chatMenuBadge')) { setInterval(sendPresenceHeartbeat, 30000); sendPresenceHeartbeat(); }
+
+        // =========================
+        // ✅ Reactions (Front-end)
+        // =========================
+
+        // If you already have backend endpoints, replace localStorage with fetch calls.
+        // Keyed per ticket to avoid mixing between tickets.
+        function storageKey(ticketId) {
+            return `reactions_ticket_${ticketId}`;
+        }
+
+        function getTicketId() {
+            // Jinja ticket id
+            return "{{ ticket.id }}";
+        }
+
+        function initReactions() {
+            const ticketId = getTicketId();
+            const raw = localStorage.getItem(storageKey(ticketId));
+            const data = raw ? JSON.parse(raw) : {};
+
+            // data format:
+            // { commentId: { like: 2, love: 0, laugh: 1, sad: 0, angry: 0, my: {like:true} } }
+
+            document.querySelectorAll('.comment-item[data-comment-id]').forEach(el => {
+                const commentId = el.getAttribute('data-comment-id');
+                const record = data[commentId] || {};
+
+                ['like','love','laugh','sad','angry'].forEach(type => {
+                    const countEl = document.getElementById(`count-${commentId}-${type}`);
+                    if (countEl) countEl.textContent = record[type] || 0;
+
+                    // active state if current user reacted (local-only)
+                    const btn = el.querySelector(`.reaction-btn[onclick*="'${type}'"]`);
+                    if (btn && record.my && record.my[type]) btn.classList.add('active');
+                });
+            });
+        }
+
+        function reactToMessage(commentId, reactionType) {
+            // Local demo logic: toggle reaction for THIS browser user
+            const ticketId = getTicketId();
+            const raw = localStorage.getItem(storageKey(ticketId));
+            const data = raw ? JSON.parse(raw) : {};
+
+            if (!data[commentId]) {
+                data[commentId] = { like:0, love:0, laugh:0, sad:0, angry:0, my:{} };
+            }
+            if (!data[commentId].my) data[commentId].my = {};
+
+            const already = !!data[commentId].my[reactionType];
+
+            if (already) {
+                data[commentId][reactionType] = Math.max(0, (data[commentId][reactionType] || 0) - 1);
+                data[commentId].my[reactionType] = false;
+            } else {
+                data[commentId][reactionType] = (data[commentId][reactionType] || 0) + 1;
+                data[commentId].my[reactionType] = true;
+            }
+
+            localStorage.setItem(storageKey(ticketId), JSON.stringify(data));
+
+            // Update UI
+            const countEl = document.getElementById(`count-${commentId}-${reactionType}`);
+            if (countEl) countEl.textContent = data[commentId][reactionType] || 0;
+
+            // Toggle active class on the button
+            const messageEl = document.querySelector(`.comment-item[data-comment-id="${commentId}"]`);
+            if (messageEl) {
+                const btns = messageEl.querySelectorAll('.reaction-btn');
+                btns.forEach(btn => {
+                    // match by onclick content
+                    const oc = btn.getAttribute('onclick') || '';
+                    if (oc.includes(`'${reactionType}'`)) {
+                        btn.classList.toggle('active', !already);
+                    }
+                });
+            }
+
+            // ✅ If you have backend API:
+            // fetch(`/api/comments/${commentId}/react`, {
+            //   method: 'POST',
+            //   headers: {'Content-Type':'application/json'},
+            //   body: JSON.stringify({ reaction: reactionType })
+            // }).then(r=>r.json()).then(update counts...)
+        }
+
+        // Optional: quick reaction toggle (could open a small popup later)
+        function toggleQuickReactions(e, commentId) {
+            e.preventDefault();
+            e.stopPropagation();
+            // For now: quick like
+            reactToMessage(commentId, 'like');
+        }
+    </script>
+</body>
+</html>

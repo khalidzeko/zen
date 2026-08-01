@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include '_team_shell_style.html' %}
+    <style>
+        .task-card { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 18px 20px; box-shadow: var(--shadow-sm); margin-bottom: 14px; }
+        .task-card-title { font-size: 15px; color: var(--text-primary); margin-bottom: 6px; }
+        .task-card-desc { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; }
+        .task-card-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
+        .assignment-chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+        .assignment-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: var(--radius-full); font-size: 11px; background: var(--bg-secondary); border: 1px solid var(--border-color); text-decoration: none; color: var(--text-primary); }
+    </style>
+    <title>المهام التي أنشأتها</title>
+</head>
+<body>
+    {% set active_page = 'tasks' %}
+    {% set page_title = 'المهام التي أنشأتها' %}
+    {% include '_team_shell_header.html' %}
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title"><i class="fas fa-tasks"></i> المهام التي أنشأتها</div>
+                    <div class="section-actions">
+                        <a href="{{ url_for('task_new') }}" class="btn"><i class="fas fa-plus"></i> مهمة جديدة</a>
+                        <a href="{{ url_for('tasks_team') }}" class="btn btn-secondary"><i class="fas fa-users"></i> نظرة عامة على الفريق</a>
+                    </div>
+                </div>
+
+                {% if tasks %}
+                    {% for t in tasks %}
+                    {% set done_count = t.assignments | selectattr('status', 'equalto', 'Done') | list | length %}
+                    <div class="task-card">
+                        <div class="task-card-title">{{ t.title }} {% if t.is_team_wide %}<span class="status-badge status-open">فريق كامل</span>{% endif %}</div>
+                        <div class="task-card-desc">{{ t.description }}</div>
+                        <div class="task-card-meta">{{ t.created_at | riyadh_datetime }} • مكتمل {{ done_count }}/{{ t.assignments|length }}</div>
+                        <div class="assignment-chip-row">
+                            {% for a in t.assignments %}
+                            <a href="{{ url_for('task_detail', task_id=t.id) }}" class="assignment-chip">
+                                {{ a.assignee.full_name or a.assignee.username }}
+                                <span class="status-badge status-{{ a.status|lower|replace(' ', '-') }}">{{ a.status }}</span>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-state-icon"><i class="fas fa-tasks"></i></div>
+                    <h3>لم تُنشئ أي مهمة بعد</h3>
+                    <p>ابدأ بإسناد أول مهمة لفريق تقنية المعلومات.</p>
+                    <a href="{{ url_for('task_new') }}" class="btn"><i class="fas fa-plus"></i> إنشاء مهمة</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% include '_team_shell_scripts.html' %}
+</body>
+</html>

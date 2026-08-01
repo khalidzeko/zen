@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Colors - Grayscale Only (Matching Dashboard) */
+    --primary-color: #2d3748;
+    --primary-hover: #1a202c;
+    --primary-light: #edf2f7;
+    --success-color: #4a5568;
+    --success-light: #e2e8f0;
+    --warning-color: #718096;
+    --warning-light: #f7fafc;
+    --danger-color: #2d3748;
+    --danger-light: #e2e8f0;
+    --info-color: #4a5568;
+    --info-light: #edf2f7;
+    
+    /* Text Colors */
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --text-light: #a0aec0;
+    
+    /* Background Colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7fafc;
+    --bg-tertiary: #edf2f7;
+    --bg-card: #ffffff;
+    --bg-overlay: rgba(0, 0, 0, 0.5);
+    
+    /* Border Colors */
+    --border-color: #e2e8f0;
+    --border-light: #edf2f7;
+    --border-dark: #cbd5e0;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-full: 9999px;
+    
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms ease;
+    --transition-slow: 500ms ease;
+
+    /* Sidebar */
+    --sidebar-width: 280px;
+    --sidebar-collapsed-width: 70px;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    background: var(--bg-secondary);
+    height: 100vh;
+    overflow: hidden;
+    direction: rtl;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--text-primary);
+    padding-bottom: 40px;
+}
+
+/* Typography Enhancements */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+}
+
+p {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Enhanced Logo Styling */
+.header-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: rgb(0, 0, 0);
+    font-family: 'Cairo', sans-serif;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.header-title::before {
+    content: '';
+    font-size: 24px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.header-title .logo-brand {
+    position: relative;
+    display: inline-block;
+    letter-spacing: -1px;
+}
+
+.header-title .logo-brand::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
+    border-radius: 1px;
+}
+
+.header-title .highlight {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.sidebar-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    font-family: 'Cairo', sans-serif;
+    position: relative;
+    display: inline-block;
+    letter-spacing: -0.5px;
+    transition: var(--transition-normal);
+}
+
+.sidebar-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25px;
+    height: 2px;
+    background: linear-gradient(90deg, #a0aec0, #718096);
+    border-radius: 1px;
+}
+
+.sidebar-title .highlight {
+    color: #a0aec0;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    height: 70px;
+    border-bottom: 1px solid #4a5568;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: var(--sidebar-width);
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    transition: right var(--transition-normal);
+}
+
+.header.sidebar-collapsed {
+    right: var(--sidebar-collapsed-width);
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: -1;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.header-branding {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.header-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: -0.5px;
+    line-height: 1;
+}
+
+.header-title .highlight {
+    color: #e2e8f0;
+}
+
+.header-subtitle {
+    font-size: 11px;
+    color: #cbd5e0;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+
+.page-title {
+    font-size: 15px;
+    color: #f7fafc;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    padding-right: 25px;
+    border-right: 2px solid #4a5568;
+    margin-right: 5px;
+}
+
+.header-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.notification-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.notification-link {
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.notification-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.notification-badge {
+    background-color: #ff4757;
+    color: white;
+    border-radius: var(--radius-full);
+    padding: 3px 8px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 5px;
+    animation: pulse 2s infinite;
+    box-shadow: 0 2px 8px rgba(255, 71, 87, 0.4);
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.notification-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    min-width: 300px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1001;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-content.show {
+    display: block;
+}
+
+.notification-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.notification-item:hover {
+    background-color: var(--bg-secondary);
+}
+
+.notification-item.unread {
+    background-color: var(--primary-light);
+    font-weight: 700;
+}
+
+.notification-title {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+.notification-message {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+.notification-time {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 5px;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+.profile-dropdown {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.profile-dropdown:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.profile-avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.profile-avatar-logo { object-fit: contain !important; background: #ffffff; padding: 4px; box-sizing: border-box; }
+.profile-avatar {
+    overflow: hidden;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    min-width: 180px;
+    box-shadow: var(--shadow-lg);
+    display: none;
+    z-index: 1001;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 12px 16px;
+    color: var(--text-primary);
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid var(--border-light);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: var(--transition-fast);
+}
+
+.dropdown-item:hover {
+    background: var(--bg-secondary);
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+/* Sidebar - Collapsible */
+.sidebar {
+    position: fixed;
+    top: 70px;
+    right: 0;
+    width: var(--sidebar-width);
+    height: calc(100vh - 70px - 40px);
+    background: var(--bg-primary);
+    border-left: 1px solid var(--border-color);
+    z-index: 999;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    transition: width var(--transition-normal);
+    overflow: hidden;
+}
+
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed-width);
+}
+
+.sidebar-header {
+    padding: 0;
+    border-bottom: none;
+    background: var(--bg-primary);
+    transition: var(--transition-normal);
+    height: 0;
+    overflow: hidden;
+}
+
+.sidebar.collapsed .sidebar-header {
+    padding: 0;
+}
+
+.sidebar-menu {
+    flex: 1;
+    padding: 0;
+    background: var(--bg-primary);
+}
+
+.menu-item {
+    padding: 16px 20px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-light);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: var(--transition-fast);
+    position: relative;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.sidebar.collapsed .menu-item {
+    justify-content: center;
+    padding: 16px 10px;
+}
+
+.sidebar.collapsed .menu-item span {
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+    overflow: hidden;
+}
+
+.menu-item:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.menu-item.active {
+    background: transparent;
+    color: var(--text-primary);
+    font-weight: 900;
+    border-right: none;
+    border-bottom: 3px solid #2d3748;
+}
+
+.menu-item .menu-badge {
+    background: #ff4757;
+    color: white;
+    border-radius: 9999px;
+    padding: 2px 7px;
+    font-size: 10px;
+    margin-right: auto;
+}
+
+.menu-item.active img {
+    filter: none;
+}
+
+.menu-item img {
+    flex-shrink: 0;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+    position: fixed;
+    top: 80px;
+    right: var(--sidebar-width);
+    width: 40px;
+    height: 40px;
+    background: #2d3748;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-normal);
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.sidebar-toggle:hover {
+    background: #1a202c;
+    transform: scale(1.1);
+}
+
+.sidebar-toggle.collapsed {
+    right: var(--sidebar-collapsed-width);
+    transform: rotate(180deg);
+}
+
+.sidebar-toggle.collapsed:hover {
+    transform: rotate(180deg) scale(1.1);
+}
+
+/* Main Container */
+.main-container {
+    margin-top: 70px;
+    margin-right: var(--sidebar-width);
+    height: calc(100vh - 70px - 40px);
+    overflow-y: auto;
+    padding: 25px;
+    transition: margin-right var(--transition-normal);
+}
+
+.main-container.sidebar-collapsed {
+    margin-right: var(--sidebar-collapsed-width);
+}
+
+/* Form Card */
+.form-card {
+    background: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    padding: 40px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    max-width: 700px;
+    margin: 0 auto;
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    text-align: center;
+    font-family: 'Cairo', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.form-title::before {
+    content: '📝';
+    font-size: 32px;
+}
+
+.form-subtitle {
+    color: var(--text-secondary);
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 30px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-label {
+    display: block;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.required {
+    color: #ef4444;
+    margin-right: 4px;
+    font-weight: 700;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: var(--transition-fast);
+    text-align: right;
+    direction: rtl;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(45, 55, 72, 0.1);
+}
+
+select.form-control {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: left 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-left: 40px;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+textarea.form-control::placeholder {
+    color: var(--text-muted);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+
+/* File Input */
+.file-input-wrapper {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    width: 100%;
+}
+
+.file-input-hidden {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.file-input-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    transition: var(--transition-normal);
+    min-height: 80px;
+    direction: rtl;
+    gap: 12px;
+}
+
+.file-input-wrapper:hover .file-input-display {
+    border-color: var(--primary-color);
+    background: var(--primary-light);
+}
+
+.file-icon {
+    font-size: 20px;
+    color: var(--text-secondary);
+}
+
+.file-text {
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+
+.file-selected .file-text {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.file-selected .file-input-display {
+    border-color: #4a5568;
+    background: var(--success-light);
+}
+
+/* Buttons */
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn {
+    flex: 1;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    font-family: 'Cairo', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn:disabled {
+    background: var(--text-muted);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    min-width: 120px;
+    flex: none;
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-dark);
+}
+
+/* Enhanced Main Footer */
+.page-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    border-top: 1px solid #4a5568;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.footer-brand {
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.footer-brand img {
+    height: 16px;
+    width: auto;
+    filter: brightness(0) invert(1);
+}
+
+.footer-brand .footer-logo {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    position: relative;
+}
+
+.footer-brand .footer-logo::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+    border-radius: 1px;
+}
+
+.footer-brand .footer-highlight {
+    color: #a0aec0;
+}
+
+.footer-copyright {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+    font-family: 'Cairo', sans-serif;
+}
+
+/* Loading state */
+.btn.loading {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+.btn.loading::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding-bottom: 50px;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: calc(100vh - 70px - 50px);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.mobile-expanded {
+        transform: translateX(0);
+        width: 100%;
+    }
+
+    .sidebar.collapsed {
+        width: 100%;
+    }
+
+    .header {
+        right: 0;
+    }
+
+    .header.sidebar-collapsed {
+        right: 0;
+    }
+
+    .header-left {
+        gap: 10px;
+    }
+
+    .header-branding {
+        display: none;
+    }
+
+    .page-title {
+        font-size: 14px;
+        padding-right: 15px;
+        border-right: none;
+        margin-right: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 18px;
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: var(--radius-md);
+        color: #ffffff;
+        font-family: 'Cairo', sans-serif;
+        backdrop-filter: blur(5px);
+    }
+
+    .menu-toggle:hover {
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .main-container {
+        margin-right: 0;
+        padding: 15px;
+        height: calc(100vh - 70px - 50px);
+    }
+
+    .main-container.sidebar-collapsed {
+        margin-right: 0;
+    }
+
+    .sidebar-toggle {
+        display: none;
+    }
+
+    .form-card {
+        padding: 30px 20px;
+    }
+
+    .form-title {
+        font-size: 24px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-overlay);
+        z-index: 998;
+        display: none;
+    }
+
+    .overlay.show {
+        display: block;
+    }
+
+    .page-footer {
+        padding: 8px 15px;
+    }
+    
+    .footer-brand {
+        font-size: 11px;
+        gap: 6px;
+        margin-bottom: 3px;
+    }
+    
+    .footer-brand img {
+        height: 14px;
+    }
+    
+    .footer-copyright {
+        font-size: 9px;
+    }
+}
+
+/* Hide menu toggle on desktop */
+.menu-toggle {
+    display: none;
+}
+
+/* Enhanced Focus States */
+.notification-link:focus,
+.profile-dropdown:focus,
+.menu-item:focus,
+.btn:focus,
+.form-control:focus,
+.sidebar-toggle:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Better Text Rendering */
+* {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.profile-avatar-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.profile-arrow-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.header-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.search-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.header-search-form {
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: width 0.25s ease, opacity 0.2s ease;
+}
+
+.header-search-form.show {
+    width: 200px;
+    opacity: 1;
+}
+
+.header-search-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    outline: none;
+}
+
+.header-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+.header-clock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.header-clock i {
+    font-size: 14px;
+    color: #fbbf24;
+}
+
+.header-clock i.fa-moon {
+    color: #cbd5e0;
+}
+.lang-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.lang-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+</style>
+    <title>إرسال تذكرة جديدة</title>
+</head>
+
+<body>
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebarCollapse()" title="تبديل القائمة الجانبية">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <!-- رأس الصفحة -->
+    <div class="header" id="header">
+        <div class="header-left">
+            <button class="menu-toggle" onclick="toggleSidebarMobile()">☰</button>
+            <div class="header-branding">
+                <div class="header-title">
+                    ZEN<span class="highlight">TRA</span>
+                </div>
+                <div class="header-subtitle" data-i18n="subtitle">نظام إدارة التذاكر</div>
+            </div>
+            <div class="page-title">إرسال تذكرة جديدة</div>
+        </div>
+
+        <div class="header-right">
+            <!-- الإشعارات -->
+            <div class="header-search">
+                <button type="button" class="search-toggle-btn" onclick="toggleHeaderSearch(event)" id="headerSearchToggle" title="بحث" aria-label="بحث">
+                    <i class="fas fa-search"></i>
+                </button>
+                <form class="header-search-form" id="headerSearchForm" onsubmit="return submitHeaderSearch(event)">
+                    <input type="text" id="headerSearchInput" class="header-search-input" placeholder="بحث شامل..." data-i18n="searchPlaceholder" autocomplete="off">
+                </form>
+            </div>
+            <div class="header-clock" id="headerClock">
+                <i class="fas fa-sun" id="dayNightIcon"></i>
+                <span id="clockText">--:-- --</span>
+            </div>
+            <button type="button" class="lang-toggle-btn" onclick="toggleLanguage()" id="langToggleBtn" title="Switch language" aria-label="Switch language">
+                <i class="fas fa-globe"></i>
+                <span id="langToggleLabel">EN</span>
+            </button>
+            <div class="notification-dropdown">
+                <a href="#" class="notification-link" onclick="toggleNotifications(event)" id="notificationLink">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                </a>
+                <div id="notificationDropdown" class="notification-content">
+                    <div style="padding: 15px; border-bottom: 1px solid var(--border-color); font-weight: 700; color: var(--text-primary); display: flex; justify-content: space-between; align-items: center; font-family: 'Cairo', sans-serif;">
+                        <span data-i18n="notifications">الإشعارات الحديثة</span>
+                        <a href="#" onclick="markAllRead()" style="font-size: 12px; color: var(--primary-color); text-decoration: none; font-family: 'Cairo', sans-serif; font-weight: 700;" data-i18n="markAllRead">تعيين كمقروء</a>
+                    </div>
+                    <div id="notificationItems">
+                        <!-- سيتم تحميل الإشعارات هنا -->
+                    </div>
+                    <div style="text-align: center; padding: 15px; border-top: 1px solid var(--border-light);">
+                        <a href="/notifications" style="font-size: 12px; color: var(--primary-color); text-decoration: none; font-family: 'Cairo', sans-serif; font-weight: 700;" data-i18n="viewAll">عرض جميع الإشعارات</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قائمة الملف الشخصي -->
+            <div class="profile-dropdown">
+                <a href="{{ url_for('profile') }}" class="profile-avatar-link" title="الملف الشخصي">
+                    <div class="profile-avatar">
+                        {% if current_user.profile_picture %}
+                        <img src="{{ url_for('uploads', filename=current_user.profile_picture) }}" alt="صورة الملف الشخصي" class="profile-avatar-img">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='exp.png') }}" alt="ZENTRA" class="profile-avatar-img profile-avatar-logo">
+                        {% endif %}
+                    </div>
+                </a>
+                <button class="profile-arrow-toggle" onclick="toggleDropdown()" aria-label="القائمة">
+                    <span>▼</span>
+                </button>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="{{ url_for('logout') }}" class="dropdown-item"><i class="fas fa-power-off" style="margin-left: 6px;"></i><span data-i18n="logout">تسجيل الخروج</span></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <!-- Header is now clean, branding moved to main header -->
+        </div>
+        <nav class="sidebar-menu">
+            <a href="/" class="menu-item">
+                <img src="/static/home.png" alt="لوحة التحكم" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="dashboard">لوحة التحكم</span>
+            </a>
+
+            <a href="submit_ticket" class="menu-item active">
+                <img src="/static/ticket.png" alt="تذكرة جديدة" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="newTicket">تذكرة جديدة</span>
+            </a>
+
+            {% if current_user.role != 'agent' %}
+            <a href="{{ url_for('assets') }}" class="menu-item">
+                <i class="fas fa-boxes-stacked" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="assets">الأصول</span>
+            </a>
+
+            <a href="manage_users" class="menu-item">
+                <img src="/static/user (1).png" alt="إدارة المستخدم" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="manageUsers">إدارة المستخدم</span>
+            </a>
+
+            <a href="report" class="menu-item">
+                <img src="/static/report.png" alt="التقارير" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="reports">التقارير</span>
+            </a>
+            {% endif %}
+            {% if user.role in ['it_staff', 'admin', 'it_admin'] %}
+            <a href="{{ url_for('team_channel') }}" class="menu-item">
+                <i class="fas fa-comments" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="chat">الدردشة</span>
+                <span class="menu-badge" id="chatMenuBadge" style="display:none;">0</span>
+            </a>
+            <a href="{{ url_for('tasks_mine') }}" class="menu-item">
+                <i class="fas fa-list-check" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="teamTasks">مهام الفريق</span>
+                <span class="menu-badge" id="taskMenuBadge" style="display:none;">0</span>
+            </a>
+            {% endif %}
+        </nav>
+    </div>
+
+    <!-- طبقة التداخل للموبايل -->
+    <div class="overlay" id="overlay" onclick="closeSidebarMobile()"></div>
+
+    <!-- الحاوي الرئيسي -->
+    <div class="main-container" id="mainContainer">
+        <!-- Form Card -->
+        <div class="form-card">
+            <h1 class="form-title">إرسال تذكرة جديدة</h1>
+            <p class="form-subtitle">يرجى ملء النموذج أدناه لإرسال طلب دعم فني جديد</p>
+
+            <form action="{{ url_for('submit_ticket') }}" method="post" enctype="multipart/form-data" id="ticketForm">
+                <div class="form-group">
+                    <label for="category" class="form-label">الفئة <span class="required">*</span></label>
+                    <select name="category" id="category" class="form-control" required>
+                        <option value="">-- اختر الفئة --</option>
+                        <option value="حاسب">حاسب</option>
+                        <option value="حصل">حصل</option>
+                        <option value="مكالمات">مكالمات</option>
+                        <option value="الشبكة">الشبكة</option>
+                        <option value="ايميل">ايميل</option>
+                        <option value="طلب صلاحية">طلب صلاحية</option>
+                        <option value="أخرى">أخرى</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description" class="form-label">الوصف <span class="required">*</span></label>
+                    <textarea
+                        name="description"
+                        id="description"
+                        rows="6"
+                        class="form-control"
+                        placeholder="يرجى وصف المشكلة أو الطلب بالتفصيل. كلما كان الوصف أكثر دقة، كلما تمكنا من مساعدتك بشكل أفضل..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="file" class="form-label">مرفق (اختياري)</label>
+                    <div class="file-input-wrapper">
+                        <input 
+                            type="file" 
+                            name="file" 
+                            id="file" 
+                            class="file-input-hidden"
+                            accept="image/*,.pdf,.doc,.docx,.txt,.zip" 
+                            capture="environment"
+                        />
+                        <div class="file-input-display">
+                            <i class="fas fa-cloud-upload-alt file-icon"></i>
+                            <span class="file-text">انقر للتحميل أو اسحب وأفلت الملفات هنا</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i>
+                        إرسال التذكرة
+                    </button>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i>
+                        إلغاء
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Enhanced Footer -->
+    <div class="page-footer">
+        <div class="footer-brand">
+            <img src="/static/exp.png" alt="Experience Logo">
+            | <span class="footer-logo">ZEN<span class="footer-highlight">TRA</span></span>
+        </div>
+        <div class="footer-copyright" data-i18n="footerRights">جميع الحقوق محفوظة 2025</div>
+    </div>
+
+    <script>
+        // Sidebar collapse/expand for desktop
+        function toggleSidebarCollapse() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContainer = document.getElementById('mainContainer');
+            const header = document.getElementById('header');
+            const toggleBtn = document.getElementById('sidebarToggle');
+            
+            sidebar.classList.toggle('collapsed');
+            mainContainer.classList.toggle('sidebar-collapsed');
+            header.classList.toggle('sidebar-collapsed');
+            toggleBtn.classList.toggle('collapsed');
+            
+            // Save state to localStorage
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        }
+
+        // Mobile sidebar toggle
+        function toggleSidebarMobile() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+                
+                sidebar.classList.toggle('mobile-expanded');
+                overlay.classList.toggle('show');
+            }
+        }
+
+        function closeSidebarMobile() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+                
+                sidebar.classList.remove('mobile-expanded');
+                overlay.classList.remove('show');
+            }
+        }
+
+        // Restore sidebar state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            if (isCollapsed && window.innerWidth > 768) {
+                const sidebar = document.getElementById('sidebar');
+                const mainContainer = document.getElementById('mainContainer');
+                const header = document.getElementById('header');
+                const toggleBtn = document.getElementById('sidebarToggle');
+                
+                sidebar.classList.add('collapsed');
+                mainContainer.classList.add('sidebar-collapsed');
+                header.classList.add('sidebar-collapsed');
+                toggleBtn.classList.add('collapsed');
+            }
+
+            // Load notification count
+            refreshNotificationCount();
+        });
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdownMenu');
+            dropdown.classList.toggle('show');
+        }
+
+        function toggleHeaderSearch(event) {
+            event.preventDefault();
+            const form = document.getElementById('headerSearchForm');
+            form.classList.toggle('show');
+            if (form.classList.contains('show')) {
+                setTimeout(() => document.getElementById('headerSearchInput').focus(), 50);
+            }
+        }
+
+        function submitHeaderSearch(event) {
+            event.preventDefault();
+            const query = document.getElementById('headerSearchInput').value.trim();
+            if (query) {
+                window.location.href = "{{ url_for('global_search') }}?q=" + encodeURIComponent(query);
+            }
+            return false;
+        }
+
+        function updateHeaderClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            if (hours === 0) hours = 12;
+            const clockText = document.getElementById('clockText');
+            if (clockText) clockText.textContent = hours + ':' + minutes + ' ' + ampm;
+
+            const icon = document.getElementById('dayNightIcon');
+            if (icon) {
+                const isDaytime = now.getHours() >= 6 && now.getHours() < 18;
+                icon.className = isDaytime ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+        setInterval(updateHeaderClock, 1000);
+        updateHeaderClock();
+
+        const ZENTRA_I18N = {
+            ar: {
+                dashboard: 'لوحة التحكم',
+                newTicket: 'تذكرة جديدة',
+                assets: 'الأصول',
+                manageUsers: 'إدارة المستخدم',
+                reports: 'التقارير',
+                subtitle: 'نظام إدارة التذاكر',
+                searchPlaceholder: 'بحث شامل...',
+                logout: 'تسجيل الخروج',
+                notifications: 'الإشعارات الحديثة',
+                markAllRead: 'تعيين كمقروء',
+                viewAll: 'عرض جميع الإشعارات',
+                footerRights: 'جميع الحقوق محفوظة 2025'
+            },
+            en: {
+                dashboard: 'Dashboard',
+                newTicket: 'New Ticket',
+                assets: 'Assets',
+                manageUsers: 'Manage Users',
+                reports: 'Reports',
+                subtitle: 'Ticket Management System',
+                searchPlaceholder: 'Search everything...',
+                logout: 'Logout',
+                notifications: 'Recent Notifications',
+                markAllRead: 'Mark all read',
+                viewAll: 'View all notifications',
+                footerRights: 'All rights reserved 2025'
+            }
+        };
+
+        function applyLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            const dict = ZENTRA_I18N[lang];
+            document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                const key = el.getAttribute('data-i18n');
+                if (!dict[key]) return;
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.setAttribute('placeholder', dict[key]);
+                } else {
+                    el.textContent = dict[key];
+                }
+            });
+            const label = document.getElementById('langToggleLabel');
+            if (label) label.textContent = lang === 'ar' ? 'EN' : 'AR';
+            localStorage.setItem('zentraLang', lang);
+        }
+
+        function toggleLanguage() {
+            const current = localStorage.getItem('zentraLang') || 'ar';
+            applyLanguage(current === 'ar' ? 'en' : 'ar');
+        }
+
+        applyLanguage(localStorage.getItem('zentraLang') || 'ar');
+
+        function toggleNotifications(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const dropdown = document.getElementById('notificationDropdown');
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            } else {
+                dropdown.classList.add('show');
+                loadNotifications();
+            }
+        }
+
+        function loadNotifications() {
+            fetch('/api/notifications/recent')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('notificationItems');
+                    container.innerHTML = '';
+                    
+                    if (data.length === 0) {
+                        container.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-secondary); font-family: \'Cairo\', sans-serif; font-weight: 700;">لا توجد إشعارات</div>';
+                        return;
+                    }
+                    
+                    data.forEach(notification => {
+                        const item = document.createElement('div');
+                        item.className = `notification-item ${notification.is_read ? '' : 'unread'}`;
+                        item.onclick = () => markAsReadAndRedirect(notification.id, notification.ticket_id);
+                        
+                        item.innerHTML = `
+                            <div class="notification-title">${notification.title}</div>
+                            <div class="notification-message">${notification.message}</div>
+                            <div class="notification-time">${notification.created_at}</div>
+                        `;
+                        
+                        container.appendChild(item);
+                    });
+                })
+                .catch(error => {
+                    console.error('خطأ في تحميل الإشعارات:', error);
+                });
+        }
+
+        function markAsReadAndRedirect(notificationId, ticketId) {
+            window.location.href = `/notifications/mark_read/${notificationId}`;
+        }
+
+        function markAllRead() {
+            fetch('/notifications/mark_all_read')
+                .then(() => {
+                    const badge = document.getElementById('notificationBadge');
+                    if (badge) {
+                        badge.remove();
+                    }
+                    
+                    const unreadItems = document.querySelectorAll('.notification-item.unread');
+                    unreadItems.forEach(item => item.classList.remove('unread'));
+                })
+                .catch(error => {
+                    console.error('خطأ في تعيين الإشعارات كمقروءة:', error);
+                });
+        }
+
+        function refreshNotificationCount() {
+            fetch('/api/notifications/count')
+                .then(response => response.json())
+                .then(data => {
+                    const existingBadge = document.getElementById('notificationBadge');
+                    const notificationLink = document.getElementById('notificationLink');
+                    
+                    if (data.count > 0) {
+                        if (existingBadge) {
+                            existingBadge.textContent = data.count;
+                        } else {
+                            const newBadge = document.createElement('span');
+                            newBadge.className = 'notification-badge';
+                            newBadge.id = 'notificationBadge';
+                            newBadge.textContent = data.count;
+                            notificationLink.appendChild(newBadge);
+                        }
+                    } else if (existingBadge) {
+                        existingBadge.remove();
+                    }
+                })
+                .catch(error => {
+                    console.error('خطأ في جلب عدد الإشعارات:', error);
+                });
+        }
+
+        // File input functionality
+        document.getElementById('file').addEventListener('change', function(e) {
+            const fileDisplay = document.querySelector('.file-text');
+            const wrapper = document.querySelector('.file-input-wrapper');
+            
+            if (e.target.files.length > 0) {
+                const fileName = e.target.files[0].name;
+                fileDisplay.innerHTML = `<i class="fas fa-check-circle"></i> ${fileName}`;
+                wrapper.classList.add('file-selected');
+            } else {
+                fileDisplay.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> انقر للتحميل أو اسحب وأفلت الملفات هنا';
+                wrapper.classList.remove('file-selected');
+            }
+        });
+
+        // Form submission
+        const form = document.getElementById('ticketForm');
+        form.addEventListener('submit', function(e) {
+            const category = document.getElementById('category').value;
+            const description = document.getElementById('description').value;
+            
+            if (!category || !description.trim()) {
+                e.preventDefault();
+                alert('يرجى ملء جميع الحقول المطلوبة');
+                return;
+            }
+            
+            // Show loading state
+            const submitButton = document.getElementById('submitBtn');
+            submitButton.classList.add('loading');
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ الإرسال...';
+            submitButton.disabled = true;
+        });
+
+        // إغلاق القوائم المنسدلة عند النقر خارجها
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('dropdownMenu');
+            const profileButton = document.querySelector('.profile-dropdown');
+            const notificationDropdown = document.getElementById('notificationDropdown');
+            const notificationButton = document.querySelector('.notification-link');
+            
+            if (!profileButton.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+
+            if (!notificationButton.contains(event.target)) {
+                notificationDropdown.classList.remove('show');
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Escape to close sidebar and dropdowns
+            if (e.key === 'Escape') {
+                closeSidebarMobile();
+                document.getElementById('dropdownMenu').classList.remove('show');
+                document.getElementById('notificationDropdown').classList.remove('show');
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+                
+                sidebar.classList.remove('mobile-expanded');
+                overlay.classList.remove('show');
+            } else {
+                const sidebar = document.getElementById('sidebar');
+                const mainContainer = document.getElementById('mainContainer');
+                const header = document.getElementById('header');
+                const toggleBtn = document.getElementById('sidebarToggle');
+                
+                sidebar.classList.remove('collapsed');
+                mainContainer.classList.remove('sidebar-collapsed');
+                header.classList.remove('sidebar-collapsed');
+                toggleBtn.classList.remove('collapsed');
+            }
+        });
+
+        // Drag and drop functionality
+        const fileInputWrapper = document.querySelector('.file-input-wrapper');
+        const fileInput = document.getElementById('file');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileInputWrapper.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileInputWrapper.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileInputWrapper.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            fileInputWrapper.querySelector('.file-input-display').style.borderColor = 'var(--primary-color)';
+            fileInputWrapper.querySelector('.file-input-display').style.background = 'var(--primary-light)';
+        }
+
+        function unhighlight(e) {
+            fileInputWrapper.querySelector('.file-input-display').style.borderColor = 'var(--border-color)';
+            fileInputWrapper.querySelector('.file-input-display').style.background = 'var(--bg-secondary)';
+        }
+
+        fileInputWrapper.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0) {
+                fileInput.files = files;
+                const event = new Event('change');
+                fileInput.dispatchEvent(event);
+            }
+        }
+
+        // Update notification count periodically
+        setInterval(refreshNotificationCount, 60000);
+
+        function refreshChatBadge() {
+            fetch('/api/chat/unread_count').then(r => r.json()).then(data => {
+                const badge = document.getElementById('chatMenuBadge');
+                if (!badge) return;
+                if (data.count > 0) { badge.textContent = data.count; badge.style.display = 'inline-block'; }
+                else { badge.style.display = 'none'; }
+            }).catch(() => {});
+        }
+        function refreshTaskBadge() {
+            fetch('/api/tasks/badge_count').then(r => r.json()).then(data => {
+                const badge = document.getElementById('taskMenuBadge');
+                if (!badge) return;
+                if (data.count > 0) { badge.textContent = data.count; badge.style.display = 'inline-block'; }
+                else { badge.style.display = 'none'; }
+            }).catch(() => {});
+        }
+        if (document.getElementById('chatMenuBadge')) { setInterval(refreshChatBadge, 20000); refreshChatBadge(); }
+        if (document.getElementById('taskMenuBadge')) { setInterval(refreshTaskBadge, 30000); refreshTaskBadge(); }
+
+        function sendPresenceHeartbeat() { fetch('/api/presence/heartbeat', { method: 'POST' }).catch(() => {}); }
+        if (document.getElementById('chatMenuBadge')) { setInterval(sendPresenceHeartbeat, 30000); sendPresenceHeartbeat(); }
+    </script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include '_team_shell_style.html' %}
+    <style>
+        .task-detail-card { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 25px; margin-bottom: 20px; }
+        .task-detail-title { font-size: 20px; color: var(--text-primary); margin-bottom: 6px; }
+        .task-detail-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+        .task-detail-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.8; padding: 14px; background: var(--bg-secondary); border-radius: var(--radius-md); margin-bottom: 16px; }
+        .callout { border-radius: var(--radius-lg); padding: 16px 20px; margin-bottom: 16px; border: 1px solid; }
+        .callout-warning { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
+        .callout-info { background: #dbeafe; border-color: #93c5fd; color: #1e40af; }
+        .action-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+        .delegate-form { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; padding: 16px; background: var(--bg-secondary); border-radius: var(--radius-md); }
+        .form-input, .form-select, .form-textarea { padding: 8px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 12px; }
+        .rollup-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-light); gap: 10px; flex-wrap: wrap; }
+        .rollup-row:last-child { border-bottom: none; }
+        .completion-form { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; padding: 16px; background: var(--bg-secondary); border-radius: var(--radius-md); }
+        .comment-thread { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+        .comment-item { padding: 10px 14px; border-radius: var(--radius-md); background: var(--bg-secondary); border-right: 3px solid var(--border-dark); font-size: 12px; }
+        .comment-item.type-question { border-right-color: #92400e; }
+        .comment-item.type-answer { border-right-color: #1e40af; }
+        .comment-item.type-completion { border-right-color: #065f46; }
+        .comment-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+        .attachment-list { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+        .attachment-link { font-size: 12px; color: var(--primary-color); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .attachment-link:hover { text-decoration: underline; }
+        .rollup-assignment-block { padding: 14px 0; border-bottom: 1px solid var(--border-light); }
+        .rollup-assignment-block:last-child { border-bottom: none; }
+    </style>
+    <title>{{ task.title }}</title>
+</head>
+<body>
+    {% set active_page = 'tasks' %}
+    {% set page_title = 'تفاصيل المهمة' %}
+    {% include '_team_shell_header.html' %}
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title"><i class="fas fa-list-check"></i> تفاصيل المهمة</div>
+                    <div class="section-actions">
+                        <a href="{{ url_for('tasks_mine') }}" class="btn btn-secondary"><i class="fas fa-arrow-right"></i> رجوع</a>
+                    </div>
+                </div>
+
+                <div class="task-detail-card">
+                    <div class="task-detail-title">{{ task.title }}</div>
+                    <div class="task-detail-meta">
+                        أنشأها {{ task.created_by.full_name or task.created_by.username }} • {{ task.created_at | riyadh_datetime }}
+                        {% if task.is_team_wide %} • <span class="status-badge status-open">فريق كامل</span>{% endif %}
+                    </div>
+                    <div class="task-detail-desc">{{ task.description }}</div>
+
+                    {% if pending_delegations_for_me %}
+                        {% for req in pending_delegations_for_me %}
+                        <div class="callout callout-warning">
+                            <strong>{{ req.requested_by.full_name or req.requested_by.username }}</strong> يطلب منك تولي هذه المهمة بدلاً منه.
+                            <div style="margin-top:6px; font-size:12px;">السبب: {{ req.reason }}</div>
+                            <form method="post" action="{{ url_for('task_assignment_action', assignment_id=req.task_assignment_id) }}" style="display:inline;">
+                                <input type="hidden" name="action" value="handle_delegation">
+                                <input type="hidden" name="request_id" value="{{ req.id }}">
+                                <div class="action-row">
+                                    <button type="submit" name="decision" value="accept" class="btn btn-success btn-sm"><i class="fas fa-check"></i> قبول</button>
+                                    <button type="submit" name="decision" value="reject" class="btn btn-danger btn-sm"><i class="fas fa-times"></i> رفض</button>
+                                </div>
+                            </form>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if my_assignment %}
+                    <div class="callout callout-info">
+                        حالتك في هذه المهمة: <span class="status-badge status-{{ my_assignment.status|lower|replace(' ', '-') }}">{{ my_assignment.status }}</span>
+
+                        {% if my_assignment.status in ['Open', 'In Progress'] %}
+                        <div class="action-row">
+                            <form method="post" action="{{ url_for('task_assignment_action', assignment_id=my_assignment.id) }}">
+                                <input type="hidden" name="action" value="escalate_task">
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-arrow-up"></i> تصعيد إلى مسؤول تقنية المعلومات</button>
+                            </form>
+                        </div>
+
+                        <form class="completion-form" method="post" action="{{ url_for('task_assignment_action', assignment_id=my_assignment.id) }}" enctype="multipart/form-data">
+                            <input type="hidden" name="action" value="submit_completion">
+                            <strong style="font-size:12px;">إنهاء المهمة - إثبات الإنجاز</strong>
+                            <textarea name="completion_text" class="form-textarea" placeholder="اشرح ما تم إنجازه..." required></textarea>
+                            <input type="file" name="file" class="form-input">
+                            <button type="submit" class="btn btn-success btn-sm" style="align-self:flex-start;"><i class="fas fa-check-circle"></i> إرسال وإغلاق المهمة</button>
+                        </form>
+
+                        <form class="delegate-form" method="post" action="{{ url_for('task_assignment_action', assignment_id=my_assignment.id) }}">
+                            <input type="hidden" name="action" value="request_delegation">
+                            <strong style="font-size:12px;">طلب من زميل تولي المهمة بدلاً منك</strong>
+                            <select name="target_user_id" class="form-select" required>
+                                <option value="">اختر زميلاً...</option>
+                                {% for m in it_members %}
+                                <option value="{{ m.id }}">{{ m.full_name or m.username }}</option>
+                                {% endfor %}
+                            </select>
+                            <textarea name="reason" class="form-textarea" placeholder="سبب التحويل" required></textarea>
+                            <button type="submit" class="btn btn-secondary btn-sm" style="align-self:flex-start;"><i class="fas fa-paper-plane"></i> إرسال الطلب</button>
+                        </form>
+                        {% elif my_assignment.status == 'Escalated' %}
+                        <div style="margin-top:10px; font-size:12px;">تم تصعيد هذه المهمة وهي بانتظار استلامها.</div>
+                        {% elif my_assignment.status == 'Done' %}
+                        <div style="margin-top:10px; font-size:12px;"><i class="fas fa-check-circle"></i> تم إنجاز هذه المهمة.</div>
+                        {% endif %}
+
+                        <form class="delegate-form" method="post" action="{{ url_for('task_assignment_action', assignment_id=my_assignment.id) }}">
+                            <input type="hidden" name="action" value="ask_question">
+                            <strong style="font-size:12px;">اسأل سؤالاً عن هذه المهمة</strong>
+                            <textarea name="question_text" class="form-textarea" placeholder="اكتب سؤالك هنا..." required></textarea>
+                            <button type="submit" class="btn btn-secondary btn-sm" style="align-self:flex-start;"><i class="fas fa-question-circle"></i> إرسال السؤال</button>
+                        </form>
+
+                        {% if my_assignment.comments %}
+                        <div class="comment-thread">
+                            {% for c in my_assignment.comments|sort(attribute='created_at') %}
+                            <div class="comment-item type-{{ c.comment_type }}">
+                                <div class="comment-meta">
+                                    {{ c.user.full_name or c.user.username }} •
+                                    {% if c.comment_type == 'question' %}سؤال{% elif c.comment_type == 'answer' %}رد{% elif c.comment_type == 'completion' %}إثبات إنجاز{% else %}ملاحظة{% endif %}
+                                    • {{ c.created_at | riyadh_datetime }}
+                                </div>
+                                {{ c.body }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        {% if my_assignment.attachments %}
+                        <div class="attachment-list">
+                            {% for att in my_assignment.attachments %}
+                            <a href="{{ url_for('uploads', filename=att.filename) }}" class="attachment-link" target="_blank">
+                                <i class="fas fa-paperclip"></i> {{ att.filename.split('/')[-1] }}
+                            </a>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% if is_creator %}
+                <div class="task-detail-card">
+                    <div class="section-title" style="margin-bottom:12px;"><i class="fas fa-users"></i> حالة الفريق ({{ task.assignments|length }})</div>
+                    {% for a in task.assignments %}
+                    <div class="rollup-assignment-block">
+                        <div class="rollup-row">
+                            <div>{{ a.assignee.full_name or a.assignee.username }}</div>
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <span class="status-badge status-{{ a.status|lower|replace(' ', '-') }}">{{ a.status }}</span>
+                                {% if a.status == 'Escalated' %}
+                                <form method="post" action="{{ url_for('task_assignment_action', assignment_id=a.id) }}">
+                                    <input type="hidden" name="action" value="accept_escalated_task">
+                                    <button type="submit" class="btn btn-sm"><i class="fas fa-hand-paper"></i> استلام التصعيد</button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if a.comments %}
+                        <div class="comment-thread">
+                            {% for c in a.comments|sort(attribute='created_at') %}
+                            <div class="comment-item type-{{ c.comment_type }}">
+                                <div class="comment-meta">
+                                    {{ c.user.full_name or c.user.username }} •
+                                    {% if c.comment_type == 'question' %}سؤال{% elif c.comment_type == 'answer' %}رد{% elif c.comment_type == 'completion' %}إثبات إنجاز{% else %}ملاحظة{% endif %}
+                                    • {{ c.created_at | riyadh_datetime }}
+                                </div>
+                                {{ c.body }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        {% if a.attachments %}
+                        <div class="attachment-list">
+                            {% for att in a.attachments %}
+                            <a href="{{ url_for('uploads', filename=att.filename) }}" class="attachment-link" target="_blank">
+                                <i class="fas fa-paperclip"></i> {{ att.filename.split('/')[-1] }}
+                            </a>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <form class="delegate-form" method="post" action="{{ url_for('task_assignment_action', assignment_id=a.id) }}">
+                            <input type="hidden" name="action" value="answer_question">
+                            <textarea name="answer_text" class="form-textarea" placeholder="اكتب رداً لـ {{ a.assignee.full_name or a.assignee.username }}..." required></textarea>
+                            <button type="submit" class="btn btn-secondary btn-sm" style="align-self:flex-start;"><i class="fas fa-reply"></i> إرسال الرد</button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% include '_team_shell_scripts.html' %}
+</body>
+</html>

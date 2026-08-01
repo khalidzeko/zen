@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments (broken/stale on this machine, and irrelevant to deploys)
+.venv/
+venv/
+
+# Local data - never commit real tickets/users/uploads or the session secret key
+instance/
+uploads/
+
+# Editor
+.vscode/
+
+# Env files (create your own locally, never commit real secrets)
+.env

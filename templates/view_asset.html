@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2d3748;
+    --primary-hover: #1a202c;
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7fafc;
+    --bg-tertiary: #edf2f7;
+    --border-color: #e2e8f0;
+    --border-light: #edf2f7;
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-full: 9999px;
+    --transition-fast: 150ms ease;
+    --sidebar-width: 280px;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    background: var(--bg-secondary);
+    min-height: 100vh;
+    direction: rtl;
+    line-height: 1.6;
+    color: var(--text-primary);
+    padding: 30px 20px 100px;
+}
+
+.page-wrap {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.brand {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.brand .highlight {
+    color: var(--text-muted);
+}
+
+.btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-fast);
+}
+
+.btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.card {
+    background: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    padding: 25px 30px;
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.asset-title {
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.asset-subtitle {
+    font-size: 13px;
+    color: #cbd5e0;
+    margin-top: 4px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+}
+
+.status-working { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+.status-broken { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+.status-repaired { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+
+.card-body {
+    padding: 25px 30px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.info-value {
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.qr-section {
+    text-align: center;
+    padding: 25px 30px;
+    border-top: 1px solid var(--border-light);
+}
+
+.qr-section canvas {
+    margin: 0 auto 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 8px;
+    background: white;
+}
+
+.qr-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+    .info-grid { grid-template-columns: 1fr; }
+    .card-header { flex-direction: column; align-items: flex-start; }
+}
+</style>
+    <title>{{ asset.asset_type }} - {{ asset.serial_number }} - ZENTRA</title>
+</head>
+<body>
+    <div class="page-wrap">
+        <div class="top-bar">
+            <div class="brand">ZEN<span class="highlight">TRA</span></div>
+            <a href="{{ url_for('assets') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-right"></i>
+                قائمة الأصول
+            </a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="asset-title">{{ asset.asset_type }}{% if asset.label_name %} - {{ asset.label_name }}{% endif %}</div>
+                    <div class="asset-subtitle">الرقم التسلسلي: {{ asset.serial_number }}</div>
+                </div>
+                <span class="status-badge status-{{ asset.status.lower() }}">{{ asset.status }}</span>
+            </div>
+
+            <div class="card-body">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">المنطقة (Zone)</span>
+                        <span class="info-value">{{ asset.zone or '-' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">المكتب (Office)</span>
+                        <span class="info-value">{{ asset.office or '-' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">الطاولة (Table)</span>
+                        <span class="info-value">{{ asset.table_number or '-' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">MAC Address</span>
+                        <span class="info-value">{{ asset.mac_address or '-' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">CPU</span>
+                        <span class="info-value">{{ asset.cpu or '-' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">RAM</span>
+                        <span class="info-value">{{ asset.ram or '-' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">الموديل (Model)</span>
+                        <span class="info-value">{{ asset.model or '-' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">الشركة المصنعة</span>
+                        <span class="info-value">{{ asset.manufacturer or '-' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">رقم المنتج</span>
+                        <span class="info-value">{{ asset.product_number or '-' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">أُضيف بواسطة</span>
+                        <span class="info-value">{{ asset.added_by.full_name if asset.added_by else '-' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">تاريخ الإضافة</span>
+                        <span class="info-value">{{ asset.created_at | riyadh_datetime }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">آخر تحديث</span>
+                        <span class="info-value">{{ asset.updated_at | riyadh_datetime }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="qr-section">
+                <canvas id="assetQr"></canvas>
+                <div class="qr-hint">امسح هذا الرمز لعرض بيانات الأصل مباشرة</div>
+            </div>
+        </div>
+
+        <div class="actions">
+            {% if can_edit %}
+            <a href="{{ url_for('edit_asset', asset_id=asset.id) }}" class="btn">
+                <i class="fas fa-edit"></i>
+                تعديل الأصل
+            </a>
+            {% endif %}
+            <a href="{{ url_for('assets') }}" class="btn btn-secondary">
+                <i class="fas fa-list"></i>
+                عرض جميع الأصول
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('assetQr');
+            const qrText = {{ asset.to_qr_text() | tojson }};
+            if (window.QRCode) {
+                QRCode.toCanvas(canvas, qrText, { width: 260, margin: 2, errorCorrectionLevel: 'L' }, function(err) {
+                    if (err) console.error(err);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

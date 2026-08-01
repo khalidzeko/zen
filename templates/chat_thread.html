@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include '_team_shell_style.html' %}
+    <style>
+        .chat-panel { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; height: calc(100vh - 70px - 40px - 60px - 100px); }
+        .chat-panel-header { padding: 16px 20px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 12px; }
+        .chat-panel-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); color: white; display: flex; align-items: center; justify-content: center; }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .chat-bubble { max-width: 65%; padding: 10px 16px; border-radius: var(--radius-lg); font-size: 13px; line-height: 1.6; }
+        .chat-bubble.mine { align-self: flex-start; background: var(--primary-color); color: white; border-bottom-left-radius: 4px; }
+        .chat-bubble.theirs { align-self: flex-end; background: var(--bg-tertiary); color: var(--text-primary); border-bottom-right-radius: 4px; }
+        .chat-bubble-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
+        .chat-input-row { padding: 14px 20px; border-top: 1px solid var(--border-color); display: flex; gap: 10px; }
+        .chat-input { flex: 1; padding: 10px 16px; border: 1px solid var(--border-color); border-radius: var(--radius-full); font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 13px; }
+        .chat-empty { text-align: center; color: var(--text-muted); padding: 40px; }
+    </style>
+    <title>محادثة مع {{ other.full_name or other.username }}</title>
+</head>
+<body>
+    {% set active_page = 'chat' %}
+    {% set page_title = 'محادثة: ' + (other.full_name or other.username) %}
+    {% include '_team_shell_header.html' %}
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title"><i class="fas fa-comments"></i> الدردشة</div>
+                    <div class="section-actions">
+                        <a href="{{ url_for('team') }}" class="btn btn-secondary"><i class="fas fa-arrow-right"></i> فريق الدعم</a>
+                    </div>
+                </div>
+
+                <div class="chat-panel">
+                    <div class="chat-panel-header">
+                        <div class="chat-panel-avatar">{{ (other.full_name or other.username)[0] }}</div>
+                        <div>{{ other.full_name or other.username }}</div>
+                    </div>
+                    <div class="chat-messages" id="chatMessages" data-other-id="{{ other.id }}" data-last-id="{{ messages[-1].id if messages else 0 }}">
+                        {% if messages %}
+                            {% for m in messages %}
+                            <div class="chat-bubble {{ 'mine' if m.sender_id == user.id else 'theirs' }}">
+                                {{ m.body }}
+                                <div class="chat-bubble-time">{{ m.created_at | riyadh_datetime }}</div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="chat-empty">لا توجد رسائل بعد. ابدأ المحادثة!</div>
+                        {% endif %}
+                    </div>
+                    <form class="chat-input-row" id="chatForm" method="post" action="{{ url_for('chat_thread', user_id=other.id) }}">
+                        <input type="text" name="body" id="chatInput" class="chat-input" placeholder="اكتب رسالة..." autocomplete="off" required>
+                        <button type="submit" class="btn"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include '_team_shell_scripts.html' %}
+    <script>
+        const chatMessagesEl = document.getElementById('chatMessages');
+        function scrollChatToBottom() { chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight; }
+        scrollChatToBottom();
+
+        function pollChatMessages() {
+            const otherId = chatMessagesEl.getAttribute('data-other-id');
+            const lastId = chatMessagesEl.getAttribute('data-last-id') || 0;
+            fetch(`/api/chat/${otherId}/messages?since_id=${lastId}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (!data.length) return;
+                    const emptyMsg = chatMessagesEl.querySelector('.chat-empty');
+                    if (emptyMsg) emptyMsg.remove();
+                    data.forEach(m => {
+                        const bubble = document.createElement('div');
+                        bubble.className = 'chat-bubble ' + (m.is_mine ? 'mine' : 'theirs');
+                        bubble.innerHTML = '';
+                        const textNode = document.createTextNode(m.body);
+                        bubble.appendChild(textNode);
+                        const timeDiv = document.createElement('div');
+                        timeDiv.className = 'chat-bubble-time';
+                        timeDiv.textContent = m.created_at;
+                        bubble.appendChild(timeDiv);
+                        chatMessagesEl.appendChild(bubble);
+                        chatMessagesEl.setAttribute('data-last-id', m.id);
+                    });
+                    scrollChatToBottom();
+                })
+                .catch(() => {});
+        }
+        setInterval(pollChatMessages, 4000);
+
+        document.getElementById('chatForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            const body = input.value.trim();
+            if (!body) return;
+            const otherId = chatMessagesEl.getAttribute('data-other-id');
+            fetch(`/chat/${otherId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'body=' + encodeURIComponent(body)
+            }).then(() => {
+                input.value = '';
+                pollChatMessages();
+            });
+        });
+    </script>
+</body>
+</html>

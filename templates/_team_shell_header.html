@@ -1,0 +1,125 @@
+<!-- Sidebar Toggle Button -->
+<button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebarCollapse()" title="تبديل القائمة الجانبية">
+    <i class="fas fa-chevron-left"></i>
+</button>
+
+<div class="header" id="header">
+    <div class="header-left">
+        <button class="menu-toggle" onclick="toggleSidebarMobile()">☰</button>
+        <div class="header-branding">
+            <div class="header-title">ZEN<span class="highlight">TRA</span></div>
+            <div class="header-subtitle" data-i18n="subtitle">نظام إدارة التذاكر</div>
+        </div>
+        <div class="page-title">{{ page_title }}</div>
+    </div>
+
+    <div class="header-right">
+        <div class="header-search">
+            <button type="button" class="search-toggle-btn" onclick="toggleHeaderSearch(event)" id="headerSearchToggle" title="بحث" aria-label="بحث">
+                <i class="fas fa-search"></i>
+            </button>
+            <form class="header-search-form" id="headerSearchForm" onsubmit="return submitHeaderSearch(event)">
+                <input type="text" id="headerSearchInput" class="header-search-input" placeholder="بحث شامل..." data-i18n="searchPlaceholder" autocomplete="off">
+            </form>
+        </div>
+        <div class="header-clock" id="headerClock">
+            <i class="fas fa-sun" id="dayNightIcon"></i>
+            <span id="clockText">--:-- --</span>
+        </div>
+        <button type="button" class="lang-toggle-btn" onclick="toggleLanguage()" id="langToggleBtn" title="Switch language" aria-label="Switch language">
+            <i class="fas fa-globe"></i>
+            <span id="langToggleLabel">EN</span>
+        </button>
+        <div class="notification-dropdown">
+            <a href="#" class="notification-link" onclick="toggleNotifications(event)" id="notificationLink">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+            </a>
+            <div id="notificationDropdown" class="notification-content">
+                <div style="padding: 15px; border-bottom: 1px solid var(--border-color); font-weight: 700; color: var(--text-primary); display: flex; justify-content: space-between; align-items: center;">
+                    <span data-i18n="notifications">الإشعارات الحديثة</span>
+                    <a href="#" onclick="markAllRead()" style="font-size: 12px; color: var(--primary-color); text-decoration: none; font-weight: 700;" data-i18n="markAllRead">تعيين كمقروء</a>
+                </div>
+                <div id="notificationItems"></div>
+                <div style="text-align: center; padding: 15px; border-top: 1px solid var(--border-light);">
+                    <a href="/notifications" style="font-size: 12px; color: var(--primary-color); text-decoration: none; font-weight: 700;" data-i18n="viewAll">عرض جميع الإشعارات</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-dropdown">
+            <a href="{{ url_for('profile') }}" class="profile-avatar-link" title="الملف الشخصي">
+                <div class="profile-avatar">
+                    {% if user.profile_picture %}
+                    <img src="{{ url_for('uploads', filename=user.profile_picture) }}" alt="صورة الملف الشخصي" class="profile-avatar-img">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='exp.png') }}" alt="ZENTRA" class="profile-avatar-img profile-avatar-logo">
+                    {% endif %}
+                </div>
+            </a>
+            <button class="profile-arrow-toggle" onclick="toggleDropdown()" aria-label="القائمة">
+                <span>▼</span>
+            </button>
+        </div>
+        <div class="dropdown-menu" id="dropdownMenu">
+            <a href="{{ url_for('logout') }}" class="dropdown-item"><i class="fas fa-power-off" style="margin-left: 6px;"></i><span data-i18n="logout">تسجيل الخروج</span></a>
+        </div>
+    </div>
+</div>
+
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header"></div>
+    <nav class="sidebar-menu">
+        <a href="/" class="menu-item{% if active_page == 'dashboard' %} active{% endif %}">
+            <img src="/static/home.png" alt="لوحة التحكم" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+            <span data-i18n="dashboard">لوحة التحكم</span>
+        </a>
+        <a href="{{ url_for('submit_ticket') }}" class="menu-item{% if active_page == 'submit_ticket' %} active{% endif %}">
+            <img src="/static/ticket.png" alt="تذكرة جديدة" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+            <span data-i18n="newTicket">تذكرة جديدة</span>
+        </a>
+        {% if user.role != 'agent' %}
+        <a href="{{ url_for('assets') }}" class="menu-item{% if active_page == 'assets' %} active{% endif %}">
+            <i class="fas fa-boxes-stacked" style="width:20px; text-align:center; display:inline-block;"></i>
+            <span data-i18n="assets">الأصول</span>
+        </a>
+        <a href="{{ url_for('manage_users') }}" class="menu-item{% if active_page == 'manage_users' %} active{% endif %}">
+            <img src="/static/user (1).png" alt="إدارة المستخدم" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+            <span data-i18n="manageUsers">إدارة المستخدم</span>
+        </a>
+        <a href="{{ url_for('report') }}" class="menu-item{% if active_page == 'report' %} active{% endif %}">
+            <img src="/static/report.png" alt="التقارير" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+            <span data-i18n="reports">التقارير</span>
+        </a>
+        {% endif %}
+        {% if user.role in ['it_staff', 'admin', 'it_admin'] %}
+        <a href="{{ url_for('team_channel') }}" class="menu-item{% if active_page == 'chat' %} active{% endif %}">
+            <i class="fas fa-comments" style="width:20px; text-align:center; display:inline-block;"></i>
+            <span>الدردشة</span>
+            <span class="menu-badge" id="chatMenuBadge" style="display:none;">0</span>
+        </a>
+        <a href="{{ url_for('tasks_mine') }}" class="menu-item{% if active_page == 'tasks' %} active{% endif %}">
+            <i class="fas fa-list-check" style="width:20px; text-align:center; display:inline-block;"></i>
+            <span>مهام الفريق</span>
+            <span class="menu-badge" id="taskMenuBadge" style="display:none;">0</span>
+        </a>
+        {% endif %}
+    </nav>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeSidebarMobile()"></div>
+
+<div class="main-container" id="mainContainer">
+    <div class="content-area">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            <i class="fas fa-{% if category == 'success' %}check-circle{% elif category == 'danger' or category == 'error' %}exclamation-triangle{% elif category == 'warning' %}exclamation-triangle{% else %}info-circle{% endif %}"></i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}

@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2d3748;
+    --primary-hover: #1a202c;
+    --primary-light: #edf2f7;
+    --success-color: #4a5568;
+    --success-light: #e2e8f0;
+    --warning-color: #718096;
+    --warning-light: #f7fafc;
+    --danger-color: #991b1b;
+    --danger-light: #fee2e2;
+    --info-color: #4a5568;
+    --info-light: #edf2f7;
+
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --text-light: #a0aec0;
+
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7fafc;
+    --bg-tertiary: #edf2f7;
+    --bg-card: #ffffff;
+    --bg-overlay: rgba(0, 0, 0, 0.5);
+
+    --border-color: #e2e8f0;
+    --border-light: #edf2f7;
+    --border-dark: #cbd5e0;
+
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-full: 9999px;
+
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms ease;
+
+    --sidebar-width: 280px;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    background: var(--bg-secondary);
+    height: 100vh;
+    overflow: hidden;
+    direction: rtl;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--text-primary);
+    padding-bottom: 60px;
+}
+
+h1, h2, h3, h4, h5, h6 { font-family: 'Cairo', sans-serif; font-weight: 700; line-height: 1.3; margin: 0; }
+
+.header {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    position: fixed;
+    top: 0; left: 0;
+    right: var(--sidebar-width);
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.header-left { display: flex; align-items: center; gap: 20px; }
+.header-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: white;
+    font-family: 'Cairo', sans-serif;
+}
+.header-right { position: relative; display: flex; align-items: center; gap: 25px; }
+
+.notification-dropdown { position: relative; display: inline-block; }
+.notification-link {
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+.notification-link:hover { background: rgba(255, 255, 255, 0.2); }
+.notification-badge {
+    background-color: #ff4757;
+    color: white;
+    border-radius: var(--radius-full);
+    padding: 3px 8px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 5px;
+}
+.notification-content {
+    display: none;
+    position: absolute;
+    top: 100%; left: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    min-width: 300px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1001;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.notification-content.show { display: block; }
+.notification-item { padding: 12px 16px; border-bottom: 1px solid var(--border-light); cursor: pointer; }
+.notification-item:hover { background-color: var(--bg-secondary); }
+.notification-item.unread { background-color: var(--primary-light); font-weight: 700; }
+.notification-title { font-size: 14px; margin-bottom: 5px; color: var(--text-primary); font-weight: 700; }
+.notification-message { font-size: 12px; color: var(--text-secondary); font-weight: 700; }
+.notification-time { font-size: 11px; color: var(--text-muted); margin-top: 5px; font-weight: 700; }
+
+.profile-dropdown {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+.profile-dropdown:hover { background: rgba(255, 255, 255, 0.2); }
+.profile-avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.profile-avatar-logo { object-fit: contain !important; background: #ffffff; padding: 4px; box-sizing: border-box; }
+.profile-avatar {
+    overflow: hidden;
+    width: 36px; height: 36px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: white;
+}
+.dropdown-menu {
+    position: absolute; top: 100%; left: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    min-width: 180px;
+    box-shadow: var(--shadow-lg);
+    display: none;
+    z-index: 1001;
+}
+.dropdown-menu.show { display: block; }
+.dropdown-item {
+    padding: 12px 16px;
+    color: var(--text-primary);
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid var(--border-light);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+.dropdown-item:hover { background: var(--bg-secondary); }
+.dropdown-item:last-child { border-bottom: none; }
+
+.sidebar {
+    position: fixed;
+    top: 70px; right: 0;
+    width: 280px;
+    height: calc(100vh - 70px - 60px);
+    background: var(--bg-primary);
+    border-left: 1px solid var(--border-color);
+    z-index: 999;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+}
+.sidebar-header {
+    padding: 25px 20px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    text-align: center;
+}
+.sidebar-title { font-size: 20px; font-weight: 800; color: var(--text-primary); }
+.sidebar-title .highlight { color: #a0aec0; }
+.sidebar-subtitle { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+.sidebar-menu { flex: 1; padding: 0; background: var(--bg-primary); }
+.menu-item {
+    padding: 16px 20px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-light);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: var(--transition-fast);
+}
+.menu-item:hover { background: var(--bg-secondary); color: var(--text-primary); }
+.menu-item.active {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-bottom: 3px solid #2d3748;
+}
+
+.menu-item .menu-badge {
+    background: #ff4757;
+    color: white;
+    border-radius: 9999px;
+    padding: 2px 7px;
+    font-size: 10px;
+    margin-right: auto;
+}
+
+.main-container {
+    margin-top: 70px;
+    margin-right: 280px;
+    height: calc(100vh - 70px - 60px);
+    overflow-y: auto;
+    padding: 30px;
+    background: var(--bg-secondary);
+}
+
+.content-area { max-width: 900px; margin: 0 auto; }
+
+.flash-messages { margin-bottom: 20px; }
+.flash-message {
+    padding: 14px 18px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 12px;
+    border-right: 4px solid;
+    background: var(--bg-primary);
+    box-shadow: var(--shadow-sm);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+.flash-success { border-color: #4a5568; color: #1a202c; background: #e2e8f0; }
+.flash-danger { border-color: var(--danger-color); color: #7f1d1d; background: var(--danger-light); }
+.flash-warning { border-color: #718096; color: #2d3748; background: #f7fafc; }
+
+.welcome-section {
+    background: linear-gradient(135deg, #2d3748, #1a202c);
+    color: white;
+    padding: 25px 30px;
+    border-radius: var(--radius-xl);
+    margin-bottom: 25px;
+    box-shadow: var(--shadow-md);
+}
+.welcome-title { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+.welcome-subtitle { font-size: 14px; opacity: 0.85; }
+
+.form-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 30px;
+    box-shadow: var(--shadow-sm);
+}
+
+.form-section-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 25px 0 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.form-section-title:first-child { margin-top: 0; }
+
+.form-group { margin-bottom: 18px; }
+.form-label {
+    display: block;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+.form-label .required { color: var(--danger-color); margin-right: 4px; }
+
+.form-control {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    color: var(--text-primary);
+    direction: rtl;
+    transition: var(--transition-fast);
+}
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: var(--bg-primary);
+    box-shadow: 0 0 0 3px rgba(45, 55, 72, 0.1);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.form-grid-full { grid-column: 1 / -1; }
+
+.btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-fast);
+    font-family: 'Cairo', sans-serif;
+}
+.btn:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-secondary { background: var(--bg-primary); color: var(--text-secondary); border: 1px solid var(--border-color); }
+.btn-secondary:hover { background: var(--bg-secondary); color: var(--text-primary); }
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-light);
+}
+
+.page-footer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    text-align: center;
+    padding: 15px;
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    z-index: 1000;
+}
+.footer-brand {
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.footer-brand img { height: 16px; width: auto; filter: brightness(0) invert(1); }
+.footer-highlight { color: #a0aec0; }
+.footer-copyright { font-size: 11px; color: rgba(255, 255, 255, 0.7); margin-top: 3px; }
+
+.menu-toggle { display: none; }
+
+@media (max-width: 768px) {
+    .header { right: 0; }
+    .sidebar {
+        width: 100%;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+    .sidebar.mobile-expanded { transform: translateX(0); }
+    .menu-toggle {
+        display: block;
+        background: rgba(255, 255, 255, 0.15);
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: var(--radius-md);
+        color: white;
+    }
+    .main-container { margin-right: 0; padding: 15px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-actions { flex-direction: column; }
+    .btn { width: 100%; justify-content: center; }
+    .overlay {
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--bg-overlay); z-index: 998; display: none;
+    }
+    .overlay.show { display: block; }
+}
+.profile-avatar-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.profile-arrow-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.header-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.search-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.header-search-form {
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: width 0.25s ease, opacity 0.2s ease;
+}
+
+.header-search-form.show {
+    width: 200px;
+    opacity: 1;
+}
+
+.header-search-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    outline: none;
+}
+
+.header-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+.header-clock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.header-clock i {
+    font-size: 14px;
+    color: #fbbf24;
+}
+
+.header-clock i.fa-moon {
+    color: #cbd5e0;
+}
+.lang-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.lang-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+</style>
+    <title>إضافة أصل جديد - ZENTRA</title>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+            <div class="header-title">إضافة أصل جديد</div>
+        </div>
+
+        <div class="header-right">
+            <div class="header-search">
+                <button type="button" class="search-toggle-btn" onclick="toggleHeaderSearch(event)" id="headerSearchToggle" title="بحث" aria-label="بحث">
+                    <i class="fas fa-search"></i>
+                </button>
+                <form class="header-search-form" id="headerSearchForm" onsubmit="return submitHeaderSearch(event)">
+                    <input type="text" id="headerSearchInput" class="header-search-input" placeholder="بحث شامل..." data-i18n="searchPlaceholder" autocomplete="off">
+                </form>
+            </div>
+            <div class="header-clock" id="headerClock">
+                <i class="fas fa-sun" id="dayNightIcon"></i>
+                <span id="clockText">--:-- --</span>
+            </div>
+            <button type="button" class="lang-toggle-btn" onclick="toggleLanguage()" id="langToggleBtn" title="Switch language" aria-label="Switch language">
+                <i class="fas fa-globe"></i>
+                <span id="langToggleLabel">EN</span>
+            </button>
+            <div class="notification-dropdown">
+                <a href="#" class="notification-link" onclick="toggleNotifications(event)" id="notificationLink">
+                    <i class="fas fa-bell"></i>
+                    {% if unread_notifications_count and unread_notifications_count > 0 %}
+                    <span class="notification-badge" id="notificationBadge">{{ unread_notifications_count }}</span>
+                    {% endif %}
+                </a>
+                <div id="notificationDropdown" class="notification-content">
+                    <div style="padding: 15px; border-bottom: 1px solid var(--border-color); font-weight: 700; display: flex; justify-content: space-between; align-items: center;">
+                        <span data-i18n="notifications">الإشعارات الحديثة</span>
+                        <a href="#" onclick="markAllRead()" style="font-size: 12px; color: var(--primary-color); text-decoration: none; font-weight: 700;" data-i18n="markAllRead">تعيين كمقروء</a>
+                    </div>
+                    <div id="notificationItems"></div>
+                    <div style="text-align: center; padding: 15px; border-top: 1px solid var(--border-light);">
+                        <a href="/notifications" style="font-size: 12px; color: var(--primary-color); text-decoration: none; font-weight: 700;" data-i18n="viewAll">عرض جميع الإشعارات</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-dropdown">
+                <a href="{{ url_for('profile') }}" class="profile-avatar-link" title="الملف الشخصي">
+                    <div class="profile-avatar">
+                        {% if current_user.profile_picture %}
+                        <img src="{{ url_for('uploads', filename=current_user.profile_picture) }}" alt="صورة الملف الشخصي" class="profile-avatar-img">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='exp.png') }}" alt="ZENTRA" class="profile-avatar-img profile-avatar-logo">
+                        {% endif %}
+                    </div>
+                </a>
+                <button class="profile-arrow-toggle" onclick="toggleDropdown()" aria-label="القائمة">
+                    <span>▼</span>
+                </button>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="{{ url_for('logout') }}" class="dropdown-item"><i class="fas fa-power-off" style="margin-left: 6px;"></i><span data-i18n="logout">تسجيل الخروج</span></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">ZEN<span class="highlight">TRA</span></div>
+            <div class="sidebar-subtitle" data-i18n="subtitle">نظام إدارة التذاكر</div>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="{{ url_for('dashboard') }}" class="menu-item">
+                <img src="/static/home.png" style="width:20px; height:20px;"> <span data-i18n="dashboard">لوحة التحكم</span>
+            </a>
+            <a href="{{ url_for('submit_ticket') }}" class="menu-item">
+                <img src="/static/ticket.png" style="width:20px; height:20px;"> <span data-i18n="newTicket">تذكرة جديدة</span>
+            </a>
+            <a href="{{ url_for('assets') }}" class="menu-item active">
+                <i class="fas fa-boxes-stacked" style="width:20px; text-align:center;"></i> <span data-i18n="assets">الأصول</span>
+            </a>
+            <a href="{{ url_for('manage_users') }}" class="menu-item">
+                <img src="/static/user (1).png" style="width:20px; height:20px;"> <span data-i18n="manageUsers">إدارة المستخدم</span>
+            </a>
+            <a href="{{ url_for('report') }}" class="menu-item">
+                <img src="/static/report.png" style="width:20px; height:20px;"> <span data-i18n="reports">التقارير</span>
+            </a>
+            <a href="{{ url_for('team_channel') }}" class="menu-item">
+                <i class="fas fa-comments" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="chat">الدردشة</span>
+                <span class="menu-badge" id="chatMenuBadge" style="display:none;">0</span>
+            </a>
+            <a href="{{ url_for('tasks_mine') }}" class="menu-item">
+                <i class="fas fa-list-check" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="teamTasks">مهام الفريق</span>
+                <span class="menu-badge" id="taskMenuBadge" style="display:none;">0</span>
+            </a>
+        </nav>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <div class="main-container">
+        <div class="content-area">
+            <div class="welcome-section">
+                <h1 class="welcome-title">إضافة أصل جديد</h1>
+                <p class="welcome-subtitle">تسجيل جهاز أو معدة جديدة في نظام إدارة الأصول</p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <div class="form-card">
+                <form method="post" novalidate>
+                    <div class="form-section-title">معلومات أساسية</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">النوع <span class="required">*</span></label>
+                            <input type="text" name="asset_type" class="form-control" list="assetTypeList"
+                                   placeholder="مثل: TV، PC، Laptop" required
+                                   value="{{ request.form.asset_type or '' }}">
+                            <datalist id="assetTypeList">
+                                {% for t in asset_type_suggestions %}
+                                <option value="{{ t }}">
+                                {% endfor %}
+                            </datalist>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">اسم الليبل</label>
+                            <input type="text" name="label_name" class="form-control"
+                                   placeholder="اسم تعريفي اختياري" value="{{ request.form.label_name or '' }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">الرقم التسلسلي <span class="required">*</span></label>
+                            <input type="text" name="serial_number" class="form-control"
+                                   placeholder="Serial Number" required
+                                   value="{{ request.form.serial_number or '' }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">الحالة <span class="required">*</span></label>
+                            <select name="status" class="form-control" required>
+                                {% for s in asset_statuses %}
+                                <option value="{{ s }}" {% if request.form.status == s %}selected{% endif %}>{{ s }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section-title">الموقع</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">المنطقة (Zone)</label>
+                            <input type="text" name="zone" class="form-control" value="{{ request.form.zone or '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">المكتب (Office)</label>
+                            <input type="text" name="office" class="form-control" value="{{ request.form.office or '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">الطاولة (Table)</label>
+                            <input type="text" name="table_number" class="form-control" value="{{ request.form.table_number or '' }}">
+                        </div>
+                    </div>
+
+                    <div class="form-section-title">معلومات إضافية (اختياري)</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">MAC Address</label>
+                            <input type="text" name="mac_address" class="form-control" placeholder="00:1A:2B:3C:4D:5E" value="{{ request.form.mac_address or '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">CPU</label>
+                            <input type="text" name="cpu" class="form-control" value="{{ request.form.cpu or '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">RAM</label>
+                            <input type="text" name="ram" class="form-control" placeholder="مثل: 16GB" value="{{ request.form.ram or '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">الموديل (Model)</label>
+                            <input type="text" name="model" class="form-control" value="{{ request.form.model or '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">الشركة المصنعة (Manufacturer)</label>
+                            <input type="text" name="manufacturer" class="form-control" value="{{ request.form.manufacturer or '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">رقم المنتج (Product Number)</label>
+                            <input type="text" name="product_number" class="form-control" value="{{ request.form.product_number or '' }}">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn">
+                            <i class="fas fa-plus"></i>
+                            إضافة الأصل
+                        </button>
+                        <a href="{{ url_for('assets') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-right"></i>
+                            العودة لقائمة الأصول
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-footer">
+        <div class="footer-brand">
+            <img src="/static/exp.png" alt="Experience Logo">
+            | <span>ZEN<span class="footer-highlight">TRA</span></span>
+        </div>
+        <div class="footer-copyright" data-i18n="footerRights">جميع الحقوق محفوظة 2025</div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.toggle('mobile-expanded');
+                document.getElementById('overlay').classList.toggle('show');
+            }
+        }
+        function closeSidebar() {
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('mobile-expanded');
+                document.getElementById('overlay').classList.remove('show');
+            }
+        }
+        function toggleDropdown() {
+            document.getElementById('dropdownMenu').classList.toggle('show');
+        }
+
+        function toggleHeaderSearch(event) {
+            event.preventDefault();
+            const form = document.getElementById('headerSearchForm');
+            form.classList.toggle('show');
+            if (form.classList.contains('show')) {
+                setTimeout(() => document.getElementById('headerSearchInput').focus(), 50);
+            }
+        }
+
+        function submitHeaderSearch(event) {
+            event.preventDefault();
+            const query = document.getElementById('headerSearchInput').value.trim();
+            if (query) {
+                window.location.href = "{{ url_for('global_search') }}?q=" + encodeURIComponent(query);
+            }
+            return false;
+        }
+
+        function updateHeaderClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            if (hours === 0) hours = 12;
+            const clockText = document.getElementById('clockText');
+            if (clockText) clockText.textContent = hours + ':' + minutes + ' ' + ampm;
+
+            const icon = document.getElementById('dayNightIcon');
+            if (icon) {
+                const isDaytime = now.getHours() >= 6 && now.getHours() < 18;
+                icon.className = isDaytime ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+        setInterval(updateHeaderClock, 1000);
+        updateHeaderClock();
+
+        const ZENTRA_I18N = {
+            ar: {
+                dashboard: 'لوحة التحكم',
+                newTicket: 'تذكرة جديدة',
+                assets: 'الأصول',
+                manageUsers: 'إدارة المستخدم',
+                reports: 'التقارير',
+                subtitle: 'نظام إدارة التذاكر',
+                searchPlaceholder: 'بحث شامل...',
+                logout: 'تسجيل الخروج',
+                notifications: 'الإشعارات الحديثة',
+                markAllRead: 'تعيين كمقروء',
+                viewAll: 'عرض جميع الإشعارات',
+                footerRights: 'جميع الحقوق محفوظة 2025'
+            },
+            en: {
+                dashboard: 'Dashboard',
+                newTicket: 'New Ticket',
+                assets: 'Assets',
+                manageUsers: 'Manage Users',
+                reports: 'Reports',
+                subtitle: 'Ticket Management System',
+                searchPlaceholder: 'Search everything...',
+                logout: 'Logout',
+                notifications: 'Recent Notifications',
+                markAllRead: 'Mark all read',
+                viewAll: 'View all notifications',
+                footerRights: 'All rights reserved 2025'
+            }
+        };
+
+        function applyLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            const dict = ZENTRA_I18N[lang];
+            document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                const key = el.getAttribute('data-i18n');
+                if (!dict[key]) return;
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.setAttribute('placeholder', dict[key]);
+                } else {
+                    el.textContent = dict[key];
+                }
+            });
+            const label = document.getElementById('langToggleLabel');
+            if (label) label.textContent = lang === 'ar' ? 'EN' : 'AR';
+            localStorage.setItem('zentraLang', lang);
+        }
+
+        function toggleLanguage() {
+            const current = localStorage.getItem('zentraLang') || 'ar';
+            applyLanguage(current === 'ar' ? 'en' : 'ar');
+        }
+
+        applyLanguage(localStorage.getItem('zentraLang') || 'ar');
+        function toggleNotifications(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const dropdown = document.getElementById('notificationDropdown');
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            } else {
+                dropdown.classList.add('show');
+                loadNotifications();
+            }
+        }
+        function loadNotifications() {
+            fetch('/api/notifications/recent')
+                .then(r => r.json())
+                .then(data => {
+                    const container = document.getElementById('notificationItems');
+                    container.innerHTML = '';
+                    if (data.length === 0) {
+                        container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-secondary);font-weight:700;">لا توجد إشعارات</div>';
+                        return;
+                    }
+                    data.forEach(n => {
+                        const item = document.createElement('div');
+                        item.className = `notification-item ${n.is_read ? '' : 'unread'}`;
+                        item.onclick = () => { window.location.href = `/notifications/mark_read/${n.id}`; };
+                        item.innerHTML = `<div class="notification-title">${n.title}</div><div class="notification-message">${n.message}</div><div class="notification-time">${n.created_at}</div>`;
+                        container.appendChild(item);
+                    });
+                });
+        }
+        function markAllRead() {
+            fetch('/notifications/mark_all_read').then(() => {
+                const badge = document.getElementById('notificationBadge');
+                if (badge) badge.remove();
+                document.querySelectorAll('.notification-item.unread').forEach(i => i.classList.remove('unread'));
+            });
+        }
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('dropdownMenu');
+            const profileButton = document.querySelector('.profile-dropdown');
+            const notificationDropdown = document.getElementById('notificationDropdown');
+            const notificationButton = document.querySelector('.notification-link');
+            if (!profileButton.contains(event.target)) dropdown.classList.remove('show');
+            if (!notificationButton.contains(event.target)) notificationDropdown.classList.remove('show');
+        });
+        function refreshNotificationCount() {
+            fetch('/api/notifications/count')
+                .then(r => r.json())
+                .then(data => {
+                    const existingBadge = document.getElementById('notificationBadge');
+                    const notificationLink = document.getElementById('notificationLink');
+                    if (data.count > 0) {
+                        if (existingBadge) {
+                            existingBadge.textContent = data.count;
+                        } else {
+                            const newBadge = document.createElement('span');
+                            newBadge.className = 'notification-badge';
+                            newBadge.id = 'notificationBadge';
+                            newBadge.textContent = data.count;
+                            notificationLink.appendChild(newBadge);
+                        }
+                    } else if (existingBadge) {
+                        existingBadge.remove();
+                    }
+                });
+        }
+        setInterval(refreshNotificationCount, 60000);
+
+        function refreshChatBadge() {
+            fetch('/api/chat/unread_count').then(r => r.json()).then(data => {
+                const badge = document.getElementById('chatMenuBadge');
+                if (!badge) return;
+                if (data.count > 0) { badge.textContent = data.count; badge.style.display = 'inline-block'; }
+                else { badge.style.display = 'none'; }
+            }).catch(() => {});
+        }
+        function refreshTaskBadge() {
+            fetch('/api/tasks/badge_count').then(r => r.json()).then(data => {
+                const badge = document.getElementById('taskMenuBadge');
+                if (!badge) return;
+                if (data.count > 0) { badge.textContent = data.count; badge.style.display = 'inline-block'; }
+                else { badge.style.display = 'none'; }
+            }).catch(() => {});
+        }
+        if (document.getElementById('chatMenuBadge')) { setInterval(refreshChatBadge, 20000); refreshChatBadge(); }
+        if (document.getElementById('taskMenuBadge')) { setInterval(refreshTaskBadge, 30000); refreshTaskBadge(); }
+
+        function sendPresenceHeartbeat() { fetch('/api/presence/heartbeat', { method: 'POST' }).catch(() => {}); }
+        if (document.getElementById('chatMenuBadge')) { setInterval(sendPresenceHeartbeat, 30000); sendPresenceHeartbeat(); }
+        refreshNotificationCount();
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSidebar();
+                document.getElementById('dropdownMenu').classList.remove('show');
+                document.getElementById('notificationDropdown').classList.remove('show');
+            }
+        });
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                document.getElementById('sidebar').classList.remove('mobile-expanded');
+                document.getElementById('overlay').classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

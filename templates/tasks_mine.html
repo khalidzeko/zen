@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include '_team_shell_style.html' %}
+    <style>
+        .task-list { display: flex; flex-direction: column; gap: 12px; }
+        .task-row { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 16px 20px; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; text-decoration: none; color: inherit; }
+        .task-row:hover { box-shadow: var(--shadow-md); }
+        .task-row-title { font-size: 14px; color: var(--text-primary); margin-bottom: 4px; }
+        .task-row-meta { font-size: 11px; color: var(--text-muted); }
+    </style>
+    <title>مهامي</title>
+</head>
+<body>
+    {% set active_page = 'tasks' %}
+    {% set page_title = 'مهامي' %}
+    {% include '_team_shell_header.html' %}
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title"><i class="fas fa-list-check"></i> المهام المسندة إليّ</div>
+                    <div class="section-actions">
+                        <a href="{{ url_for('task_new') }}" class="btn"><i class="fas fa-plus"></i> {% if user.role == 'it_staff' %}مهمة جديدة لنفسي{% else %}مهمة جديدة{% endif %}</a>
+                        <a href="{{ url_for('tasks_team') }}" class="btn btn-secondary"><i class="fas fa-users"></i> نظرة عامة على الفريق</a>
+                        {% if user.role in ['it_admin', 'admin'] %}
+                        <a href="{{ url_for('tasks_created') }}" class="btn btn-secondary"><i class="fas fa-tasks"></i> المهام التي أنشأتها</a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if assignments %}
+                <div class="task-list">
+                    {% for a in assignments %}
+                    <a href="{{ url_for('task_detail', task_id=a.task_id) }}" class="task-row">
+                        <div>
+                            <div class="task-row-title">{{ a.task.title }}</div>
+                            <div class="task-row-meta">من: {{ a.task.created_by.full_name or a.task.created_by.username }} • {{ a.created_at | riyadh_datetime }}</div>
+                        </div>
+                        <span class="status-badge status-{{ a.status|lower|replace(' ', '-') }}">{{ a.status }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-state-icon"><i class="fas fa-list-check"></i></div>
+                    <h3>لا توجد مهام مسندة إليك حالياً</h3>
+                    <p>ستظهر هنا أي مهمة يسندها إليك المدير.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% include '_team_shell_scripts.html' %}
+</body>
+</html>

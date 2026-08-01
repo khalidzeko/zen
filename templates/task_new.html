@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include '_team_shell_style.html' %}
+    <style>
+        .form-card { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 25px; max-width: 640px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+        .form-input, .form-textarea, .form-select { width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 13px; background: var(--bg-secondary); }
+        .form-textarea { min-height: 110px; resize: vertical; }
+        .assign-options { display: flex; flex-direction: column; gap: 10px; }
+        .assign-option { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid var(--border-color); border-radius: var(--radius-md); cursor: pointer; }
+        .assign-option input { accent-color: var(--primary-color); }
+    </style>
+    <title>إنشاء مهمة جديدة</title>
+</head>
+<body>
+    {% set active_page = 'tasks' %}
+    {% set page_title = 'إنشاء مهمة جديدة' %}
+    {% include '_team_shell_header.html' %}
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title"><i class="fas fa-list-check"></i> إنشاء مهمة جديدة</div>
+                    <div class="section-actions">
+                        {% if user.role in ['it_admin', 'admin'] %}
+                        <a href="{{ url_for('tasks_created') }}" class="btn btn-secondary"><i class="fas fa-arrow-right"></i> مهامي المُنشأة</a>
+                        {% else %}
+                        <a href="{{ url_for('tasks_mine') }}" class="btn btn-secondary"><i class="fas fa-arrow-right"></i> مهامي</a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <form class="form-card" method="post" action="{{ url_for('task_new') }}">
+                    <div class="form-group">
+                        <label class="form-label">عنوان المهمة</label>
+                        <input type="text" name="title" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">الوصف / التفاصيل المطلوبة</label>
+                        <textarea name="description" class="form-textarea" required placeholder="ما المطلوب تحديداً؟"></textarea>
+                    </div>
+                    {% if self_service_only %}
+                    <div class="form-group">
+                        <label class="form-label">هذه المهمة ستُسند إليك أنت فقط</label>
+                    </div>
+                    {% else %}
+                    <div class="form-group">
+                        <label class="form-label">إسناد المهمة إلى</label>
+                        <div class="assign-options">
+                            <label class="assign-option">
+                                <input type="radio" name="assign_to" value="team" checked>
+                                <span><strong>كامل الفريق</strong> — كل عضو في فريق تقنية المعلومات يحصل على نسخة مستقلة يكملها بنفسه</span>
+                            </label>
+                            {% for m in it_members %}
+                            <label class="assign-option">
+                                <input type="radio" name="assign_to" value="{{ m.id }}">
+                                <span>{{ m.full_name or m.username }} <span style="color: var(--text-muted); font-size: 11px;">({{ 'مدير نظام' if m.role == 'admin' else 'فريق تقني' }})</span></span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    <button type="submit" class="btn"><i class="fas fa-plus"></i> إنشاء المهمة</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% include '_team_shell_scripts.html' %}
+</body>
+</html>

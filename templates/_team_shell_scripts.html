@@ -1,0 +1,205 @@
+<div class="page-footer">
+    <div class="footer-brand">
+        <img src="/static/exp.png" alt="Experience Logo">
+        | <span class="footer-logo">ZEN<span class="footer-highlight">TRA</span></span>
+    </div>
+    <div class="footer-copyright" data-i18n="footerRights">جميع الحقوق محفوظة 2025</div>
+</div>
+
+<script>
+    function toggleSidebarCollapse() {
+        const sidebar = document.getElementById('sidebar');
+        const header = document.getElementById('header');
+        const mainContainer = document.getElementById('mainContainer');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        sidebar.classList.toggle('collapsed');
+        header.classList.toggle('sidebar-collapsed');
+        mainContainer.classList.toggle('sidebar-collapsed');
+        sidebarToggle.classList.toggle('collapsed');
+        localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        if (localStorage.getItem('sidebarCollapsed') === 'true') {
+            document.getElementById('sidebar').classList.add('collapsed');
+            document.getElementById('header').classList.add('sidebar-collapsed');
+            document.getElementById('mainContainer').classList.add('sidebar-collapsed');
+            document.getElementById('sidebarToggle').classList.add('collapsed');
+        }
+    });
+
+    function toggleSidebarMobile() {
+        if (window.innerWidth <= 768) {
+            document.getElementById('sidebar').classList.add('mobile-expanded');
+            document.getElementById('overlay').classList.add('show');
+        }
+    }
+    function closeSidebarMobile() {
+        if (window.innerWidth <= 768) {
+            document.getElementById('sidebar').classList.remove('mobile-expanded');
+            document.getElementById('overlay').classList.remove('show');
+        }
+    }
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            document.getElementById('sidebar').classList.remove('mobile-expanded');
+            document.getElementById('overlay').classList.remove('show');
+        }
+    });
+
+    function toggleDropdown() {
+        document.getElementById('dropdownMenu').classList.toggle('show');
+    }
+
+    function toggleHeaderSearch(event) {
+        event.preventDefault();
+        const form = document.getElementById('headerSearchForm');
+        form.classList.toggle('show');
+        if (form.classList.contains('show')) {
+            setTimeout(() => document.getElementById('headerSearchInput').focus(), 50);
+        }
+    }
+    function submitHeaderSearch(event) {
+        event.preventDefault();
+        const query = document.getElementById('headerSearchInput').value.trim();
+        if (query) {
+            window.location.href = "{{ url_for('global_search') }}?q=" + encodeURIComponent(query);
+        }
+        return false;
+    }
+
+    function updateHeaderClock() {
+        const now = new Date();
+        let hours = now.getHours();
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        if (hours === 0) hours = 12;
+        const clockText = document.getElementById('clockText');
+        if (clockText) clockText.textContent = hours + ':' + minutes + ' ' + ampm;
+        const icon = document.getElementById('dayNightIcon');
+        if (icon) {
+            const isDaytime = now.getHours() >= 6 && now.getHours() < 18;
+            icon.className = isDaytime ? 'fas fa-sun' : 'fas fa-moon';
+        }
+    }
+    setInterval(updateHeaderClock, 1000);
+    updateHeaderClock();
+
+    const ZENTRA_I18N = {
+        ar: { dashboard: 'لوحة التحكم', newTicket: 'تذكرة جديدة', assets: 'الأصول', manageUsers: 'إدارة المستخدم', reports: 'التقارير', subtitle: 'نظام إدارة التذاكر', searchPlaceholder: 'بحث شامل...', logout: 'تسجيل الخروج', notifications: 'الإشعارات الحديثة', markAllRead: 'تعيين كمقروء', viewAll: 'عرض جميع الإشعارات', footerRights: 'جميع الحقوق محفوظة 2025' },
+        en: { dashboard: 'Dashboard', newTicket: 'New Ticket', assets: 'Assets', manageUsers: 'Manage Users', reports: 'Reports', subtitle: 'Ticket Management System', searchPlaceholder: 'Search everything...', logout: 'Logout', notifications: 'Recent Notifications', markAllRead: 'Mark all read', viewAll: 'View all notifications', footerRights: 'All rights reserved 2025' }
+    };
+    function applyLanguage(lang) {
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        const dict = ZENTRA_I18N[lang];
+        document.querySelectorAll('[data-i18n]').forEach(function(el) {
+            const key = el.getAttribute('data-i18n');
+            if (!dict[key]) return;
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') { el.setAttribute('placeholder', dict[key]); }
+            else { el.textContent = dict[key]; }
+        });
+        const label = document.getElementById('langToggleLabel');
+        if (label) label.textContent = lang === 'ar' ? 'EN' : 'AR';
+        localStorage.setItem('zentraLang', lang);
+    }
+    function toggleLanguage() {
+        const current = localStorage.getItem('zentraLang') || 'ar';
+        applyLanguage(current === 'ar' ? 'en' : 'ar');
+    }
+    applyLanguage(localStorage.getItem('zentraLang') || 'ar');
+
+    function toggleNotifications(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const dropdown = document.getElementById('notificationDropdown');
+        if (dropdown.classList.contains('show')) { dropdown.classList.remove('show'); }
+        else { dropdown.classList.add('show'); loadNotifications(); }
+    }
+    function loadNotifications() {
+        fetch('/api/notifications/recent').then(r => r.json()).then(data => {
+            const container = document.getElementById('notificationItems');
+            container.innerHTML = '';
+            if (data.length === 0) {
+                container.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-secondary); font-weight: 700;">لا توجد إشعارات</div>';
+                return;
+            }
+            data.forEach(notification => {
+                const item = document.createElement('div');
+                item.className = `notification-item ${notification.is_read ? '' : 'unread'}`;
+                item.onclick = () => { window.location.href = `/notifications/mark_read/${notification.id}`; };
+                item.innerHTML = `<div class="notification-title">${notification.title}</div><div class="notification-message">${notification.message}</div><div class="notification-time">${notification.created_at}</div>`;
+                container.appendChild(item);
+            });
+        }).catch(() => {
+            document.getElementById('notificationItems').innerHTML = '<div style="padding: 20px; text-align: center; font-weight: 700;">خطأ في تحميل الإشعارات</div>';
+        });
+    }
+    function markAllRead() {
+        fetch('/notifications/mark_all_read').then(() => {
+            const badge = document.getElementById('notificationBadge');
+            if (badge) badge.style.display = 'none';
+            document.querySelectorAll('.notification-item.unread').forEach(item => item.classList.remove('unread'));
+        });
+    }
+    function refreshNotificationCount() {
+        fetch('/api/notifications/count').then(r => r.json()).then(data => {
+            const badge = document.getElementById('notificationBadge');
+            if (data.count > 0) { badge.textContent = data.count; badge.style.display = 'inline-block'; }
+            else { badge.style.display = 'none'; }
+        }).catch(() => {});
+    }
+    setInterval(refreshNotificationCount, 60000);
+    refreshNotificationCount();
+
+    function refreshChatBadge() {
+        fetch('/api/chat/unread_count').then(r => r.json()).then(data => {
+            const badge = document.getElementById('chatMenuBadge');
+            if (!badge) return;
+            if (data.count > 0) { badge.textContent = data.count; badge.style.display = 'inline-block'; }
+            else { badge.style.display = 'none'; }
+        }).catch(() => {});
+    }
+    function refreshTaskBadge() {
+        fetch('/api/tasks/badge_count').then(r => r.json()).then(data => {
+            const badge = document.getElementById('taskMenuBadge');
+            if (!badge) return;
+            if (data.count > 0) { badge.textContent = data.count; badge.style.display = 'inline-block'; }
+            else { badge.style.display = 'none'; }
+        }).catch(() => {});
+    }
+    if (document.getElementById('chatMenuBadge')) {
+        setInterval(refreshChatBadge, 20000);
+        refreshChatBadge();
+    }
+    if (document.getElementById('taskMenuBadge')) {
+        setInterval(refreshTaskBadge, 30000);
+        refreshTaskBadge();
+    }
+
+    function sendPresenceHeartbeat() {
+        fetch('/api/presence/heartbeat', { method: 'POST' }).catch(() => {});
+    }
+    if (document.getElementById('chatMenuBadge')) {
+        setInterval(sendPresenceHeartbeat, 30000);
+        sendPresenceHeartbeat();
+    }
+
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('dropdownMenu');
+        const profileButton = document.querySelector('.profile-dropdown');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        const notificationButton = document.querySelector('.notification-link');
+        if (profileButton && !profileButton.contains(event.target)) dropdown.classList.remove('show');
+        if (notificationButton && !notificationButton.contains(event.target)) notificationDropdown.classList.remove('show');
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeSidebarMobile();
+            document.getElementById('dropdownMenu').classList.remove('show');
+            document.getElementById('notificationDropdown').classList.remove('show');
+        }
+    });
+</script>

@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Colors - Grayscale Only */
+    --primary-color: #2d3748;
+    --primary-hover: #1a202c;
+    --primary-light: #edf2f7;
+    --success-color: #4a5568;
+    --success-light: #e2e8f0;
+    --warning-color: #718096;
+    --warning-light: #f7fafc;
+    --danger-color: #2d3748;
+    --danger-light: #e2e8f0;
+    --info-color: #4a5568;
+    --info-light: #edf2f7;
+    
+    /* Text Colors */
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --text-light: #a0aec0;
+    
+    /* Background Colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7fafc;
+    --bg-tertiary: #edf2f7;
+    --bg-card: #ffffff;
+    --bg-overlay: rgba(0, 0, 0, 0.5);
+    
+    /* Border Colors */
+    --border-color: #e2e8f0;
+    --border-light: #edf2f7;
+    --border-dark: #cbd5e0;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-full: 9999px;
+    
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms ease;
+    --transition-slow: 500ms ease;
+
+    /* Sidebar */
+    --sidebar-width: 280px;
+    --sidebar-collapsed-width: 70px;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    background: var(--bg-secondary);
+    min-height: 100vh;
+    direction: rtl;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--text-primary);
+    padding-bottom: 40px;
+}
+
+/* Typography Enhancements */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+}
+
+p {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    height: 70px;
+    border-bottom: 1px solid #4a5568;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: var(--sidebar-width);
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    transition: right var(--transition-normal);
+}
+
+.header.sidebar-collapsed {
+    right: var(--sidebar-collapsed-width);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.header-branding {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.header-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: -0.5px;
+    line-height: 1;
+}
+
+.header-title .highlight {
+    color: #e2e8f0;
+}
+
+.header-subtitle {
+    font-size: 11px;
+    color: #cbd5e0;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+
+.page-title {
+    font-size: 15px;
+    color: #f7fafc;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    padding-right: 25px;
+    border-right: 2px solid #4a5568;
+    margin-right: 5px;
+}
+
+.header-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+/* Notification and Profile Dropdowns */
+.notification-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.notification-link {
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.notification-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.notification-badge {
+    background-color: #ff4757;
+    color: white;
+    border-radius: var(--radius-full);
+    padding: 3px 8px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 5px;
+    animation: pulse 2s infinite;
+    box-shadow: 0 2px 8px rgba(255, 71, 87, 0.4);
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.notification-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    min-width: 300px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1001;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-content.show {
+    display: block;
+}
+
+.profile-dropdown {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.profile-dropdown:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.profile-avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.profile-avatar-logo { object-fit: contain !important; background: #ffffff; padding: 4px; box-sizing: border-box; }
+.profile-avatar {
+    overflow: hidden;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    min-width: 180px;
+    box-shadow: var(--shadow-lg);
+    display: none;
+    z-index: 1001;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 12px 16px;
+    color: var(--text-primary);
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid var(--border-light);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: var(--transition-fast);
+}
+
+.dropdown-item:hover {
+    background: var(--bg-secondary);
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+/* Sidebar - Collapsible */
+.sidebar {
+    position: fixed;
+    top: 70px;
+    right: 0;
+    width: var(--sidebar-width);
+    height: calc(100vh - 70px - 40px);
+    background: var(--bg-primary);
+    border-left: 1px solid var(--border-color);
+    z-index: 999;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    transition: width var(--transition-normal);
+    overflow: hidden;
+}
+
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed-width);
+}
+
+.sidebar-header {
+    padding: 0;
+    border-bottom: none;
+    background: var(--bg-primary);
+    transition: var(--transition-normal);
+    height: 0;
+    overflow: hidden;
+}
+
+.sidebar-menu {
+    flex: 1;
+    padding: 0;
+    background: var(--bg-primary);
+}
+
+.menu-item {
+    padding: 16px 20px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-light);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: var(--transition-fast);
+    position: relative;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.sidebar.collapsed .menu-item {
+    justify-content: center;
+    padding: 16px 10px;
+}
+
+.sidebar.collapsed .menu-item span {
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+    overflow: hidden;
+}
+
+.menu-item:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.menu-item.active {
+    background: transparent;
+    color: var(--text-primary);
+    font-weight: 900;
+    border-right: none;
+    border-bottom: 3px solid #2d3748;
+}
+
+.menu-item .menu-badge {
+    background: #ff4757;
+    color: white;
+    border-radius: 9999px;
+    padding: 2px 7px;
+    font-size: 10px;
+    margin-right: auto;
+}
+
+.menu-item img {
+    flex-shrink: 0;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+    position: fixed;
+    top: 80px;
+    right: var(--sidebar-width);
+    width: 40px;
+    height: 40px;
+    background: #2d3748;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-normal);
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.sidebar-toggle:hover {
+    background: #1a202c;
+    transform: scale(1.1);
+}
+
+.sidebar-toggle.collapsed {
+    right: var(--sidebar-collapsed-width);
+    transform: rotate(180deg);
+}
+
+.sidebar-toggle.collapsed:hover {
+    transform: rotate(180deg) scale(1.1);
+}
+
+/* Main Container */
+.main-container {
+    margin-top: 70px;
+    margin-right: var(--sidebar-width);
+    min-height: calc(100vh - 70px - 40px);
+    padding: 20px;
+    transition: margin-right var(--transition-normal);
+}
+
+.main-container.sidebar-collapsed {
+    margin-right: var(--sidebar-collapsed-width);
+}
+
+/* Profile Container - Compact */
+.profile-container {
+    max-width: 900px;
+    margin: 0 auto;
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Profile Header - Compact */
+.profile-header {
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    padding: 25px 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    z-index: -1;
+}
+
+.profile-picture-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.profile-picture {
+    width: 80px;
+    height: 80px;
+    background: var(--bg-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 28px;
+    font-family: 'Cairo', sans-serif;
+    border: 3px solid white;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    position: relative;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-picture.has-photo {
+    cursor: zoom-in;
+}
+
+.profile-zoom-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+    animation: fadeInUp 0.2s ease forwards;
+}
+
+.profile-zoom-overlay.show {
+    display: flex;
+}
+
+.profile-zoom-overlay img {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.profile-zoom-close {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.profile-picture-upload {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 28px;
+    height: 28px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    font-size: 11px;
+    transition: var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+}
+
+.profile-picture-upload:hover {
+    background: var(--primary-hover);
+    transform: scale(1.1);
+}
+
+.profile-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.profile-subtitle {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+
+/* Profile Content - Compact Grid */
+.profile-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.profile-section {
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    font-family: 'Cairo', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.section-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--bg-tertiary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.profile-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.profile-field:last-child {
+    border-bottom: none;
+}
+
+.field-label {
+    font-weight: 700;
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-family: 'Cairo', sans-serif;
+    flex: 1;
+}
+
+.field-value {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 12px;
+    font-family: 'Cairo', sans-serif;
+    text-align: left;
+    flex: 2;
+}
+
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--primary-light);
+    color: var(--primary-color);
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: 10px;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    border: 1px solid rgba(45, 55, 72, 0.2);
+}
+
+/* Statistics Grid - Compact */
+.stats-grid {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.stat-card {
+    background: var(--bg-primary);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+/* Action Buttons - Compact */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: 'Cairo', sans-serif;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: var(--transition-fast);
+}
+
+.btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary {
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-dark);
+}
+
+/* Enhanced Main Footer */
+.page-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    border-top: 1px solid #4a5568;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.footer-brand {
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.footer-brand img {
+    height: 16px;
+    width: auto;
+    filter: brightness(0) invert(1);
+}
+
+.footer-brand .footer-logo {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    position: relative;
+}
+
+.footer-brand .footer-logo::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+    border-radius: 1px;
+}
+
+.footer-brand .footer-highlight {
+    color: #a0aec0;
+}
+
+.footer-copyright {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+    font-family: 'Cairo', sans-serif;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    body {
+        padding-bottom: 50px;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: calc(100vh - 70px - 50px);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.mobile-expanded {
+        transform: translateX(0);
+        width: 100%;
+    }
+
+    .sidebar.collapsed {
+        width: 100%;
+    }
+
+    .header {
+        right: 0;
+    }
+
+    .header.sidebar-collapsed {
+        right: 0;
+    }
+
+    .header-left {
+        gap: 10px;
+    }
+
+    .header-branding {
+        display: none;
+    }
+
+    .page-title {
+        font-size: 14px;
+        padding-right: 15px;
+        border-right: none;
+        margin-right: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 18px;
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: var(--radius-md);
+        color: #ffffff;
+        font-family: 'Cairo', sans-serif;
+        backdrop-filter: blur(5px);
+    }
+
+    .menu-toggle:hover {
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .main-container {
+        margin-right: 0;
+        padding: 15px;
+    }
+
+    .main-container.sidebar-collapsed {
+        margin-right: 0;
+    }
+
+    .sidebar-toggle {
+        display: none;
+    }
+
+    .profile-content {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .profile-header {
+        padding: 20px;
+    }
+
+    .profile-section {
+        padding: 15px;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-overlay);
+        z-index: 998;
+        display: none;
+    }
+
+    .overlay.show {
+        display: block;
+    }
+
+    .page-footer {
+        padding: 8px 15px;
+    }
+    
+    .footer-brand {
+        font-size: 11px;
+        gap: 6px;
+        margin-bottom: 3px;
+    }
+    
+    .footer-brand img {
+        height: 14px;
+    }
+    
+    .footer-copyright {
+        font-size: 9px;
+    }
+}
+
+/* Hide menu toggle on desktop */
+.menu-toggle {
+    display: none;
+}
+
+/* Enhanced Focus States */
+.btn:focus,
+.menu-item:focus,
+.profile-picture-upload:focus,
+.sidebar-toggle:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Better Text Rendering */
+* {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Loading states */
+.btn.loading {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+.btn.loading::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.profile-avatar-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.profile-arrow-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.header-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.search-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.header-search-form {
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: width 0.25s ease, opacity 0.2s ease;
+}
+
+.header-search-form.show {
+    width: 200px;
+    opacity: 1;
+}
+
+.header-search-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    outline: none;
+}
+
+.header-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+.header-clock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.header-clock i {
+    font-size: 14px;
+    color: #fbbf24;
+}
+
+.header-clock i.fa-moon {
+    color: #cbd5e0;
+}
+.lang-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.lang-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+</style>
+    <title>الملف الشخصي</title>
+</head>
+<body>
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebarCollapse()" title="تبديل القائمة الجانبية">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <!-- Header -->
+    <div class="header" id="header">
+        <div class="header-left">
+            <button class="menu-toggle" onclick="toggleSidebarMobile()">☰</button>
+            <div class="header-branding">
+                <div class="header-title">
+                    ZEN<span class="highlight">TRA</span>
+                </div>
+                <div class="header-subtitle" data-i18n="subtitle">نظام إدارة التذاكر</div>
+            </div>
+            <div class="page-title">الملف الشخصي</div>
+        </div>
+        <div class="header-right">
+            <!-- الإشعارات -->
+            <div class="header-search">
+                <button type="button" class="search-toggle-btn" onclick="toggleHeaderSearch(event)" id="headerSearchToggle" title="بحث" aria-label="بحث">
+                    <i class="fas fa-search"></i>
+                </button>
+                <form class="header-search-form" id="headerSearchForm" onsubmit="return submitHeaderSearch(event)">
+                    <input type="text" id="headerSearchInput" class="header-search-input" placeholder="بحث شامل..." data-i18n="searchPlaceholder" autocomplete="off">
+                </form>
+            </div>
+            <div class="header-clock" id="headerClock">
+                <i class="fas fa-sun" id="dayNightIcon"></i>
+                <span id="clockText">--:-- --</span>
+            </div>
+            <button type="button" class="lang-toggle-btn" onclick="toggleLanguage()" id="langToggleBtn" title="Switch language" aria-label="Switch language">
+                <i class="fas fa-globe"></i>
+                <span id="langToggleLabel">EN</span>
+            </button>
+            <div class="notification-dropdown">
+                <a href="#" class="notification-link" onclick="toggleNotifications(event)" id="notificationLink">
+                    <i class="fas fa-bell"></i>
+                    <span id="notification-badge" class="notification-badge" style="display: none;">0</span>
+                </a>
+                <div id="notificationDropdown" class="notification-content">
+                    <div style="padding: 15px; border-bottom: 1px solid var(--border-color); font-weight: 700; color: var(--text-primary); display: flex; justify-content: space-between; align-items: center; font-family: 'Cairo', sans-serif;">
+                        <span data-i18n="notifications">الإشعارات الحديثة</span>
+                        <a href="#" onclick="markAllRead()" style="font-size: 12px; color: var(--primary-color); text-decoration: none; font-family: 'Cairo', sans-serif; font-weight: 700;" data-i18n="markAllRead">تعيين كمقروء</a>
+                    </div>
+                    <div id="notificationItems">
+                        <!-- سيتم تحميل الإشعارات هنا -->
+                    </div>
+                    <div style="text-align: center; padding: 15px; border-top: 1px solid var(--border-light);">
+                        <a href="/notifications" style="font-size: 12px; color: var(--primary-color); text-decoration: none; font-family: 'Cairo', sans-serif; font-weight: 700;" data-i18n="viewAll">عرض جميع الإشعارات</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قائمة الملف الشخصي -->
+            <div class="profile-dropdown">
+                <a href="{{ url_for('profile') }}" class="profile-avatar-link" title="الملف الشخصي">
+                    <div class="profile-avatar">
+                        {% if current_user.profile_picture %}
+                        <img src="{{ url_for('uploads', filename=current_user.profile_picture) }}" alt="صورة الملف الشخصي" class="profile-avatar-img">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='exp.png') }}" alt="ZENTRA" class="profile-avatar-img profile-avatar-logo">
+                        {% endif %}
+                    </div>
+                </a>
+                <button class="profile-arrow-toggle" onclick="toggleDropdown()" aria-label="القائمة">
+                    <span>▼</span>
+                </button>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="{{ url_for('logout') }}" class="dropdown-item"><i class="fas fa-power-off" style="margin-left: 6px;"></i><span data-i18n="logout">تسجيل الخروج</span></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <!-- Header is now clean, branding moved to main header -->
+        </div>
+        <nav class="sidebar-menu">
+            <a href="/" class="menu-item">
+                <img src="/static/home.png" alt="لوحة التحكم" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="dashboard">لوحة التحكم</span>
+            </a>
+
+            <a href="submit_ticket" class="menu-item">
+                <img src="/static/ticket.png" alt="تذكرة جديدة" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="newTicket">تذكرة جديدة</span>
+            </a>
+
+            {% if current_user.role != 'agent' %}
+            <a href="{{ url_for('assets') }}" class="menu-item">
+                <i class="fas fa-boxes-stacked" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="assets">الأصول</span>
+            </a>
+
+            <a href="manage_users" class="menu-item">
+                <img src="/static/user (1).png" alt="إدارة المستخدم" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="manageUsers">إدارة المستخدم</span>
+            </a>
+
+            <a href="report" class="menu-item">
+                <img src="/static/report.png" alt="التقارير" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="reports">التقارير</span>
+            </a>
+            {% endif %}
+            {% if user.role in ['it_staff', 'admin', 'it_admin'] %}
+            <a href="{{ url_for('team_channel') }}" class="menu-item">
+                <i class="fas fa-comments" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="chat">الدردشة</span>
+                <span class="menu-badge" id="chatMenuBadge" style="display:none;">0</span>
+            </a>
+            <a href="{{ url_for('tasks_mine') }}" class="menu-item">
+                <i class="fas fa-list-check" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="teamTasks">مهام الفريق</span>
+                <span class="menu-badge" id="taskMenuBadge" style="display:none;">0</span>
+            </a>
+            {% endif %}
+        </nav>
+    </div>
+
+    <!-- Mobile Overlay -->
+    <div class="overlay" id="overlay" onclick="closeSidebarMobile()"></div>
+
+    <!-- Main Content Area -->
+    <div class="main-container" id="mainContainer">
+        <div class="profile-container">
+            <!-- Profile Header - Compact -->
+            <div class="profile-header">
+                <div class="profile-picture-container">
+                    <div class="profile-picture{% if current_user.profile_picture %} has-photo{% endif %}" id="profilePicture" onclick="handleProfilePictureClick()">
+                        {% if current_user.profile_picture %}
+                            <img src="{{ url_for('uploads', filename=current_user.profile_picture) }}" alt="الصورة الشخصية" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
+                        {% else %}
+                            {{ current_user.full_name[0].upper() }}{% if current_user.full_name.split()|length > 1 %}{{ current_user.full_name.split()[1][0].upper() }}{% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="profile-picture-upload" onclick="uploadProfilePicture()" title="تغيير الصورة الشخصية">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <input type="file" id="profilePictureInput" style="display: none;" accept="image/*" onchange="handleProfilePictureUpload(event)">
+                </div>
+                <h1 class="profile-title">{{ current_user.full_name }}</h1>
+                <p class="profile-subtitle">
+                    {% if current_user.role == 'admin' %}مدير نظام
+                    {% elif current_user.role == 'it_staff' %}فريق تقني
+                    {% elif current_user.role == 'manager' %}مدير
+                    {% elif current_user.role == 'supervisor' %}مشرف
+                    {% else %}مستخدم{% endif %}
+                    • {{ current_user.room }}
+                </p>
+            </div>
+
+            <!-- Profile Content - Compact Grid -->
+            <div class="profile-content">
+                <!-- Personal Information -->
+                <div class="profile-section">
+                    <h2 class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        المعلومات الشخصية
+                    </h2>
+                    
+                    <div class="profile-field">
+                        <span class="field-label">اسم المستخدم</span>
+                        <span class="field-value">{{ current_user.username }}</span>
+                    </div>
+
+                    <div class="profile-field">
+                        <span class="field-label">الاسم الكامل</span>
+                        <span class="field-value">{{ current_user.full_name }}</span>
+                    </div>
+
+                    <div class="profile-field">
+                        <span class="field-label">البريد الإلكتروني</span>
+                        <span class="field-value">{{ current_user.email }}</span>
+                    </div>
+
+                    <div class="profile-field">
+                        <span class="field-label">الدور</span>
+                        <span class="field-value">
+                            <span class="role-badge">
+                                <i class="fas fa-shield-alt"></i>
+                                {% if current_user.role == 'admin' %}مدير نظام
+                                {% elif current_user.role == 'it_staff' %}فريق تقني
+                                {% elif current_user.role == 'manager' %}مدير
+                                {% elif current_user.role == 'supervisor' %}مشرف
+                                {% else %}مستخدم{% endif %}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Work Information -->
+                <div class="profile-section">
+                    <h2 class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        معلومات العمل
+                    </h2>
+                    
+                    <div class="profile-field">
+                        <span class="field-label">الغرفة</span>
+                        <span class="field-value">{{ current_user.room }}</span>
+                    </div>
+
+                    <div class="profile-field">
+                        <span class="field-label">القسم</span>
+                        <span class="field-value">
+                            {% if current_user.role == 'admin' %}
+                                الإدارة العامة
+                            {% elif current_user.role == 'it_staff' %}
+                                تكنولوجيا المعلومات
+                            {% elif current_user.role in ['manager', 'supervisor'] %}
+                                إدارة - {{ current_user.room }}
+                            {% else %}
+                                قسم {{ current_user.room }}
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <div class="profile-field">
+                        <span class="field-label">معرف المستخدم</span>
+                        <span class="field-value">#{{ current_user.id }}</span>
+                    </div>
+
+                    <div class="profile-field">
+                        <span class="field-label">حالة الحساب</span>
+                        <span class="field-value">
+                            <span style="display: inline-flex; align-items: center; gap: 6px; color: #4a5568;">
+                                <i class="fas fa-circle" style="font-size: 6px;"></i>
+                                نشط
+                            </span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Statistics - Compact -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalTickets">0</div>
+                        <div class="stat-label">إجمالي التذاكر</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="openTickets">0</div>
+                        <div class="stat-label">التذاكر المفتوحة</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="resolvedTickets">0</div>
+                        <div class="stat-label">التذاكر المحلولة</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons - Compact -->
+            <div class="action-buttons">
+                {% if current_user.role in ['admin', 'it_staff'] %}
+                <a href="{{ url_for('edit_user', user_id=current_user.id) }}" class="btn">
+                    <i class="fas fa-edit"></i>
+                    تعديل الملف الشخصي
+                </a>
+                {% endif %}
+                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-right"></i>
+                    العودة للوحة التحكم
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Footer -->
+    <div class="page-footer">
+        <div class="footer-brand">
+            <img src="/static/exp.png" alt="Experience Logo">
+            | <span class="footer-logo">ZEN<span class="footer-highlight">TRA</span></span>
+        </div>
+        <div class="footer-copyright" data-i18n="footerRights">جميع الحقوق محفوظة 2025</div>
+    </div>
+
+    <div class="profile-zoom-overlay" id="profileZoomOverlay" onclick="closeProfilePictureZoom()">
+        <button class="profile-zoom-close" onclick="closeProfilePictureZoom()" aria-label="إغلاق">&times;</button>
+        <img id="profileZoomImg" src="" alt="الصورة الشخصية مكبرة">
+    </div>
+
+    <script>
+        // Sidebar Toggle Functions
+        function toggleSidebarCollapse() {
+            const sidebar = document.getElementById('sidebar');
+            const header = document.getElementById('header');
+            const mainContainer = document.getElementById('mainContainer');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            
+            sidebar.classList.toggle('collapsed');
+            header.classList.toggle('sidebar-collapsed');
+            mainContainer.classList.toggle('sidebar-collapsed');
+            sidebarToggle.classList.toggle('collapsed');
+            
+            // Save state to localStorage
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        }
+
+        // Load saved sidebar state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            
+            if (sidebarCollapsed) {
+                const sidebar = document.getElementById('sidebar');
+                const header = document.getElementById('header');
+                const mainContainer = document.getElementById('mainContainer');
+                const sidebarToggle = document.getElementById('sidebarToggle');
+                
+                sidebar.classList.add('collapsed');
+                header.classList.add('sidebar-collapsed');
+                mainContainer.classList.add('sidebar-collapsed');
+                sidebarToggle.classList.add('collapsed');
+            }
+        });
+
+        // Mobile Sidebar Functions
+        function toggleSidebarMobile() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+                
+                sidebar.classList.add('mobile-expanded');
+                overlay.classList.add('show');
+            }
+        }
+
+        function closeSidebarMobile() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+                
+                sidebar.classList.remove('mobile-expanded');
+                overlay.classList.remove('show');
+            }
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdownMenu');
+            dropdown.classList.toggle('show');
+        }
+
+        function toggleHeaderSearch(event) {
+            event.preventDefault();
+            const form = document.getElementById('headerSearchForm');
+            form.classList.toggle('show');
+            if (form.classList.contains('show')) {
+                setTimeout(() => document.getElementById('headerSearchInput').focus(), 50);
+            }
+        }
+
+        function submitHeaderSearch(event) {
+            event.preventDefault();
+            const query = document.getElementById('headerSearchInput').value.trim();
+            if (query) {
+                window.location.href = "{{ url_for('global_search') }}?q=" + encodeURIComponent(query);
+            }
+            return false;
+        }
+
+        function updateHeaderClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            if (hours === 0) hours = 12;
+            const clockText = document.getElementById('clockText');
+            if (clockText) clockText.textContent = hours + ':' + minutes + ' ' + ampm;
+
+            const icon = document.getElementById('dayNightIcon');
+            if (icon) {
+                const isDaytime = now.getHours() >= 6 && now.getHours() < 18;
+                icon.className = isDaytime ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+        setInterval(updateHeaderClock, 1000);
+        updateHeaderClock();
+
+        const ZENTRA_I18N = {
+            ar: {
+                dashboard: 'لوحة التحكم',
+                newTicket: 'تذكرة جديدة',
+                assets: 'الأصول',
+                manageUsers: 'إدارة المستخدم',
+                reports: 'التقارير',
+                subtitle: 'نظام إدارة التذاكر',
+                searchPlaceholder: 'بحث شامل...',
+                logout: 'تسجيل الخروج',
+                notifications: 'الإشعارات الحديثة',
+                markAllRead: 'تعيين كمقروء',
+                viewAll: 'عرض جميع الإشعارات',
+                footerRights: 'جميع الحقوق محفوظة 2025'
+            },
+            en: {
+                dashboard: 'Dashboard',
+                newTicket: 'New Ticket',
+                assets: 'Assets',
+                manageUsers: 'Manage Users',
+                reports: 'Reports',
+                subtitle: 'Ticket Management System',
+                searchPlaceholder: 'Search everything...',
+                logout: 'Logout',
+                notifications: 'Recent Notifications',
+                markAllRead: 'Mark all read',
+                viewAll: 'View all notifications',
+                footerRights: 'All rights reserved 2025'
+            }
+        };
+
+        function applyLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            const dict = ZENTRA_I18N[lang];
+            document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                const key = el.getAttribute('data-i18n');
+                if (!dict[key]) return;
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.setAttribute('placeholder', dict[key]);
+                } else {
+                    el.textContent = dict[key];
+                }
+            });
+            const label = document.getElementById('langToggleLabel');
+            if (label) label.textContent = lang === 'ar' ? 'EN' : 'AR';
+            localStorage.setItem('zentraLang', lang);
+        }
+
+        function toggleLanguage() {
+            const current = localStorage.getItem('zentraLang') || 'ar';
+            applyLanguage(current === 'ar' ? 'en' : 'ar');
+        }
+
+        applyLanguage(localStorage.getItem('zentraLang') || 'ar');
+
+        function toggleNotifications(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const dropdown = document.getElementById('notificationDropdown');
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            } else {
+                dropdown.classList.add('show');
+                loadNotifications();
+            }
+        }
+
+        function loadNotifications() {
+            fetch('/api/notifications/recent')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('notificationItems');
+                    container.innerHTML = '';
+                    
+                    if (data.length === 0) {
+                        container.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-secondary); font-family: \'Cairo\', sans-serif; font-weight: 700;">لا توجد إشعارات</div>';
+                        return;
+                    }
+                    
+                    data.forEach(notification => {
+                        const item = document.createElement('div');
+                        item.className = `notification-item ${notification.is_read ? '' : 'unread'}`;
+                        item.onclick = () => markAsReadAndRedirect(notification.id, notification.ticket_id);
+                        
+                        item.innerHTML = `
+                            <div class="notification-title">${notification.title}</div>
+                            <div class="notification-message">${notification.message}</div>
+                            <div class="notification-time">${notification.created_at}</div>
+                        `;
+                        
+                        container.appendChild(item);
+                    });
+                })
+                .catch(error => {
+                    console.log('Could not load notification count');
+                });
+        }
+
+        function markAsReadAndRedirect(notificationId, ticketId) {
+            window.location.href = `/notifications/mark_read/${notificationId}`;
+        }
+
+        function markAllRead() {
+            fetch('/notifications/mark_all_read')
+                .then(() => {
+                    const badge = document.getElementById('notification-badge');
+                    if (badge) {
+                        badge.style.display = 'none';
+                    }
+                    
+                    const unreadItems = document.querySelectorAll('.notification-item.unread');
+                    unreadItems.forEach(item => item.classList.remove('unread'));
+                })
+                .catch(error => {
+                    console.error('خطأ في تعيين الإشعارات كمقروءة:', error);
+                });
+        }
+
+        // Profile picture upload
+        function uploadProfilePicture() {
+            document.getElementById('profilePictureInput').click();
+        }
+
+        function handleProfilePictureClick() {
+            const img = document.querySelector('#profilePicture img');
+            if (!img) return;
+            document.getElementById('profileZoomImg').src = img.src;
+            document.getElementById('profileZoomOverlay').classList.add('show');
+        }
+
+        function closeProfilePictureZoom() {
+            document.getElementById('profileZoomOverlay').classList.remove('show');
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeProfilePictureZoom();
+        });
+
+        function handleProfilePictureUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('حجم الملف كبير جداً. يرجى اختيار صورة أصغر من 5 ميجابايت.');
+                return;
+            }
+
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('نوع الملف غير مدعوم. يرجى اختيار صورة بصيغة JPG أو PNG أو GIF.');
+                return;
+            }
+
+            // Show loading state
+            const profilePicture = document.getElementById('profilePicture');
+            const uploadButton = document.querySelector('.profile-picture-upload');
+            const originalContent = profilePicture.innerHTML;
+            
+            profilePicture.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size: 32px; color: var(--primary-color);"></i>';
+            uploadButton.style.pointerEvents = 'none';
+            uploadButton.style.opacity = '0.5';
+
+            // Create FormData and upload
+            const formData = new FormData();
+            formData.append('profile_picture', file);
+
+            fetch('/profile/upload_picture', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update profile picture with server URL
+                    profilePicture.innerHTML = `<img src="${data.image_url}" alt="الصورة الشخصية" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />`;
+                    profilePicture.classList.add('has-photo');
+                    showNotification(data.message, 'success');
+                } else {
+                    // Restore original content on error
+                    profilePicture.innerHTML = originalContent;
+                    showNotification(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Upload error:', error);
+                profilePicture.innerHTML = originalContent;
+                showNotification('حدث خطأ أثناء رفع الصورة. يرجى المحاولة مرة أخرى.', 'error');
+            })
+            .finally(() => {
+                uploadButton.style.pointerEvents = 'auto';
+                uploadButton.style.opacity = '1';
+                // Reset file input
+                event.target.value = '';
+            });
+        }
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            const bgColor = type === 'success' ? '#4a5568' : type === 'error' ? '#dc2626' : '#4a5568';
+            const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 90px;
+                right: 30px;
+                background: ${bgColor};
+                color: white;
+                padding: 12px 18px;
+                border-radius: 8px;
+                font-family: 'Cairo', sans-serif;
+                font-weight: 700;
+                font-size: 12px;
+                z-index: 10000;
+                box-shadow: var(--shadow-lg);
+                animation: slideInRight 0.3s ease forwards;
+                max-width: 350px;
+            `;
+            notification.innerHTML = `
+                <i class="fas ${icon}" style="margin-left: 8px;"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease forwards';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Add CSS animations for notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Load statistics with animation
+        function loadStatistics() {
+            // Simulate loading animation
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                stat.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            });
+
+            setTimeout(() => {
+                // These values should be dynamically fetched from backend via API in a real app
+                animateCounter('totalTickets', {{ total_tickets|default(0) }});
+                animateCounter('openTickets', {{ open_tickets|default(0) }});
+                animateCounter('resolvedTickets', {{ resolved_tickets|default(0) }});
+            }, 500);
+        }
+
+        function animateCounter(elementId, targetValue) {
+            const element = document.getElementById(elementId);
+            let currentValue = 0;
+            const increment = targetValue / 30; // Animation duration
+            
+            const timer = setInterval(() => {
+                currentValue += increment;
+                if (currentValue >= targetValue) {
+                    currentValue = targetValue;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(currentValue);
+            }, 50);
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('dropdownMenu');
+            const profileButton = document.querySelector('.profile-dropdown');
+            const notificationDropdown = document.getElementById('notificationDropdown');
+            const notificationButton = document.querySelector('.notification-link');
+            
+            if (!profileButton.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+
+            if (!notificationButton.contains(event.target)) {
+                notificationDropdown.classList.remove('show');
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl + / to toggle sidebar
+            if (e.ctrlKey && e.key === '/') {
+                e.preventDefault();
+                toggleSidebarCollapse();
+            }
+            
+            // Escape to close sidebar
+            if (e.key === 'Escape') {
+                closeSidebarMobile();
+                document.getElementById('dropdownMenu').classList.remove('show');
+                document.getElementById('notificationDropdown').classList.remove('show');
+            }
+        });
+
+        // Enhanced interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load statistics
+            loadStatistics();
+
+            // Add hover effects to profile fields
+            document.querySelectorAll('.profile-field').forEach(field => {
+                field.addEventListener('mouseenter', function() {
+                    this.style.background = 'var(--bg-secondary)';
+                    this.style.transition = 'background 0.2s ease';
+                    this.style.borderRadius = 'var(--radius-sm)';
+                    this.style.margin = '0 -10px';
+                    this.style.padding = '10px';
+                });
+                
+                field.addEventListener('mouseleave', function() {
+                    this.style.background = 'transparent';
+                    this.style.margin = '0';
+                    this.style.padding = '10px 0';
+                });
+            });
+
+            // Add click effects to buttons
+            document.querySelectorAll('.btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 100);
+                });
+            });
+
+            // Add staggered animation to profile sections
+            document.querySelectorAll('.profile-section, .stat-card').forEach((section, index) => {
+                section.style.animationDelay = `${index * 0.1}s`;
+                section.style.animation = 'fadeInUp 0.5s ease forwards';
+            });
+
+            // Handle notification badge
+            fetch('/api/notifications/count')
+                .then(response => response.json())
+                .then(data => {
+                    const badge = document.getElementById('notification-badge');
+                    if (data.count > 0) {
+                        badge.textContent = data.count;
+                        badge.style.display = 'inline-block';
+                    }
+                })
+                .catch(error => {
+                    console.log('Could not load notification count');
+                });
+        });
+
+        function refreshChatBadge() {
+            fetch('/api/chat/unread_count').then(r => r.json()).then(data => {
+                const badge = document.getElementById('chatMenuBadge');
+                if (!badge) return;
+                if (data.count > 0) { badge.textContent = data.count; badge.style.display = 'inline-block'; }
+                else { badge.style.display = 'none'; }
+            }).catch(() => {});
+        }
+        function refreshTaskBadge() {
+            fetch('/api/tasks/badge_count').then(r => r.json()).then(data => {
+                const badge = document.getElementById('taskMenuBadge');
+                if (!badge) return;
+                if (data.count > 0) { badge.textContent = data.count; badge.style.display = 'inline-block'; }
+                else { badge.style.display = 'none'; }
+            }).catch(() => {});
+        }
+        if (document.getElementById('chatMenuBadge')) { setInterval(refreshChatBadge, 20000); refreshChatBadge(); }
+        if (document.getElementById('taskMenuBadge')) { setInterval(refreshTaskBadge, 30000); refreshTaskBadge(); }
+
+        function sendPresenceHeartbeat() { fetch('/api/presence/heartbeat', { method: 'POST' }).catch(() => {}); }
+        if (document.getElementById('chatMenuBadge')) { setInterval(sendPresenceHeartbeat, 30000); sendPresenceHeartbeat(); }
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+                
+                sidebar.classList.remove('mobile-expanded');
+                overlay.classList.remove('show');
+            }
+        });
+
+        // Copy profile information to clipboard
+        function copyToClipboard(text, label) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification(`تم نسخ ${label} بنجاح!`, 'success');
+            }).catch(() => {
+                showNotification(`فشل في نسخ ${label}`, 'error');
+            });
+        }
+
+        // Add copy functionality to profile fields
+        document.querySelectorAll('.field-value').forEach(field => {
+            field.style.cursor = 'pointer';
+            field.title = 'انقر للنسخ';
+            
+            field.addEventListener('click', function() {
+                const label = this.previousElementSibling.textContent;
+                const value = this.textContent.trim();
+                copyToClipboard(value, label);
+            });
+        });
+    </script>
+</body>
+</html>

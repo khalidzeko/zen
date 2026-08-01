@@ -1,0 +1,2790 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Colors - Grayscale Only (Matching Dashboard) */
+    --primary-color: #2d3748;
+    --primary-hover: #1a202c;
+    --primary-light: #edf2f7;
+    --success-color: #4a5568;
+    --success-light: #e2e8f0;
+    --warning-color: #718096;
+    --warning-light: #f7fafc;
+    --danger-color: #2d3748;
+    --danger-light: #e2e8f0;
+    --info-color: #4a5568;
+    --info-light: #edf2f7;
+    
+    /* Text Colors */
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --text-light: #a0aec0;
+    
+    /* Background Colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7fafc;
+    --bg-tertiary: #edf2f7;
+    --bg-card: #ffffff;
+    --bg-overlay: rgba(0, 0, 0, 0.5);
+    
+    /* Border Colors */
+    --border-color: #e2e8f0;
+    --border-light: #edf2f7;
+    --border-dark: #cbd5e0;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-full: 9999px;
+    
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms ease;
+    --transition-slow: 500ms ease;
+
+    /* Sidebar */
+    --sidebar-width: 280px;
+    --sidebar-collapsed-width: 70px;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    background: var(--bg-secondary);
+    height: 100vh;
+    overflow: hidden;
+    direction: rtl;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--text-primary);
+    padding-bottom: 40px;
+}
+
+/* Typography Enhancements */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+}
+
+p {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Enhanced Logo Styling */
+.header-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: rgb(0, 0, 0);
+    font-family: 'Cairo', sans-serif;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.header-title::before {
+    content: '';
+    font-size: 24px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.header-title .logo-brand {
+    position: relative;
+    display: inline-block;
+    letter-spacing: -1px;
+}
+
+.header-title .logo-brand::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
+    border-radius: 1px;
+}
+
+.header-title .highlight {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.sidebar-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    font-family: 'Cairo', sans-serif;
+    position: relative;
+    display: inline-block;
+    letter-spacing: -0.5px;
+    transition: var(--transition-normal);
+}
+
+.sidebar-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25px;
+    height: 2px;
+    background: linear-gradient(90deg, #a0aec0, #718096);
+    border-radius: 1px;
+}
+
+.sidebar-title .highlight {
+    color: #a0aec0;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    height: 70px;
+    border-bottom: 1px solid #4a5568;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: var(--sidebar-width);
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    transition: right var(--transition-normal);
+}
+
+.header.sidebar-collapsed {
+    right: var(--sidebar-collapsed-width);
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: -1;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.header-branding {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.header-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: -0.5px;
+    line-height: 1;
+}
+
+.header-title .highlight {
+    color: #e2e8f0;
+}
+
+.header-subtitle {
+    font-size: 11px;
+    color: #cbd5e0;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+
+.page-title {
+    font-size: 15px;
+    color: #f7fafc;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    padding-right: 25px;
+    border-right: 2px solid #4a5568;
+    margin-right: 5px;
+}
+
+.header-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.notification-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.notification-link {
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.notification-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.notification-badge {
+    background-color: #ff4757;
+    color: white;
+    border-radius: var(--radius-full);
+    padding: 3px 8px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 5px;
+    animation: pulse 2s infinite;
+    box-shadow: 0 2px 8px rgba(255, 71, 87, 0.4);
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.notification-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    min-width: 300px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1001;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-content.show {
+    display: block;
+}
+
+.notification-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.notification-item:hover {
+    background-color: var(--bg-secondary);
+}
+
+.notification-item.unread {
+    background-color: var(--primary-light);
+    font-weight: 700;
+}
+
+.notification-title {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+.notification-message {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+.notification-time {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 5px;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+}
+
+.profile-dropdown {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.profile-dropdown:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.profile-avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.profile-avatar-logo { object-fit: contain !important; background: #ffffff; padding: 4px; box-sizing: border-box; }
+.profile-avatar {
+    overflow: hidden;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    min-width: 180px;
+    box-shadow: var(--shadow-lg);
+    display: none;
+    z-index: 1001;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 12px 16px;
+    color: var(--text-primary);
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid var(--border-light);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: var(--transition-fast);
+}
+
+.dropdown-item:hover {
+    background: var(--bg-secondary);
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+/* Sidebar - Collapsible */
+.sidebar {
+    position: fixed;
+    top: 70px;
+    right: 0;
+    width: var(--sidebar-width);
+    height: calc(100vh - 70px - 40px);
+    background: var(--bg-primary);
+    border-left: 1px solid var(--border-color);
+    z-index: 999;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    transition: width var(--transition-normal);
+    overflow: hidden;
+}
+
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed-width);
+}
+
+.sidebar-header {
+    padding: 0;
+    border-bottom: none;
+    background: var(--bg-primary);
+    transition: var(--transition-normal);
+    height: 0;
+    overflow: hidden;
+}
+
+.sidebar.collapsed .sidebar-header {
+    padding: 0;
+}
+
+.sidebar-subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+
+.sidebar-menu {
+    flex: 1;
+    padding: 0;
+    background: var(--bg-primary);
+}
+
+.menu-item {
+    padding: 16px 20px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-light);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    transition: var(--transition-fast);
+    position: relative;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.sidebar.collapsed .menu-item {
+    justify-content: center;
+    padding: 16px 10px;
+}
+
+.sidebar.collapsed .menu-item span {
+    opacity: 0;
+    visibility: hidden;
+    width: 0;
+    overflow: hidden;
+}
+
+.menu-item:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.menu-item.active {
+    background: transparent;
+    color: var(--text-primary);
+    font-weight: 900;
+    border-right: none;
+    border-bottom: 3px solid #2d3748;
+}
+
+.menu-item .menu-badge {
+    background: #ff4757;
+    color: white;
+    border-radius: 9999px;
+    padding: 2px 7px;
+    font-size: 10px;
+    margin-right: auto;
+}
+
+.menu-item.active img {
+    filter: none;
+}
+
+.menu-item img {
+    flex-shrink: 0;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+    position: fixed;
+    top: 80px;
+    right: var(--sidebar-width);
+    width: 40px;
+    height: 40px;
+    background: #2d3748;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-normal);
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.sidebar-toggle:hover {
+    background: #1a202c;
+    transform: scale(1.1);
+}
+
+.sidebar-toggle.collapsed {
+    right: var(--sidebar-collapsed-width);
+    transform: rotate(180deg);
+}
+
+.sidebar-toggle.collapsed:hover {
+    transform: rotate(180deg) scale(1.1);
+}
+
+/* Main Container - Enhanced */
+.main-container {
+    margin-top: 70px;
+    margin-right: var(--sidebar-width);
+    height: calc(100vh - 70px - 40px);
+    overflow-y: auto;
+    padding: 30px;
+    background: var(--bg-secondary);
+    transition: margin-right var(--transition-normal);
+}
+
+.main-container.sidebar-collapsed {
+    margin-right: var(--sidebar-collapsed-width);
+}
+
+.content-area {
+    max-width: 1400px;
+    margin: 0 auto;
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Flash Messages */
+.flash-messages {
+    margin-bottom: 30px;
+}
+
+.flash-message {
+    padding: 16px 20px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 15px;
+    border-right: 4px solid;
+    background: var(--bg-primary);
+    box-shadow: var(--shadow-sm);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    animation: slideInRight 0.6s ease forwards;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.flash-success { 
+    border-color: #4a5568;
+    color: #1a202c;
+    background: #e2e8f0;
+}
+.flash-danger,
+.flash-error { 
+    border-color: #2d3748;
+    color: #1a202c;
+    background: #edf2f7;
+}
+.flash-warning { 
+    border-color: #718096;
+    color: #2d3748;
+    background: #f7fafc;
+}
+.flash-info { 
+    border-color: #4a5568;
+    color: #1a202c;
+    background: #e2e8f0;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Section Header - Compact */
+.section {
+    margin-bottom: 25px;
+}
+
+.section-header {
+    background: var(--bg-primary);
+    padding: 18px 20px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 15px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title::before {
+    content: '👥';
+    font-size: 22px;
+}
+
+.section-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Search and Filter Section - Compact */
+.search-filter-section {
+    background: var(--bg-primary);
+    padding: 12px 15px;
+    border-radius: var(--radius-md);
+    margin-bottom: 15px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+}
+
+.search-filter-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-group {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: var(--transition-fast);
+    direction: rtl;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: var(--bg-primary);
+    box-shadow: 0 0 0 2px rgba(45, 55, 72, 0.1);
+}
+
+.search-input::placeholder {
+    color: var(--text-muted);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 120px;
+}
+
+.filter-select {
+    padding: 6px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: var(--bg-primary);
+}
+
+.filter-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.search-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.search-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.search-btn:hover {
+    background: var(--primary-hover);
+}
+
+.clear-btn {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.clear-btn:hover {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border-color: var(--border-dark);
+}
+
+.results-summary {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.results-text {
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+
+.results-count {
+    background: var(--primary-light);
+    color: var(--primary-color);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* Pagination Controls */
+.pagination-container {
+    background: var(--bg-primary);
+    padding: 15px 20px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.pagination-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pagination-btn {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 40px;
+    justify-content: center;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.pagination-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.page-numbers {
+    display: flex;
+    gap: 4px;
+}
+
+/* Table Container - Compact */
+.table-container {
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+
+.users-table th {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-weight: 700;
+    padding: 12px 15px;
+    text-align: right;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 12px;
+    font-family: 'Cairo', sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.users-table td {
+    padding: 14px 15px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-primary);
+    font-size: 13px;
+    text-align: right;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.users-table tbody tr {
+    transition: var(--transition-fast);
+    cursor: pointer;
+}
+
+.users-table tbody tr:hover {
+    background: var(--bg-secondary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.users-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* User Info in Table - Compact */
+.user-info {
+    display: flex;
+    align-items: center;
+    direction: rtl;
+    gap: 10px;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-name {
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+    font-size: 13px;
+    font-family: 'Cairo', sans-serif;
+}
+
+.user-id {
+    font-size: 10px;
+    color: var(--text-secondary);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: white;
+    font-size: 14px;
+    font-family: 'Cairo', sans-serif;
+    box-shadow: var(--shadow-sm);
+    border: 2px solid white;
+    flex-shrink: 0;
+}
+
+/* Role badges - Compact */
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: 10px;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif;
+    border: 1px solid;
+}
+
+.role-admin {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: rgba(153, 27, 27, 0.2);
+}
+
+.role-it_staff {
+    background: #dbeafe;
+    color: #1e40af;
+    border-color: rgba(30, 64, 175, 0.2);
+}
+
+.role-user,
+.role-agent {
+    background: #e2e8f0;
+    color: #2d3748;
+    border-color: rgba(45, 55, 72, 0.2);
+}
+
+.role-manager {
+    background: #f7fafc;
+    color: #4a5568;
+    border-color: rgba(74, 85, 104, 0.2);
+}
+
+.role-it_admin {
+    background: #e0e7ff;
+    color: #3730a3;
+    border-color: rgba(55, 48, 163, 0.2);
+}
+
+.role-supervisor {
+    background: #edf2f7;
+    color: #718096;
+    border-color: rgba(113, 128, 150, 0.2);
+}
+
+/* Action buttons - Compact */
+.action-buttons {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: 'Cairo', sans-serif;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: var(--transition-fast);
+    border: 1px solid transparent;
+}
+
+.btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary {
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-dark);
+}
+
+.btn-danger {
+    background: #2d3748;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #1a202c;
+}
+
+.btn-success {
+    background: #4a5568;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #2d3748;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 10px;
+}
+
+/* Empty state - Enhanced */
+.empty-state {
+    text-align: center;
+    padding: 80px 30px;
+    color: var(--text-secondary);
+    background: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.empty-state-icon {
+    font-size: 80px;
+    margin-bottom: 30px;
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    font-size: 24px;
+}
+
+.empty-state p {
+    margin-bottom: 25px;
+    font-size: 16px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+/* Enhanced Main Footer */
+.page-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    border-top: 1px solid #4a5568;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.footer-brand {
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.footer-brand img {
+    height: 16px;
+    width: auto;
+    filter: brightness(0) invert(1);
+}
+
+.footer-brand .footer-logo {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    position: relative;
+}
+
+.footer-brand .footer-logo::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+    border-radius: 1px;
+}
+
+.footer-brand .footer-highlight {
+    color: #a0aec0;
+}
+
+.footer-copyright {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+    font-family: 'Cairo', sans-serif;
+}
+
+/* User Count Badge - Compact */
+.user-count {
+    background: linear-gradient(135deg, #4a5568, #2d3748);
+    color: white;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 10px;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Search highlight */
+.search-highlight {
+    background-color: #fef08a;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: 700;
+}
+
+/* Hidden class for filtering */
+.hidden {
+    display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding-bottom: 50px;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: calc(100vh - 70px - 50px);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.mobile-expanded {
+        transform: translateX(0);
+        width: 100%;
+    }
+
+    .sidebar.collapsed {
+        width: 100%;
+    }
+
+    .header {
+        right: 0;
+    }
+
+    .header.sidebar-collapsed {
+        right: 0;
+    }
+
+    .header-left {
+        gap: 10px;
+    }
+
+    .header-branding {
+        display: none;
+    }
+
+    .page-title {
+        font-size: 14px;
+        padding-right: 15px;
+        border-right: none;
+        margin-right: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 18px;
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: var(--radius-md);
+        color: #ffffff;
+        font-family: 'Cairo', sans-serif;
+        backdrop-filter: blur(5px);
+    }
+
+    .menu-toggle:hover {
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .main-container {
+        margin-right: 0;
+        padding: 15px;
+    }
+
+    .main-container.sidebar-collapsed {
+        margin-right: 0;
+    }
+
+    .sidebar-toggle {
+        display: none;
+    }
+
+    .content-area {
+        max-width: none;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .section-title {
+        font-size: 24px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .section-actions {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .section-actions .btn {
+        flex: 1;
+        text-align: center;
+    }
+
+    .search-filter-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .search-group, 
+    .filter-group {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .search-actions {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .search-btn,
+    .clear-btn {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        margin: 0 -15px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+
+    .users-table {
+        min-width: 800px;
+    }
+
+    .users-table th,
+    .users-table td {
+        padding: 15px 12px;
+        font-size: 12px;
+    }
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .user-name {
+        font-size: 14px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-overlay);
+        z-index: 998;
+        display: none;
+    }
+
+    .overlay.show {
+        display: block;
+    }
+
+    .page-footer {
+        padding: 8px 15px;
+    }
+    
+    .footer-brand {
+        font-size: 11px;
+        gap: 6px;
+        margin-bottom: 3px;
+    }
+    
+    .footer-brand img {
+        height: 14px;
+    }
+    
+    .footer-copyright {
+        font-size: 9px;
+    }
+}
+
+/* Hide menu toggle on desktop */
+.menu-toggle {
+    display: none;
+}
+
+/* Enhanced Focus States */
+.notification-link:focus,
+.profile-dropdown:focus,
+.menu-item:focus,
+.btn:focus,
+.search-input:focus,
+.filter-select:focus,
+.sidebar-toggle:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Better Text Rendering */
+* {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Loading states */
+.btn.loading {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+.btn.loading::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.profile-avatar-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.profile-arrow-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.header-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.search-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.header-search-form {
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: width 0.25s ease, opacity 0.2s ease;
+}
+
+.header-search-form.show {
+    width: 200px;
+    opacity: 1;
+}
+
+.header-search-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    outline: none;
+}
+
+.header-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+.header-clock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.header-clock i {
+    font-size: 14px;
+    color: #fbbf24;
+}
+
+.header-clock i.fa-moon {
+    color: #cbd5e0;
+}
+.lang-toggle-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.lang-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+</style>
+    <title>إدارة المستخدمين</title>
+</head>
+<body>
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebarCollapse()" title="تبديل القائمة الجانبية">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <!-- رأس الصفحة -->
+    <div class="header" id="header">
+        <div class="header-left">
+            <button class="menu-toggle" onclick="toggleSidebarMobile()">☰</button>
+            <div class="header-branding">
+                <div class="header-title">
+                    ZEN<span class="highlight">TRA</span>
+                </div>
+                <div class="header-subtitle" data-i18n="subtitle">نظام إدارة التذاكر</div>
+            </div>
+            <div class="page-title">إدارة المستخدمين</div>
+        </div>
+
+        <div class="header-right">
+            <!-- الإشعارات -->
+            <div class="header-search">
+                <button type="button" class="search-toggle-btn" onclick="toggleHeaderSearch(event)" id="headerSearchToggle" title="بحث" aria-label="بحث">
+                    <i class="fas fa-search"></i>
+                </button>
+                <form class="header-search-form" id="headerSearchForm" onsubmit="return submitHeaderSearch(event)">
+                    <input type="text" id="headerSearchInput" class="header-search-input" placeholder="بحث شامل..." data-i18n="searchPlaceholder" autocomplete="off">
+                </form>
+            </div>
+            <div class="header-clock" id="headerClock">
+                <i class="fas fa-sun" id="dayNightIcon"></i>
+                <span id="clockText">--:-- --</span>
+            </div>
+            <button type="button" class="lang-toggle-btn" onclick="toggleLanguage()" id="langToggleBtn" title="Switch language" aria-label="Switch language">
+                <i class="fas fa-globe"></i>
+                <span id="langToggleLabel">EN</span>
+            </button>
+            <div class="notification-dropdown">
+                <a href="#" class="notification-link" onclick="toggleNotifications(event)" id="notificationLink">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                </a>
+                <div id="notificationDropdown" class="notification-content">
+                    <div style="padding: 15px; border-bottom: 1px solid var(--border-color); font-weight: 700; color: var(--text-primary); display: flex; justify-content: space-between; align-items: center; font-family: 'Cairo', sans-serif;">
+                        <span data-i18n="notifications">الإشعارات الحديثة</span>
+                        <a href="#" onclick="markAllRead()" style="font-size: 12px; color: var(--primary-color); text-decoration: none; font-family: 'Cairo', sans-serif; font-weight: 700;" data-i18n="markAllRead">تعيين كمقروء</a>
+                    </div>
+                    <div id="notificationItems">
+                        <!-- سيتم تحميل الإشعارات هنا -->
+                    </div>
+                    <div style="text-align: center; padding: 15px; border-top: 1px solid var(--border-light);">
+                        <a href="/notifications" style="font-size: 12px; color: var(--primary-color); text-decoration: none; font-family: 'Cairo', sans-serif; font-weight: 700;" data-i18n="viewAll">عرض جميع الإشعارات</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قائمة الملف الشخصي -->
+            <div class="profile-dropdown">
+                <a href="{{ url_for('profile') }}" class="profile-avatar-link" title="الملف الشخصي">
+                    <div class="profile-avatar">
+                        {% if user.profile_picture %}
+                        <img src="{{ url_for('uploads', filename=user.profile_picture) }}" alt="صورة الملف الشخصي" class="profile-avatar-img">
+                        {% else %}
+                        <img src="{{ url_for('static', filename='exp.png') }}" alt="ZENTRA" class="profile-avatar-img profile-avatar-logo">
+                        {% endif %}
+                    </div>
+                </a>
+                <button class="profile-arrow-toggle" onclick="toggleDropdown()" aria-label="القائمة">
+                    <span>▼</span>
+                </button>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="{{ url_for('logout') }}" class="dropdown-item"><i class="fas fa-power-off" style="margin-left: 6px;"></i><span data-i18n="logout">تسجيل الخروج</span></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <!-- Header is now clean, branding moved to main header -->
+        </div>
+        <nav class="sidebar-menu">
+            <a href="/" class="menu-item">
+                <img src="/static/home.png" alt="لوحة التحكم" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="dashboard">لوحة التحكم</span>
+            </a>
+
+            <a href="{{ url_for('submit_ticket') }}" class="menu-item">
+                <img src="/static/ticket.png" alt="تذكرة جديدة" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="newTicket">تذكرة جديدة</span>
+            </a>
+
+            {% if user.role != 'agent' %}
+            <a href="{{ url_for('assets') }}" class="menu-item">
+                <i class="fas fa-boxes-stacked" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="assets">الأصول</span>
+            </a>
+
+            <a href="{{ url_for('manage_users') }}" class="menu-item active">
+                <img src="/static/user (1).png" alt="إدارة المستخدم" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="manageUsers">إدارة المستخدم</span>
+            </a>
+
+            <a href="{{ url_for('report') }}" class="menu-item">
+                <img src="/static/report.png" alt="التقارير" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="reports">التقارير</span>
+            </a>
+            {% endif %}
+            {% if user.role in ['it_staff', 'admin', 'it_admin'] %}
+            <a href="{{ url_for('team_channel') }}" class="menu-item">
+                <i class="fas fa-comments" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="chat">الدردشة</span>
+                <span class="menu-badge" id="chatMenuBadge" style="display:none;">0</span>
+            </a>
+            <a href="{{ url_for('tasks_mine') }}" class="menu-item">
+                <i class="fas fa-list-check" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="teamTasks">مهام الفريق</span>
+                <span class="menu-badge" id="taskMenuBadge" style="display:none;">0</span>
+            </a>
+            {% endif %}
+        </nav>
+    </div>
+
+    <!-- طبقة التداخل للموبايل -->
+    <div class="overlay" id="overlay" onclick="closeSidebarMobile()"></div>
+
+    <!-- Main Container - Enhanced -->
+    <div class="main-container" id="mainContainer">
+        <div class="content-area">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-message flash-{{ category }}">
+                                <i class="fas fa-{% if category == 'success' %}check-circle{% elif category == 'danger' or category == 'error' %}exclamation-triangle{% elif category == 'warning' %}exclamation-triangle{% else %}info-circle{% endif %}"></i>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- User Management Section -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">
+                        مستخدمو النظام
+                        {% if users %}
+                        <span class="user-count" id="totalUserCount">{{ users|length }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="section-actions">
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-right"></i>
+                            العودة للوحة التحكم
+                        </a>
+                        {% if user.role == 'admin' %}
+                        <a href="{{ url_for('create_user') }}" class="btn btn-success">
+                            <i class="fas fa-user-plus"></i>
+                            إنشاء مستخدم جديد
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Search and Filter Section -->
+                <div class="search-filter-section">
+                    <div class="search-filter-controls">
+                        <div class="search-group">
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                class="search-input" 
+                                placeholder="البحث في المستخدمين..."
+                                autocomplete="off"
+                            >
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label class="filter-label" for="locationFilter">الغرفة:</label>
+                            <select id="locationFilter" class="filter-select">
+                                <option value="">جميع الغرف</option>
+                                {% set rooms = users | map(attribute='room') | list | unique | sort %}
+                                {% for room in rooms %}
+                                    {% if room %}
+                                    <option value="{{ room }}">{{ room }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label" for="roleFilter">الدور:</label>
+                            <select id="roleFilter" class="filter-select">
+                                <option value="">جميع الأدوار</option>
+                                <option value="admin">مدير نظام</option>
+                                <option value="it_staff">فريق تقني</option>
+                                <option value="it_admin">مسؤول تقنية المعلومات</option>
+                                <option value="manager">مدير</option>
+                                <option value="supervisor">مشرف</option>
+                                <option value="agent">مستخدم</option>
+                            </select>
+                        </div>
+
+                        <div class="search-actions">
+                            <button class="search-btn" onclick="performSearch()">
+                                <i class="fas fa-search"></i>
+                                بحث
+                            </button>
+                            <button class="clear-btn" onclick="clearFilters()">
+                                <i class="fas fa-times"></i>
+                                مسح
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="results-summary">
+                        <div class="results-text" id="resultsText">عرض جميع المستخدمين</div>
+                        <div class="results-count" id="visibleCount">{{ users|length }} مستخدم</div>
+                    </div>
+                </div>
+
+                <!-- Pagination Container -->
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        <span id="paginationInfo">عرض 1-5 من {{ users|length }} مستخدم</span>
+                    </div>
+                    <div class="pagination-controls" id="paginationControls">
+                        <button class="pagination-btn" id="firstPageBtn" onclick="goToPage(1)" disabled>
+                            <i class="fas fa-angle-double-right"></i>
+                        </button>
+                        <button class="pagination-btn" id="prevPageBtn" onclick="goToPreviousPage()" disabled>
+                            <i class="fas fa-angle-right"></i>
+                        </button>
+                        <div class="page-numbers" id="pageNumbers">
+                            <!-- سيتم ملؤها ديناميكيًا -->
+                        </div>
+                        <button class="pagination-btn" id="nextPageBtn" onclick="goToNextPage()">
+                            <i class="fas fa-angle-left"></i>
+                        </button>
+                        <button class="pagination-btn" id="lastPageBtn" onclick="goToLastPage()">
+                            <i class="fas fa-angle-double-left"></i>
+                        </button>
+                    </div>
+                </div>
+
+                {% if users %}
+                <div class="table-container" id="tableContainer">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>المستخدم</th>
+                                <th>اسم المستخدم</th>
+                                <th>البريد الإلكتروني</th>
+                                <th>الدور</th>
+                                <th>الغرفة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            {% for u in users %}
+                            <tr class="user-row" data-user-data='{{ {
+                                "id": u.id,
+                                "name": u.full_name,
+                                "username": u.username,
+                                "email": u.email,
+                                "role": u.role,
+                                "room": u.room or "غير محدد"
+                            } | tojson }}'>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-details">
+                                            <div class="user-name">{{ u.full_name or u.username }}</div>
+                                            <div class="user-id">المعرف: #{{ u.id }}</div>
+                                        </div>
+                                        <div class="user-avatar">{{ (u.full_name or u.username)[0] }}</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <strong>{{ u.username }}</strong>
+                                </td>
+                                <td>{{ u.email }}</td>
+                                <td>
+                                    <span class="role-badge role-{{ u.role }}">
+                                        <i class="fas fa-{% if u.role == 'admin' %}crown{% elif u.role == 'it_staff' %}tools{% elif u.role == 'it_admin' %}user-shield{% elif u.role == 'manager' %}briefcase{% elif u.role == 'supervisor' %}user-tie{% else %}user{% endif %}"></i>
+                                        {% if u.role == 'admin' %}مدير نظام
+                                        {% elif u.role == 'it_staff' %}فريق تقني
+                                        {% elif u.role == 'it_admin' %}مسؤول تقنية المعلومات
+                                        {% elif u.role == 'manager' %}مدير
+                                        {% elif u.role == 'supervisor' %}مشرف
+                                        {% elif u.role == 'agent' %}مستخدم
+                                        {% else %}{{ u.role }}
+                                        {% endif %}
+                                    </span>
+                                </td>
+                                <td>
+                                    <strong>{{ u.room or 'غير مُحدد' }}</strong>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        {% if user.role in ['admin', 'it_staff'] %}
+                                        <a href="{{ url_for('edit_user', user_id=u.id) }}" class="btn btn-sm">
+                                            <i class="fas fa-edit"></i>
+                                            تعديل
+                                        </a>
+                                        {% endif %}
+                                        
+                                        {% if user.role in ['admin', 'it_staff'] and user.id != u.id %}
+                                            <form action="{{ url_for('delete_user', user_id=u.id) }}" method="post" style="display:inline;" class="delete-form" data-username="{{ u.full_name or u.username }}">
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                    حذف
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>لم يتم العثور على مستخدمين</h3>
+                    <p>لا يوجد مستخدمون في النظام حتى الآن.<br>ابدأ بإنشاء المستخدم الأول لبناء فريق العمل.</p>
+                    {% if user.role == 'admin' %}
+                    <a href="{{ url_for('create_user') }}" class="btn btn-success">
+                        <i class="fas fa-user-plus"></i>
+                        إنشاء أول مستخدم
+                    </a>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Empty state for filtered results -->
+                <div class="empty-state" id="noResultsState" style="display: none;">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>لا توجد نتائج</h3>
+                    <p>لم يتم العثور على مستخدمين يطابقون معايير البحث المحددة.<br>حاول تغيير كلمات البحث أو إعادة تعيين المرشحات.</p>
+                    <button class="btn btn-secondary" onclick="clearFilters()">
+                        <i class="fas fa-times"></i>
+                        مسح المرشحات
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Footer -->
+    <div class="page-footer">
+        <div class="footer-brand">
+            <img src="/static/exp.png" alt="Experience Logo">
+            | <span class="footer-logo">ZEN<span class="footer-highlight">TRA</span></span>
+        </div>
+        <div class="footer-copyright" data-i18n="footerRights">جميع الحقوق محفوظة 2025</div>
+    </div>
+
+    <script>
+        // Sidebar Toggle Functions
+        function toggleSidebarCollapse() {
+            const sidebar = document.getElementById('sidebar');
+            const header = document.getElementById('header');
+            const mainContainer = document.getElementById('mainContainer');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            
+            sidebar.classList.toggle('collapsed');
+            header.classList.toggle('sidebar-collapsed');
+            mainContainer.classList.toggle('sidebar-collapsed');
+            sidebarToggle.classList.toggle('collapsed');
+            
+            // Save state to localStorage
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        }
+
+        // Load saved sidebar state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            
+            if (sidebarCollapsed) {
+                const sidebar = document.getElementById('sidebar');
+                const header = document.getElementById('header');
+                const mainContainer = document.getElementById('mainContainer');
+                const sidebarToggle = document.getElementById('sidebarToggle');
+                
+                sidebar.classList.add('collapsed');
+                header.classList.add('sidebar-collapsed');
+                mainContainer.classList.add('sidebar-collapsed');
+                sidebarToggle.classList.add('collapsed');
+            }
+        });
+
+        // Mobile Sidebar Functions
+        function toggleSidebarMobile() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+                
+                sidebar.classList.add('mobile-expanded');
+                overlay.classList.add('show');
+            }
+        }
+
+        function closeSidebarMobile() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+                
+                sidebar.classList.remove('mobile-expanded');
+                overlay.classList.remove('show');
+            }
+        }
+
+        // Global variables for search, filter, and pagination
+        let allUsers = [];
+        let filteredUsers = [];
+        let currentPage = 1;
+        const usersPerPage = 5;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeUsers();
+            setupEventListeners();
+        });
+
+        // Initialize users array from table data
+        function initializeUsers() {
+            const userRows = document.querySelectorAll('.user-row');
+            allUsers = Array.from(userRows).map(row => {
+                const userData = JSON.parse(row.getAttribute('data-user-data'));
+                return {
+                    element: row,
+                    data: userData,
+                    searchText: [
+                        userData.name || '',
+                        userData.username || '',
+                        userData.email || '',
+                        userData.role || '',
+                        userData.room || ''
+                    ].join(' ').toLowerCase()
+                };
+            });
+            
+            filteredUsers = [...allUsers];
+            currentPage = 1;
+            updateDisplay();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            const searchInput = document.getElementById('searchInput');
+            const locationFilter = document.getElementById('locationFilter');
+            const roleFilter = document.getElementById('roleFilter');
+            
+            // Real-time search
+            searchInput.addEventListener('input', function() {
+                clearTimeout(this.searchTimeout);
+                this.searchTimeout = setTimeout(() => {
+                    currentPage = 1;
+                    performSearch();
+                }, 300);
+            });
+            
+            // Real-time filtering
+            locationFilter.addEventListener('change', () => {
+                currentPage = 1;
+                performSearch();
+            });
+            roleFilter.addEventListener('change', () => {
+                currentPage = 1;
+                performSearch();
+            });
+            
+            // Search on Enter key press
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    currentPage = 1;
+                    performSearch();
+                }
+            });
+
+            // Enhanced interactions
+            setupEnhancedInteractions();
+        }
+
+        // Perform search and filter
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            const locationFilter = document.getElementById('locationFilter').value;
+            const roleFilter = document.getElementById('roleFilter').value;
+            
+            filteredUsers = allUsers.filter(user => {
+                const matchesSearch = searchTerm === '' || user.searchText.includes(searchTerm);
+                const matchesLocation = locationFilter === '' || user.data.room === locationFilter;
+                const matchesRole = roleFilter === '' || user.data.role === roleFilter;
+                
+                return matchesSearch && matchesLocation && matchesRole;
+            });
+            
+            updateDisplay();
+            highlightSearchTerms(searchTerm);
+        }
+
+        // Clear all filters
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('locationFilter').value = '';
+            document.getElementById('roleFilter').value = '';
+            
+            filteredUsers = [...allUsers];
+            currentPage = 1;
+            updateDisplay();
+            removeHighlights();
+        }
+
+        // Update display based on filtered results and pagination
+        function updateDisplay() {
+            const tableContainer = document.getElementById('tableContainer');
+            const noResultsState = document.getElementById('noResultsState');
+            const resultsText = document.getElementById('resultsText');
+            const visibleCount = document.getElementById('visibleCount');
+            const totalUserCount = document.getElementById('totalUserCount');
+            
+            // Hide all rows first
+            allUsers.forEach(user => {
+                user.element.style.display = 'none';
+                user.element.classList.remove('hidden');
+            });
+            
+            if (filteredUsers.length === 0) {
+                tableContainer.style.display = 'none';
+                noResultsState.style.display = 'block';
+                document.querySelector('.pagination-container').style.display = 'none';
+                return;
+            }
+            
+            tableContainer.style.display = 'block';
+            noResultsState.style.display = 'none';
+            document.querySelector('.pagination-container').style.display = 'flex';
+            
+            // Calculate pagination
+            const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+            const startIndex = (currentPage - 1) * usersPerPage;
+            const endIndex = Math.min(startIndex + usersPerPage, filteredUsers.length);
+            
+            // Show only current page users
+            for (let i = startIndex; i < endIndex; i++) {
+                if (filteredUsers[i]) {
+                    filteredUsers[i].element.style.display = 'table-row';
+                    filteredUsers[i].element.style.animationDelay = `${(i - startIndex) * 0.1}s`;
+                }
+            }
+            
+            // Update counters and text
+            const hasFilters = document.getElementById('searchInput').value || 
+                              document.getElementById('locationFilter').value || 
+                              document.getElementById('roleFilter').value;
+            
+            if (hasFilters) {
+                resultsText.textContent = `نتائج البحث والتصفية`;
+            } else {
+                resultsText.textContent = 'عرض جميع المستخدمين';
+            }
+            
+            visibleCount.textContent = `${filteredUsers.length} مستخدم`;
+            if (totalUserCount) {
+                totalUserCount.textContent = filteredUsers.length;
+            }
+            
+            // Update pagination controls
+            updatePaginationControls(totalPages, startIndex + 1, endIndex);
+        }
+
+        // Update pagination controls
+        function updatePaginationControls(totalPages, startIndex, endIndex) {
+            // Update pagination info
+            const paginationInfo = document.getElementById('paginationInfo');
+            paginationInfo.textContent = `عرض ${startIndex}-${endIndex} من ${filteredUsers.length} مستخدم`;
+            
+            // Update navigation buttons
+            const firstPageBtn = document.getElementById('firstPageBtn');
+            const prevPageBtn = document.getElementById('prevPageBtn');
+            const nextPageBtn = document.getElementById('nextPageBtn');
+            const lastPageBtn = document.getElementById('lastPageBtn');
+            
+            firstPageBtn.disabled = currentPage === 1;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+            lastPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+            
+            // Update page numbers
+            updatePageNumbers(totalPages);
+        }
+
+        // Update page numbers display
+        function updatePageNumbers(totalPages) {
+            const pageNumbers = document.getElementById('pageNumbers');
+            pageNumbers.innerHTML = '';
+            
+            if (totalPages <= 1) return;
+            
+            // Show max 5 page numbers
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + 4);
+            
+            if (endPage - startPage < 4) {
+                startPage = Math.max(1, endPage - 4);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => goToPage(i);
+                pageNumbers.appendChild(pageBtn);
+            }
+        }
+
+        // Navigation functions
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                updateDisplay();
+            }
+        }
+
+        function goToPreviousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                updateDisplay();
+            }
+        }
+
+        function goToNextPage() {
+            const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                updateDisplay();
+            }
+        }
+
+        function goToLastPage() {
+            const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+            if (totalPages > 0) {
+                currentPage = totalPages;
+                updateDisplay();
+            }
+        }
+
+        // Highlight search terms
+        function highlightSearchTerms(searchTerm) {
+            if (!searchTerm) return;
+            
+            filteredUsers.forEach(user => {
+                const textElements = user.element.querySelectorAll('.user-name, td strong, td:not(:last-child)');
+                textElements.forEach(element => {
+                    if (!element.querySelector('.search-highlight')) {
+                        const text = element.textContent;
+                        const highlightedText = text.replace(
+                            new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'),
+                            '<span class="search-highlight">$1</span>'
+                        );
+                        if (highlightedText !== text) {
+                            element.innerHTML = highlightedText;
+                        }
+                    }
+                });
+            });
+        }
+
+        // Remove highlights
+        function removeHighlights() {
+            document.querySelectorAll('.search-highlight').forEach(highlight => {
+                const parent = highlight.parentNode;
+                parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+                parent.normalize();
+            });
+        }
+
+        // Enhanced interactions setup
+        function setupEnhancedInteractions() {
+            // Enhanced button click effects
+            document.querySelectorAll('.btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 100);
+                });
+            });
+
+            // Enhanced delete confirmation
+            document.querySelectorAll('.delete-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const userName = this.getAttribute('data-username');
+                    showDeleteConfirmation(userName, () => {
+                        const deleteBtn = this.querySelector('button[type="submit"]');
+                        deleteBtn.classList.add('loading');
+                        deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ الحذف...';
+                        deleteBtn.disabled = true;
+                        
+                        this.submit();
+                    });
+                });
+            });
+
+            // Auto-dismiss flash messages
+            document.querySelectorAll('.flash-message').forEach((message, index) => {
+                message.style.animationDelay = `${index * 0.2}s`;
+                
+                // Auto-dismiss after 5 seconds
+                setTimeout(() => {
+                    message.style.opacity = '0';
+                    message.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        if (message.parentNode) {
+                            message.parentNode.removeChild(message);
+                        }
+                    }, 300);
+                }, 5000);
+                
+                // Click to dismiss
+                message.addEventListener('click', () => {
+                    message.style.opacity = '0';
+                    message.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        if (message.parentNode) {
+                            message.parentNode.removeChild(message);
+                        }
+                    }, 300);
+                });
+            });
+
+            // Enhanced table row interactions
+            document.querySelectorAll('.user-row').forEach((row, index) => {
+                row.style.animationDelay = `${index * 0.1}s`;
+                row.style.animation = 'fadeInUp 0.6s ease forwards';
+                
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.01)';
+                    this.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdownMenu');
+            dropdown.classList.toggle('show');
+        }
+
+        function toggleHeaderSearch(event) {
+            event.preventDefault();
+            const form = document.getElementById('headerSearchForm');
+            form.classList.toggle('show');
+            if (form.classList.contains('show')) {
+                setTimeout(() => document.getElementById('headerSearchInput').focus(), 50);
+            }
+        }
+
+        function submitHeaderSearch(event) {
+            event.preventDefault();
+            const query = document.getElementById('headerSearchInput').value.trim();
+            if (query) {
+                window.location.href = "{{ url_for('global_search') }}?q=" + encodeURIComponent(query);
+            }
+            return false;
+        }
+
+        function updateHeaderClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            if (hours === 0) hours = 12;
+            const clockText = document.getElementById('clockText');
+            if (clockText) clockText.textContent = hours + ':' + minutes + ' ' + ampm;
+
+            const icon = document.getElementById('dayNightIcon');
+            if (icon) {
+                const isDaytime = now.getHours() >= 6 && now.getHours() < 18;
+                icon.className = isDaytime ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+        setInterval(updateHeaderClock, 1000);
+        updateHeaderClock();
+
+        const ZENTRA_I18N = {
+            ar: {
+                dashboard: 'لوحة التحكم',
+                newTicket: 'تذكرة جديدة',
+                assets: 'الأصول',
+                manageUsers: 'إدارة المستخدم',
+                reports: 'التقارير',
+                subtitle: 'نظام إدارة التذاكر',
+                searchPlaceholder: 'بحث شامل...',
+                logout: 'تسجيل الخروج',
+                notifications: 'الإشعارات الحديثة',
+                markAllRead: 'تعيين كمقروء',
+                viewAll: 'عرض جميع الإشعارات',
+                footerRights: 'جميع الحقوق محفوظة 2025'
+            },
+            en: {
+                dashboard: 'Dashboard',
+                newTicket: 'New Ticket',
+                assets: 'Assets',
+                manageUsers: 'Manage Users',
+                reports: 'Reports',
+                subtitle: 'Ticket Management System',
+                searchPlaceholder: 'Search everything...',
+                logout: 'Logout',
+                notifications: 'Recent Notifications',
+                markAllRead: 'Mark all read',
+                viewAll: 'View all notifications',
+                footerRights: 'All rights reserved 2025'
+            }
+        };
+
+        function applyLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            const dict = ZENTRA_I18N[lang];
+            document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                const key = el.getAttribute('data-i18n');
+                if (!dict[key]) return;
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.setAttribute('placeholder', dict[key]);
+                } else {
+                    el.textContent = dict[key];
+                }
+            });
+            const label = document.getElementById('langToggleLabel');
+            if (label) label.textContent = lang === 'ar' ? 'EN' : 'AR';
+            localStorage.setItem('zentraLang', lang);
+        }
+
+        function toggleLanguage() {
+            const current = localStorage.getItem('zentraLang') || 'ar';
+            applyLanguage(current === 'ar' ? 'en' : 'ar');
+        }
+
+        applyLanguage(localStorage.getItem('zentraLang') || 'ar');
+
+        function toggleNotifications(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const dropdown = document.getElementById('notificationDropdown');
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            } else {
+                dropdown.classList.add('show');
+                loadNotifications();
+            }
+        }
+
+        function loadNotifications() {
+            fetch('/api/notifications/recent')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('notificationItems');
+                    container.innerHTML = '';
+                    
+                    if (data.length === 0) {
+                        container.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-secondary); font-family: \'Cairo\', sans-serif; font-weight: 700;">لا توجد إشعارات</div>';
+                        return;
+                    }
+                    
+                    data.forEach(notification => {
+                        const item = document.createElement('div');
+                        item.className = `notification-item ${notification.is_read ? '' : 'unread'}`;
+                        item.onclick = () => markAsReadAndRedirect(notification.id, notification.ticket_id);
+                        
+                        item.innerHTML = `
+                            <div class="notification-title">${notification.title}</div>
+                            <div class="notification-message">${notification.message}</div>
+                            <div class="notification-time">${notification.created_at}</div>
+                        `;
+                        
+                        container.appendChild(item);
+                    });
+                })
+                .catch(error => {
+                    console.error('خطأ في تحميل الإشعارات:', error);
+                    const container = document.getElementById('notificationItems');
+                    container.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--danger-color); font-family: \'Cairo\', sans-serif; font-weight: 700;">خطأ في تحميل الإشعارات</div>';
+                });
+        }
+
+        function markAsReadAndRedirect(notificationId, ticketId) {
+            window.location.href = `/notifications/mark_read/${notificationId}`;
+        }
+
+        function markAllRead() {
+            fetch('/notifications/mark_all_read')
+                .then(() => {
+                    const badge = document.getElementById('notificationBadge');
+                    if (badge) {
+                        badge.style.display = 'none';
+                    }
+                    
+                    const unreadItems = document.querySelectorAll('.notification-item.unread');
+                    unreadItems.forEach(item => item.classList.remove('unread'));
+                })
+                .catch(error => {
+                    console.error('خطأ في تعيين الإشعارات كمقروءة:', error);
+                });
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('dropdownMenu');
+            const profileButton = document.querySelector('.profile-dropdown');
+            const notificationDropdown = document.getElementById('notificationDropdown');
+            const notificationButton = document.querySelector('.notification-link');
+            
+            if (!profileButton.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+
+            if (!notificationButton.contains(event.target)) {
+                notificationDropdown.classList.remove('show');
+            }
+        });
+
+        // Custom delete confirmation modal
+        function showDeleteConfirmation(userName, onConfirm) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                font-family: 'Cairo', sans-serif;
+                font-weight: 700;
+                backdrop-filter: blur(5px);
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 40px;
+                    border-radius: 20px;
+                    max-width: 450px;
+                    width: 90%;
+                    text-align: center;
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                    animation: modalFadeIn 0.3s ease forwards;
+                    border: 1px solid var(--border-color);
+                ">
+                    <div style="font-size: 64px; margin-bottom: 25px; color: var(--danger-color); opacity: 0.8;">⚠️</div>
+                    <h3 style="margin-bottom: 20px; color: var(--text-primary); font-size: 24px;">تأكيد حذف المستخدم</h3>
+                    <p style="margin-bottom: 30px; color: var(--text-secondary); line-height: 1.6; font-size: 16px;">
+                        هل أنت متأكد من حذف المستخدم <strong style="color: var(--text-primary);">"${userName}"</strong>؟<br><br>
+                        <span style="color: var(--danger-color);">⚠️ هذا الإجراء لا يمكن التراجع عنه</span>
+                    </p>
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button id="confirmDelete" style="
+                            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+                            color: white;
+                            padding: 15px 30px;
+                            border: none;
+                            border-radius: 12px;
+                            font-weight: 700;
+                            cursor: pointer;
+                            font-family: 'Cairo', sans-serif;
+                            font-size: 14px;
+                            transition: all 0.2s ease;
+                            min-width: 120px;
+                        ">
+                            <i class="fas fa-trash-alt"></i>
+                            حذف نهائي
+                        </button>
+                        <button id="cancelDelete" style="
+                            background: var(--bg-primary);
+                            color: var(--text-secondary);
+                            border: 2px solid var(--border-color);
+                            padding: 15px 30px;
+                            border-radius: 12px;
+                            font-weight: 700;
+                            cursor: pointer;
+                            font-family: 'Cairo', sans-serif;
+                            font-size: 14px;
+                            transition: all 0.2s ease;
+                            min-width: 120px;
+                        ">
+                            <i class="fas fa-times"></i>
+                            إلغاء
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add modal animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes modalFadeIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(-20px) scale(0.95);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0) scale(1);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.getElementById('confirmDelete').addEventListener('click', () => {
+                document.body.removeChild(modal);
+                document.head.removeChild(style);
+                onConfirm();
+            });
+            
+            document.getElementById('cancelDelete').addEventListener('click', () => {
+                document.body.removeChild(modal);
+                document.head.removeChild(style);
+            });
+            
+            // Close on overlay click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                    document.head.removeChild(style);
+                }
+            });
+            
+            // Close on Escape key
+            const escapeHandler = (e) => {
+                if (e.key === 'Escape') {
+                    document.body.removeChild(modal);
+                    document.head.removeChild(style);
+                    document.removeEventListener('keydown', escapeHandler);
+                }
+            };
+            document.addEventListener('keydown', escapeHandler);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl + / to toggle sidebar
+            if (e.ctrlKey && e.key === '/') {
+                e.preventDefault();
+                toggleSidebarCollapse();
+            }
+            
+            // Ctrl + F to focus search
+            if (e.ctrlKey && e.key === 'f') {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+            
+            // Escape to close sidebar or dropdowns
+            if (e.key === 'Escape') {
+                closeSidebarMobile();
+                document.getElementById('dropdownMenu').classList.remove('show');
+                document.getElementById('notificationDropdown').classList.remove('show');
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+                
+                sidebar.classList.remove('mobile-expanded');
+                overlay.classList.remove('show');
+            }
+        });
+
+        // Refresh notification count
+        function refreshNotificationCount() {
+            fetch('/api/notifications/count')
+                .then(response => response.json())
+                .then(data => {
+                    const badge = document.getElementById('notificationBadge');
+                    
+                    if (data.count > 0) {
+                        badge.textContent = data.count;
+                        badge.style.display = 'inline-block';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.log('Could not load notification count');
+                });
+        }
+
+        // Update notification count every 60 seconds
+        setInterval(refreshNotificationCount, 60000);
+
+        function refreshChatBadge() {
+            fetch('/api/chat/unread_count').then(r => r.json()).then(data => {
+                const badge = document.getElementById('chatMenuBadge');
+                if (!badge) return;
+                if (data.count > 0) { badge.textContent = data.count; badge.style.display = 'inline-block'; }
+                else { badge.style.display = 'none'; }
+            }).catch(() => {});
+        }
+        function refreshTaskBadge() {
+            fetch('/api/tasks/badge_count').then(r => r.json()).then(data => {
+                const badge = document.getElementById('taskMenuBadge');
+                if (!badge) return;
+                if (data.count > 0) { badge.textContent = data.count; badge.style.display = 'inline-block'; }
+                else { badge.style.display = 'none'; }
+            }).catch(() => {});
+        }
+        if (document.getElementById('chatMenuBadge')) { setInterval(refreshChatBadge, 20000); refreshChatBadge(); }
+        if (document.getElementById('taskMenuBadge')) { setInterval(refreshTaskBadge, 30000); refreshTaskBadge(); }
+
+        function sendPresenceHeartbeat() { fetch('/api/presence/heartbeat', { method: 'POST' }).catch(() => {}); }
+        if (document.getElementById('chatMenuBadge')) { setInterval(sendPresenceHeartbeat, 30000); sendPresenceHeartbeat(); }
+
+        // Initial notification count update
+        refreshNotificationCount();
+    </script>
+</body>
+</html>

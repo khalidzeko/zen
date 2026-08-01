@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{% block title %}ZENTRA - نظام إدارة التذاكر{% endblock %}</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts - Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebarCollapse()" title="تبديل القائمة الجانبية">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <!-- Header -->
+    <div class="header" id="header">
+        <div class="header-left">
+            <button class="menu-toggle" onclick="toggleSidebarMobile()">☰</button>
+            <div class="header-branding">
+                <div class="header-title">
+                    ZEN<span class="highlight">TRA</span>
+                </div>
+                <div class="header-subtitle" data-i18n="subtitle">نظام إدارة التذاكر</div>
+            </div>
+            <div class="page-title">{% block page_title %}لوحة التحكم{% endblock %}</div>
+        </div>
+
+        <div class="header-right">
+            <!-- الإشعارات -->
+            <div class="header-search">
+                <button type="button" class="search-toggle-btn" onclick="toggleHeaderSearch(event)" id="headerSearchToggle" title="بحث" aria-label="بحث">
+                    <i class="fas fa-search"></i>
+                </button>
+                <form class="header-search-form" id="headerSearchForm" onsubmit="return submitHeaderSearch(event)">
+                    <input type="text" id="headerSearchInput" class="header-search-input" placeholder="بحث شامل..." data-i18n="searchPlaceholder" autocomplete="off">
+                </form>
+            </div>
+            <div class="header-clock" id="headerClock">
+                <i class="fas fa-sun" id="dayNightIcon"></i>
+                <span id="clockText">--:-- --</span>
+            </div>
+            <button type="button" class="lang-toggle-btn" onclick="toggleLanguage()" id="langToggleBtn" title="Switch language" aria-label="Switch language">
+                <i class="fas fa-globe"></i>
+                <span id="langToggleLabel">EN</span>
+            </button>
+            <div class="notification-dropdown">
+                <a href="#" class="notification-link" onclick="toggleNotifications(event)" id="notificationLink">
+                    <i class="fas fa-bell"></i>
+                    {% if unread_notifications_count is defined and unread_notifications_count > 0 %}
+                    <span class="notification-badge" id="notificationBadge">{{ unread_notifications_count }}</span>
+                    {% endif %}
+                </a>
+                <div id="notificationDropdown" class="notification-content">
+                    <div style="padding: 15px; border-bottom: 1px solid var(--border-color); font-weight: 700; color: var(--text-primary); display: flex; justify-content: space-between; align-items: center; font-family: 'Cairo', sans-serif;">
+                        <span data-i18n="notifications">الإشعارات الحديثة</span>
+                        <a href="#" onclick="markAllRead()" style="font-size: 12px; color: var(--primary-color); text-decoration: none; font-family: 'Cairo', sans-serif; font-weight: 700;" data-i18n="markAllRead">تعيين كمقروء</a>
+                    </div>
+                    <div id="notificationItems">
+                        <!-- سيتم تحميل الإشعارات هنا -->
+                    </div>
+                    <div style="text-align: center; padding: 15px; border-top: 1px solid var(--border-light);">
+                        <a href="/notifications" style="font-size: 12px; color: var(--primary-color); text-decoration: none; font-family: 'Cairo', sans-serif; font-weight: 700;" data-i18n="viewAll">عرض جميع الإشعارات</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قائمة الملف الشخصي -->
+            <div class="profile-dropdown">
+                <a href="{{ url_for('profile') }}" class="profile-avatar-link" title="الملف الشخصي">
+                    <div class="profile-avatar">{{ current_user.full_name[0] if current_user and current_user.full_name else 'U' }}</div>
+                </a>
+                <button class="profile-arrow-toggle" onclick="toggleDropdown()" aria-label="القائمة">
+                    <span>▼</span>
+                </button>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="{{ url_for('logout') }}" class="dropdown-item"><i class="fas fa-power-off" style="margin-left: 6px;"></i><span data-i18n="logout">تسجيل الخروج</span></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <!-- Header is now clean, branding moved to main header -->
+        </div>
+        <nav class="sidebar-menu">
+            <a href="{{ url_for('dashboard') }}" class="menu-item {% if request.endpoint == 'dashboard' %}active{% endif %}">
+                <img src="{{ url_for('static', filename='home.png') }}" alt="لوحة التحكم" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="dashboard">لوحة التحكم</span>
+            </a>
+
+            <a href="{{ url_for('submit_ticket') }}" class="menu-item {% if request.endpoint == 'submit_ticket' %}active{% endif %}">
+                <img src="{{ url_for('static', filename='ticket.png') }}" alt="تذكرة جديدة" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="newTicket">تذكرة جديدة</span>
+            </a>
+
+            {% if current_user and current_user.role != 'agent' %}
+            <a href="{{ url_for('assets') }}" class="menu-item {% if request.endpoint == 'assets' %}active{% endif %}">
+                <i class="fas fa-boxes-stacked" style="width:20px; text-align:center; display:inline-block;"></i>
+                <span data-i18n="assets">الأصول</span>
+            </a>
+
+            <a href="{{ url_for('manage_users') }}" class="menu-item {% if request.endpoint == 'manage_users' %}active{% endif %}">
+                <img src="{{ url_for('static', filename='user (1).png') }}" alt="إدارة المستخدم" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="manageUsers">إدارة المستخدم</span>
+            </a>
+
+            <a href="{{ url_for('report') }}" class="menu-item {% if request.endpoint == 'report' %}active{% endif %}">
+                <img src="{{ url_for('static', filename='report.png') }}" alt="التقارير" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <span data-i18n="reports">التقارير</span>
+            </a>
+            {% endif %}
+        </nav>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeSidebarMobile()"></div>
+
+    <!-- Main Content Area -->
+    <div class="main-container" id="mainContainer">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Page Content -->
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Enhanced Footer -->
+    <div class="page-footer">
+        <div class="footer-brand">
+            <img src="{{ url_for('static', filename='exp.png') }}" alt="Experience Logo">
+            | <span class="footer-logo">ZEN<span class="footer-highlight">TRA</span></span>
+        </div>
+        <div class="footer-copyright" data-i18n="footerRights">جميع الحقوق محفوظة 2025</div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+
+</body>
+</html>

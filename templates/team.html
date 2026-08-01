@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include '_team_shell_style.html' %}
+    <style>
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+        .team-card { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 14px; }
+        .team-card-avatar { position: relative; width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); color: white; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .team-card-name { font-size: 15px; color: var(--text-primary); margin-bottom: 4px; }
+        .team-card-room { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+        .presence-dot { position: absolute; bottom: 0; left: 0; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--bg-primary); background: #a0aec0; }
+        .presence-dot.online { background: #38a169; }
+        .presence-label { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+        .presence-label.online { color: #38a169; }
+    </style>
+    <title>فريق الدعم الفني</title>
+</head>
+<body>
+    {% set active_page = 'team' %}
+    {% set page_title = 'فريق الدعم الفني' %}
+    {% include '_team_shell_header.html' %}
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title"><i class="fas fa-users"></i> أعضاء فريق تقنية المعلومات</div>
+                    <div class="section-actions">
+                        <a href="{{ url_for('team_channel') }}" class="btn"><i class="fas fa-comments"></i> قناة الفريق</a>
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary"><i class="fas fa-arrow-right"></i> العودة</a>
+                    </div>
+                </div>
+
+                {% if members %}
+                <div class="team-grid">
+                    {% for m in members %}
+                    <div class="team-card" data-user-id="{{ m.id }}">
+                        <div class="team-card-avatar">
+                            {{ (m.full_name or m.username)[0] }}
+                            <span class="presence-dot {{ 'online' if m.id in online_ids else '' }}" id="presence-dot-{{ m.id }}"></span>
+                        </div>
+                        <div style="flex:1;">
+                            <div class="team-card-name">{{ m.full_name or m.username }}</div>
+                            <span class="role-badge role-{{ m.role }}">
+                                <i class="fas fa-{% if m.role == 'admin' %}crown{% else %}tools{% endif %}"></i>
+                                {% if m.role == 'admin' %}مدير نظام{% else %}فريق تقني{% endif %}
+                            </span>
+                            <div class="team-card-room">{{ m.room or 'غير محدد' }}</div>
+                            <div class="presence-label {{ 'online' if m.id in online_ids else '' }}" id="presence-label-{{ m.id }}">{{ 'متصل الآن' if m.id in online_ids else 'غير متصل' }}</div>
+                        </div>
+                        {% if user.role in ['it_staff', 'admin', 'it_admin'] and m.id != user.id %}
+                        <a href="{{ url_for('chat_thread', user_id=m.id) }}" class="btn btn-sm" title="مراسلة">
+                            <i class="fas fa-comment-dots"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-state-icon"><i class="fas fa-users"></i></div>
+                    <h3>لا يوجد أعضاء فريق حالياً</h3>
+                    <p>لم يتم العثور على أي مستخدمين بدور فريق تقني.</p>
+                </div>
+                {% endif %}
+
+                {% if extra_partners %}
+                <div class="section-header" style="margin-top:20px;">
+                    <div class="section-title"><i class="fas fa-comment-dots"></i> محادثات أخرى</div>
+                </div>
+                <div class="team-grid">
+                    {% for m in extra_partners %}
+                    <div class="team-card">
+                        <div class="team-card-avatar">{{ (m.full_name or m.username)[0] }}</div>
+                        <div style="flex:1;">
+                            <div class="team-card-name">{{ m.full_name or m.username }}</div>
+                            <span class="role-badge role-{{ m.role }}">
+                                {% if m.role == 'it_admin' %}مسؤول تقنية المعلومات{% else %}{{ m.role }}{% endif %}
+                            </span>
+                        </div>
+                        <a href="{{ url_for('chat_thread', user_id=m.id) }}" class="btn btn-sm" title="مراسلة">
+                            <i class="fas fa-comment-dots"></i>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% include '_team_shell_scripts.html' %}
+    <script>
+        function refreshTeamPresence() {
+            fetch('/api/team/presence').then(r => r.json()).then(data => {
+                Object.keys(data).forEach(function(userId) {
+                    const isOnline = data[userId];
+                    const dot = document.getElementById('presence-dot-' + userId);
+                    const label = document.getElementById('presence-label-' + userId);
+                    if (dot) dot.classList.toggle('online', isOnline);
+                    if (label) {
+                        label.classList.toggle('online', isOnline);
+                        label.textContent = isOnline ? 'متصل الآن' : 'غير متصل';
+                    }
+                });
+            }).catch(() => {});
+        }
+        setInterval(refreshTeamPresence, 20000);
+    </script>
+</body>
+</html>
